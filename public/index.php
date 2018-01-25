@@ -23,6 +23,20 @@ define('LARAVEL_START', microtime(true));
 
 require __DIR__.'/../vendor/autoload.php';
 
+/**
+ * 这个文件尽量保证简单且很少会被修改
+ *
+ * 将较复杂的bootstrap剥离出去,从而对 app_lumen 的改动导致的FatalError可以被捕获且被记录下来
+ */
+date_default_timezone_set('Asia/Hong_Kong');
+
+\App\Libiary\Context\Log::instance()->init('dc', '/data/wwwlogs/context');
+
+/**
+ * 记录http请求 - Begin
+ */
+\App\Libiary\Context\Dimension\DimExecution::instance()->recordBegin();
+
 /*
 |--------------------------------------------------------------------------
 | Turn On The Lights
@@ -58,3 +72,9 @@ $response = $kernel->handle(
 $response->send();
 
 $kernel->terminate($request, $response);
+
+
+/**
+ * 记录http请求 - End
+ */
+\App\Libiary\Context\Dimension\DimExecution::instance()->recordEnd();
