@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-require_once __DIR__ . '/open-sdk-php/lib/YZTokenClient.php';
-
 use Illuminate\Support\Facades\Cache;
 use Youzan\Open\Client;
 

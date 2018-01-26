@@ -13,4 +13,13 @@
 
 Route::get('/', function () {
     return view('welcome');
+//    return 'welcome';
+});
+
+Route::post('/youzan/push', function () {
+    return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
+});
+
+Route::get('/ab', function (){
+    return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });

@@ -31,6 +31,7 @@ class ExampleTest extends TestCase
 
         $params = [
 //            'alias' => 'fa8989ad342k',
+            'buyer_id' => '719428369',
         ];
 
         $response = $client->get($method, $apiVersion, $params);
@@ -139,24 +140,6 @@ class ExampleTest extends TestCase
         var_dump($result);
     }
 
-    public function testCustomerGet()
-    {
-        $accessToken = YouZanService::accessToken();
-        $client = new Client($accessToken);
-
-        $method = 'youzan.scrm.customer.get';
-        $apiVersion = '3.1.0';
-
-        $params = [
-//            'account' => json_encode(["account_type"=>"Mobile", "account_id"=>"18611367408"]),
-            'account' => '{"account_type":"Mobile", "account_id":"18611367408"}'
-        ];
-
-        $response = $client->get($method, $apiVersion, $params);
-        $result = $response['response'];
-        var_dump($result);
-    }
-
     public function testCustomerGetByYouZanAccount()
     {
         $accessToken = YouZanService::accessToken();
@@ -224,7 +207,22 @@ class ExampleTest extends TestCase
         $accessToken = YouZanService::accessToken();
         $client = new Client($accessToken);
 
+//        for($index = 0 ; $index < 25; $index++){
+//            $method = $index % 2 ? 'youzan.scrm.card.enable' : 'youzan.scrm.card.disable';
+//
+//            $apiVersion = '3.0.0';
+//
+//            $params = [
+//                'card_alias' => '365dfnbl8ly1yD',
+//            ];
+//
+//            $response = $client->post($method, $apiVersion, $params);
+//            $result = $response['response'];
+//            var_dump($result);
+//        }
         $method = 'youzan.scrm.card.enable';
+
+//        $method = 'youzan.scrm.card.disable';
         $apiVersion = '3.0.0';
 
         $params = [
@@ -266,6 +264,61 @@ class ExampleTest extends TestCase
 
         $params = [
             'mobile' => '13709413994',
+        ];
+
+        $response = $client->get($method, $apiVersion, $params);
+        $result = $response['response'];
+        var_dump($result);
+    }
+
+    public function testCustomerCreate()
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.scrm.customer.create';
+        $apiVersion = '3.0.0';
+
+        $params = [
+            'mobile' => '15210264742',
+            'customer_create' => json_encode(['name' => '熊猛旧手机']),
+        ];
+
+        $response = $client->post($method, $apiVersion, $params);
+        $result = $response['response'];
+        var_dump($result);
+    }
+
+    public function testCustomerGet()
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.scrm.customer.get';
+        $apiVersion = '3.1.0';
+
+        $params = [
+//            'account' => json_encode(["account_type"=>"Mobile", "account_id"=>"18611367408"]),
+            'account' => '{"account_type":"Mobile", "account_id":"18611367408"}',
+        ];
+
+        $response = $client->get($method, $apiVersion, $params);
+        $result = $response['response'];
+        var_dump($result);
+    }
+
+    public function testCustomerUpdate()
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.scrm.customer.update';
+        $apiVersion = '3.0.0';
+
+        $params = [
+//            'account' => json_encode(["account_type"=>"Mobile", "account_id"=>"18611367408"]),
+            'account' => '{"account_type":"Mobile", "account_id":"18611367408"}',
+            'customer_update' => json_encode(["contact_address"=>['address' => '北京']])
         ];
 
         $response = $client->get($method, $apiVersion, $params);

@@ -26,6 +26,22 @@ $app = new Illuminate\Foundation\Application(
 |
 */
 
+/**
+ * 设置monolog日志采用按天创建
+ */
+$app->configureMonologUsing(function ($monolog) {
+    $maxFiles = 7;
+
+    $rotatingLogHandler = (
+    new \Monolog\Handler\RotatingFileHandler(
+        env('LOG_DIR', '/data/wwwlogs') . '/app/zz_pay.log', $maxFiles, \Monolog\Logger::DEBUG, true, 0777))
+        ->setFormatter(new \Monolog\Formatter\LineFormatter(null, null, true, true));
+
+    $monolog->setHandlers([$rotatingLogHandler]);
+
+    return $monolog;
+});
+
 $app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
     App\Http\Kernel::class
