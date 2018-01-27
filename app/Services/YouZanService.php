@@ -44,6 +44,38 @@ class YouZanService
         return $response['response'];
     }
 
+    public static function tradeGet($tid)
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.trade.get';
+        $apiVersion = '3.0.0';
+
+        $params = [
+            'tid' => $tid,
+        ];
+
+        $response = $client->get($method, $apiVersion, $params);
+        return $response['response'];
+    }
+
+    public static function getCustomerByYouZanAccount($accountId)
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.scrm.customer.get';
+        $apiVersion = '3.1.0';
+
+        $params = [
+            'account' => json_encode(['account_type' => 'YouZanAccount', 'account_id' => $accountId])
+        ];
+
+        $response = $client->get($method, $apiVersion, $params);
+        return $response['response'];
+    }
+
     public static function getUserCardListByMobile($mobile)
     {
         $accessToken = YouZanService::accessToken();
@@ -74,9 +106,9 @@ class YouZanService
         $apiVersion = '3.0.0';
 
         $params = [
-//            'alias' => 'fa8989ad342k',
-//            'buyer_id' => '719428369',
-            'buyer_id' => $accountId
+            'buyer_id' => $accountId,
+            'start_created' => '2018-01-28',
+            'end_created' => date("Y-m-d 23:59:59")
         ];
 
         $response = $client->get($method, $apiVersion, $params);
@@ -123,5 +155,21 @@ class YouZanService
         $response = $client->post($method, $apiVersion, $params);
         $result = $response['response'];
         var_dump($result);
+    }
+
+    public static function getCustomerInfoByCardNo($cardNo)
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.scrm.customer.info.get';
+        $apiVersion = '3.0.0';
+
+        $params = [
+            'card_no' => $cardNo,
+        ];
+
+        $response = $client->post($method, $apiVersion, $params);
+        return $response['response'];
     }
 }

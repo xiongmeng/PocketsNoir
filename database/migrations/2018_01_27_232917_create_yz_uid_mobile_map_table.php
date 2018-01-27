@@ -14,10 +14,14 @@ class CreateYzUidMobileMapTable extends Migration
     public function up()
     {
         Schema::create('yz_uid_mobile_map', function (Blueprint $table) {
-            $table->string('yz_uid')->comment('有赞的uid对应YouZanAccount，交易中的fans_info中buyer_id');
+            $table->string('yz_uid', 32)->comment('有赞的uid对应YouZanAccount，交易中的fans_info中buyer_id');
+            $table->string('mobile_last', 32)->comment('上一次记录的手机号');
+            $table->string('mobile', 32)->comment('最新一次的手机号');
+
             $table->timestamps();
 
             $table->primary('yz_uid');
+            $table->unique('mobile');
         });
     }
 

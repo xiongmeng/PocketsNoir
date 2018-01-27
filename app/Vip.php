@@ -13,7 +13,19 @@ class Vip extends Model
     const CARD_5 = 5; //黑卡
 
     public static $youZanCardMaps = [
-       '' => self::CARD_1
+        self::CARD_1 => '',
+        self::CARD_1 => '',
+        self::CARD_1 => '',
+        self::CARD_1 => '',
+        self::CARD_1 => '',
+    ];
+
+    public static $GuanJiaPoCardMaps = [
+        self::CARD_1 => '',
+        self::CARD_1 => '',
+        self::CARD_1 => '',
+        self::CARD_1 => '',
+        self::CARD_1 => '',
     ];
 
     /**

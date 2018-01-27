@@ -19,9 +19,6 @@ class CreateVipTable extends Migration
             $table->string('birthday', 32)->comment('生日');
             $table->smallInteger('manual_marked')->comment('人工打标');
             $table->smallInteger('card')->comment('卡类型');
-            $table->string('card_no_youzan', 64)->comment('有赞的carId');
-            $table->string('card_no_guanjiapo', 64)->comment('管家婆的carId');
-            $table->string('YouZanAccount', 32)->comment('有赞AccountId');
 
             $table->decimal('consumes')->comment('订单消费记录');
             $table->decimal('consumes_youzan')->comment('订单消费记录-有赞');
