@@ -66,7 +66,7 @@ class ExampleTest extends TestCase
         $cardList = YouZanService::getCardList();
         foreach ($cardList['items'] as $card) {
             $params = [
-                'page' => 50,
+                'page' => 1,
                 'card_alias' => $card['card_alias'],
             ];
 
@@ -132,31 +132,10 @@ class ExampleTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'card_no' => '231382285097959355',
+            'card_no' => '230597762425525741',
         ];
 
         $response = $client->post($method, $apiVersion, $params);
-        $result = $response['response'];
-        var_dump($result);
-    }
-
-    public function testCustomerGetByYouZanAccount()
-    {
-        $accessToken = YouZanService::accessToken();
-        $client = new Client($accessToken);
-
-        $method = 'youzan.scrm.customer.get';
-        $apiVersion = '3.1.0';
-
-        $params = [
-//            'account' => json_encode(["account_type"=>"Mobile", "account_id"=>"18611367408"]),
-            'account' => '{"account_type":"YouZanAccount", "account_id":"719428369"}'
-//            'account' => '{"account_type":"FansID", "account_id":"2022742744"}'
-        ];
-//        fans_id => 2022742744
-//        buyer_id => 304316094
-
-        $response = $client->get($method, $apiVersion, $params);
         $result = $response['response'];
         var_dump($result);
     }
@@ -243,7 +222,7 @@ class ExampleTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'tid' => 'E20180125095444070200006',
+            'tid' => 'E20180127173904101500004',
         ];
 
         $response = $client->get($method, $apiVersion, $params);
@@ -299,8 +278,50 @@ class ExampleTest extends TestCase
 
         $params = [
 //            'account' => json_encode(["account_type"=>"Mobile", "account_id"=>"18611367408"]),
-            'account' => '{"account_type":"Mobile", "account_id":"18611367408"}',
+            'account' => '{"account_type":"Mobile", "account_id":"17098931296"}',
         ];
+
+        $response = $client->get($method, $apiVersion, $params);
+        $result = $response['response'];
+        var_dump($result);
+    }
+
+    public function testCustomerGetByYouZanAccount()
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.scrm.customer.get';
+        $apiVersion = '3.1.0';
+
+        $params = [
+//            'account' => json_encode(["account_type"=>"Mobile", "account_id"=>"18611367408"]),
+            'account' => '{"account_type":"YouZanAccount", "account_id":"725462007"}'
+//            'account' => '{"account_type":"FansID", "account_id":"2022742744"}'
+        ];
+//        fans_id => 2022742744
+//        buyer_id => 304316094
+
+        $response = $client->get($method, $apiVersion, $params);
+        $result = $response['response'];
+        var_dump($result);
+    }
+
+    public function testCustomerGetByFansId()
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.scrm.customer.get';
+        $apiVersion = '3.1.0';
+
+        $params = [
+//            'account' => json_encode(["account_type"=>"Mobile", "account_id"=>"18611367408"]),
+            'account' => '{"account_type":"FansID", "account_id":"4874214531"}'
+//            'account' => '{"account_type":"FansID", "account_id":"2022742744"}'
+        ];
+//        fans_id => 2022742744
+//        buyer_id => 304316094
 
         $response = $client->get($method, $apiVersion, $params);
         $result = $response['response'];
