@@ -15,7 +15,7 @@ class DisposeYouZanPush extends Job
      */
     public function __construct($post)
     {
-        $this->filePath = $post;
+        $this->post = $post;
     }
 
     /**
@@ -28,7 +28,8 @@ class DisposeYouZanPush extends Job
         $json = json_decode($this->post, true);
 
         switch ($json['type']){
-            case 'TRADE_ORDER_STATE':
+            case 'TRADE_ORDER_STATE':   //新版交易时间回调
+            case 'TRADE':   //V1版交易回调，官方文档说在1231结束，但是到目前为止还没有，且和TRADE并不完全重复
             case 'TRADE_ORDER_REFUND':
             case 'TRADE_ORDER_REMARK':
             case 'TRADE_ORDER_EXPRESS':
@@ -38,9 +39,7 @@ class DisposeYouZanPush extends Job
                 dispatch(new DisposeChangesWithYZUid($buyerId))->onQueue('default')->onConnection('sync');
                 break;
             case 'SCRM_CUSTOMER_CARD':
-                $card = YouZanService::getCustomerInfoByCardNo($json['id']);
-
-//                mobile
+                dispatch(new YouZanCardActivatedQuery($json['id']))->onConnection('sync');
                 break;
             case 'SCRM_CUSTOMER_EVENT':
                 $msg = urldecode($json['msg']);

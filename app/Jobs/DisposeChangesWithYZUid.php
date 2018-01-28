@@ -41,10 +41,9 @@ class DisposeChangesWithYZUid extends Job
                 $map->save();
             }
 
-            if($map->mobile_last <> $map->mobile){
-                /**
-                 * 同步会员
-                 */
+            dispatch(new RecalculateAndSyncVip($map->mobile))->onConnection('sync');
+            if(!empty($map->mobile_last) && $map->mobile_last <> $map->mobile){
+                dispatch(new RecalculateAndSyncVip($map->mobile_last))->onConnection('sync');
             }
         }
     }

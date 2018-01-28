@@ -2,12 +2,10 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Cache;
-use Youzan\Open\Client;
+use App\Services\YouZanClient as Client;
 
 class YouZanService
 {
-
     public static function accessToken()
     {
         $key = 'YOUZAN_SELF_ACCESS_TOKEN';
@@ -44,36 +42,25 @@ class YouZanService
         return $response['response'];
     }
 
+    /**
+     * 获取单个交易
+     * @param $tid
+     * @return mixed
+     */
     public static function tradeGet($tid)
     {
-        $accessToken = YouZanService::accessToken();
-        $client = new Client($accessToken);
-
-        $method = 'youzan.trade.get';
-        $apiVersion = '3.0.0';
-
-        $params = [
-            'tid' => $tid,
-        ];
-
-        $response = $client->get($method, $apiVersion, $params);
-        return $response['response'];
+        $response = (new Client(YouZanService::accessToken()))
+            ->get('youzan.trade.get', '3.0.0', ['tid' => $tid]);
+        return $response['trade'];
     }
 
     public static function getCustomerByYouZanAccount($accountId)
     {
-        $accessToken = YouZanService::accessToken();
-        $client = new Client($accessToken);
-
-        $method = 'youzan.scrm.customer.get';
-        $apiVersion = '3.1.0';
-
-        $params = [
+        $response = (new Client(YouZanService::accessToken()))->get(
+            'youzan.scrm.customer.get', '3.1.0', [
             'account' => json_encode(['account_type' => 'YouZanAccount', 'account_id' => $accountId])
-        ];
-
-        $response = $client->get($method, $apiVersion, $params);
-        return $response['response'];
+        ]);
+        return $response;
     }
 
     public static function getUserCardListByMobile($mobile)
@@ -99,21 +86,14 @@ class YouZanService
      */
     public static function getTradeListByYouZanAccountId($accountId)
     {
-        $accessToken = YouZanService::accessToken();
-        $client = new Client($accessToken);
+        $response = (new Client(YouZanService::accessToken()))->get(
+            'youzan.trades.sold.get', '3.0.0', [
+                'buyer_id' => $accountId,
+                'start_created' => '2018-01-27',
+                'end_created' => date("Y-m-d 23:59:59")
+            ]);
 
-        $method = 'youzan.trades.sold.get';
-        $apiVersion = '3.0.0';
-
-        $params = [
-            'buyer_id' => $accountId,
-            'start_created' => '2018-01-28',
-            'end_created' => date("Y-m-d 23:59:59")
-        ];
-
-        $response = $client->get($method, $apiVersion, $params);
-
-        return $response['result']['trades'];
+        return $response['trades'];
     }
 
     public static function userCardGrant($mobile, $cardAlias)
@@ -159,17 +139,8 @@ class YouZanService
 
     public static function getCustomerInfoByCardNo($cardNo)
     {
-        $accessToken = YouZanService::accessToken();
-        $client = new Client($accessToken);
-
-        $method = 'youzan.scrm.customer.info.get';
-        $apiVersion = '3.0.0';
-
-        $params = [
-            'card_no' => $cardNo,
-        ];
-
-        $response = $client->post($method, $apiVersion, $params);
-        return $response['response'];
+        $response = (new Client(YouZanService::accessToken()))->post(
+            'youzan.scrm.customer.info.get', '3.0.0', ['card_no' => $cardNo]);
+        return $response;
     }
 }

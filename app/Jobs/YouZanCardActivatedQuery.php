@@ -42,19 +42,12 @@ class YouZanCardActivatedQuery extends SequenceQueueJob
 
         $card = YouZanService::getCustomerInfoByCardNo($this->cardNo);
 
-        if(empty($card['moblie'])){
+        if(empty($card['mobile'])){
            $stop = false;
         }else{
-
+            dispatch(new RecalculateAndSyncVip($card['mobile']))->onConnection('sync');
         }
 
         return $stop;
-    }
-
-    public function stop()
-    {
-        parent::stop();
-
-        \Log::info("I am DealNotifyJob - Stop");
     }
 }
