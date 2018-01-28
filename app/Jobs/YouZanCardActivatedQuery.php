@@ -45,7 +45,7 @@ class YouZanCardActivatedQuery extends SequenceQueueJob
         if(empty($card['mobile'])){
            $stop = false;
         }else{
-            dispatch(new RecalculateAndSyncVip($card['mobile']))->onConnection('sync');
+            dispatch(new RecalculateVip($card['mobile']))->onConnection('sync');
         }
 
         return $stop;

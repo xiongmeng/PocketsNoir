@@ -41,9 +41,9 @@ class DisposeChangesWithYZUid extends Job
                 $map->save();
             }
 
-            dispatch(new RecalculateAndSyncVip($map->mobile))->onConnection('sync');
+            dispatch(new RecalculateVip($map->mobile))->onConnection('sync');
             if(!empty($map->mobile_last) && $map->mobile_last <> $map->mobile){
-                dispatch(new RecalculateAndSyncVip($map->mobile_last))->onConnection('sync');
+                dispatch(new RecalculateVip($map->mobile_last))->onConnection('sync');
             }
         }
     }

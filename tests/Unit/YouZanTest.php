@@ -222,7 +222,7 @@ class ExampleTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'tid' => 'E20180127173904101500004',
+            'tid' => 'E20180128145918042500003',
         ];
 
         $response = $client->get($method, $apiVersion, $params);

@@ -28,17 +28,8 @@ class YouZanService
 
     public static function getCardList()
     {
-        $accessToken = YouZanService::accessToken();
-        $client = new Client($accessToken);
-
-        $method = 'youzan.scrm.card.list';
-        $apiVersion = '3.0.0';
-
-        $params = [
-//            'alias' => 'fa8989ad342k',
-        ];
-
-        $response = $client->get($method, $apiVersion, $params);
+        $response = (new Client(YouZanService::accessToken()))->get(
+            'youzan.scrm.card.list', '3.0.0', []);
         return $response['response'];
     }
 
@@ -65,20 +56,12 @@ class YouZanService
 
     public static function getUserCardListByMobile($mobile)
     {
-        $accessToken = YouZanService::accessToken();
-        $client = new Client($accessToken);
-
-        $method = 'youzan.scrm.customer.card.list';
-        $apiVersion = '3.0.0';
-
-        $params = [
-            'page' => 10,
+        $response = (new Client(YouZanService::accessToken()))
+            ->post('youzan.scrm.customer.card.list', '3.0.0', [
+            'page' => 1,
             'mobile' => $mobile,
-        ];
-
-        $response = $client->post($method, $apiVersion, $params);
-        $result = $response['response'];
-        return $result;
+        ]);
+        return !empty($response['items']) ? $response['items'] : [];
     }
 
     /**
@@ -89,8 +72,9 @@ class YouZanService
         $response = (new Client(YouZanService::accessToken()))->get(
             'youzan.trades.sold.get', '3.0.0', [
                 'buyer_id' => $accountId,
-                'start_created' => '2018-01-27',
-                'end_created' => date("Y-m-d 23:59:59")
+                'start_created' => '2018-01-26',
+                'end_created' => date("Y-m-d 23:59:59"),
+                'status' => 'TRADE_BUYER_SIGNED'
             ]);
 
         return $response['trades'];
@@ -98,43 +82,27 @@ class YouZanService
 
     public static function userCardGrant($mobile, $cardAlias)
     {
-        $accessToken = YouZanService::accessToken();
-        $client = new Client($accessToken);
-
-        $method = 'youzan.scrm.customer.card.grant';
-        $apiVersion = '3.0.0';
-
-        $params = [
+        $response = (new Client(YouZanService::accessToken()))->post(
+            'youzan.scrm.customer.card.grant', '3.0.0', [
             'mobile' => $mobile, //15911094367
             'card_alias' => $cardAlias,
             'fans_type' => 1,
             'fans_id' => 0
-        ];
-
-        $response = $client->post($method, $apiVersion, $params);
-        $result = $response['response'];
-        var_dump($result);
+        ]);
+        return $response;
     }
 
     public static function userCardDelete($mobile, $cardAlias)
     {
-        $accessToken = YouZanService::accessToken();
-        $client = new Client($accessToken);
-
-        $method = 'youzan.scrm.customer.card.delete';
-        $apiVersion = '3.0.0';
-
-        $params = [
+        $response = (new Client(YouZanService::accessToken()))->post(
+            'youzan.scrm.customer.card.delete', '3.0.0', [
             'mobile' => $mobile,
             'card_alias' => $cardAlias,
             'card_no' => '',
             'fans_type' => 1,
             'fans_id' => 0
-        ];
-
-        $response = $client->post($method, $apiVersion, $params);
-        $result = $response['response'];
-        var_dump($result);
+        ]);
+        return $response;
     }
 
     public static function getCustomerInfoByCardNo($cardNo)

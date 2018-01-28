@@ -42,9 +42,7 @@ class DisposeYouZanPush extends Job
                 dispatch(new YouZanCardActivatedQuery($json['id']))->onConnection('sync');
                 break;
             case 'SCRM_CUSTOMER_EVENT':
-                $msg = urldecode($json['msg']);
-                $data = [];
-                parse_str($msg, $data);
+                $data = json_decode(urldecode($json['msg']), true);
                 if($data['account_type'] == 'YouZanAccount'){
                     dispatch(new DisposeChangesWithYZUid($data['account_id']))->onQueue('default')->onConnection('sync');
                 }

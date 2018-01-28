@@ -8,7 +8,7 @@ use App\Services\YouZanService;
 use App\Vip;
 use App\YzUidMobileMap;
 
-class RecalculateAndSyncVip extends Job
+class RecalculateVip extends Job
 {
     private $mobile = null;
 
@@ -43,7 +43,10 @@ class RecalculateAndSyncVip extends Job
         if(!empty($map)){
             $youZanTrades = YouZanService::getTradeListByYouZanAccountId($map->yz_uid);
             foreach ($youZanTrades as $youZanTrade){
-                $consumeYouZan += $youZanTrade['payment'];
+                if($youZanTrade['status'] == 'TRADE_BUYER_SIGNED'){
+                    $consumeYouZan += $youZanTrade['payment'];
+//                    $consumeYouZan += $youZanTrade['total_fee'];
+                }
             }
         }
         //加载erp订单
@@ -51,11 +54,13 @@ class RecalculateAndSyncVip extends Job
         $gjpTrades = GuanJiaPoService::getLingShouDanByMobile($mobile);
         foreach ($gjpTrades as $gjpTrade){
             $consumeYouZan += $gjpTrade['payment'];
+//            $consumeYouZan += $gjpTrade['total_fee'];
         }
 
         $consume = $consumeYouZan + $consumeGuanJiaPo;
         $targetVip = Vip::CARD_1;
         if($consume >= 1500){
+//        if($consume > 0){
             $targetVip = Vip::CARD_2;
         }elseif ($consume >= 5000){
             $targetVip = Vip::CARD_3;
@@ -77,26 +82,8 @@ class RecalculateAndSyncVip extends Job
         $vip->save();
 
         /**
-         * 同步卡到有赞
+         * 同步卡
          */
-        $youZanCards = YouZanService::getUserCardListByMobile($mobile);
-        $targetCardAlias = Vip::$youZanCardMaps[$targetVip];
-        $cardExisted = false;
-        foreach ($youZanCards as $youZanCard){
-            $cardAlias = $youZanCard['card_alias'];
-            if($cardAlias <> $targetCardAlias){
-//                YouZanService::userCardDelete($mobile, $cardAlias);
-            }else{
-                $cardExisted = true;
-            }
-        }
-        if(!$cardExisted){
-//            YouZanService::userCardGrant($mobile, $targetCardAlias);
-        }
-
-        /**
-         * 同步到管家婆
-         */
-        GuanJiaPoService::grantVip($mobile, Vip::$GuanJiaPoCardMaps[$targetVip]);
+        dispatch(new SyncVip($mobile))->onConnection('sync');
     }
 }
