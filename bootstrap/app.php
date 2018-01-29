@@ -34,7 +34,7 @@ $app->configureMonologUsing(function ($monolog) {
 
     $rotatingLogHandler = (
     new \Monolog\Handler\RotatingFileHandler(
-        env('LOG_DIR', '/data/wwwlogs') . '/app/zz_pay.log', $maxFiles, \Monolog\Logger::DEBUG, true, 0777))
+        env('LOG_DIR', '/data/wwwlogs') . '/app/dc.log', $maxFiles, \Monolog\Logger::DEBUG, true, 0777))
         ->setFormatter(new \Monolog\Formatter\LineFormatter(null, null, true, true));
 
     $monolog->setHandlers([$rotatingLogHandler]);

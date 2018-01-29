@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Libiary\Context\Fact\FactException;
+use App\JobBuffer;
 use App\Services\YouZanService;
 
 class YouZanCardActivatedQuery extends SequenceQueueJob
@@ -45,7 +45,7 @@ class YouZanCardActivatedQuery extends SequenceQueueJob
         if(empty($card['mobile'])){
            $stop = false;
         }else{
-            dispatch(new RecalculateVip($card['mobile']))->onConnection('sync');
+            JobBuffer::addRecalculateVip($card['mobile']);
         }
 
         return $stop;

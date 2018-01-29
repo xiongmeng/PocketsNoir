@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\JobBuffer;
 use App\Services\YouZanService;
 
 class DisposeYouZanPush extends Job
@@ -34,9 +35,7 @@ class DisposeYouZanPush extends Job
             case 'TRADE_ORDER_REMARK':
             case 'TRADE_ORDER_EXPRESS':
                 $trade = YouZanService::tradeGet($json['id']);
-                $buyerId = $trade['fans_info']['buyer_id'];
-
-                dispatch(new DisposeChangesWithYZUid($buyerId))->onQueue('default')->onConnection('sync');
+                JobBuffer::addYouZanParseUid($trade['fans_info']['buyer_id']);
                 break;
             case 'SCRM_CUSTOMER_CARD':
                 dispatch(new YouZanCardActivatedQuery($json['id']))->onConnection('sync');
@@ -44,7 +43,7 @@ class DisposeYouZanPush extends Job
             case 'SCRM_CUSTOMER_EVENT':
                 $data = json_decode(urldecode($json['msg']), true);
                 if($data['account_type'] == 'YouZanAccount'){
-                    dispatch(new DisposeChangesWithYZUid($data['account_id']))->onQueue('default')->onConnection('sync');
+                    JobBuffer::addYouZanParseUid($data['account_id']);
                 }
                 break;
             default:

@@ -6,6 +6,6 @@ class YouZanException extends \Exception
 {
     public function __construct(array $errorResponse)
     {
-        parent::__construct($errorResponse['msg'], $errorResponse['code'], null);
+        parent::__construct($errorResponse['message'], $errorResponse['code'], null);
     }
 }

@@ -107,7 +107,7 @@ class YouZanService
 
     public static function getCustomerInfoByCardNo($cardNo)
     {
-        $response = (new Client(YouZanService::accessToken()))->post(
+        $response = (new Client(YouZanService::accessToken()))->get(
             'youzan.scrm.customer.info.get', '3.0.0', ['card_no' => $cardNo]);
         return $response;
     }

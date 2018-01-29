@@ -17,6 +17,14 @@ define('LARAVEL_START', microtime(true));
 
 require __DIR__.'/vendor/autoload.php';
 
+\App\Libiary\Context\Log::instance()->init('dc', '/data/wwwlogs/context');
+
+/**
+ * ???????? - Begin
+ */
+\App\Libiary\Context\Dimension\DimExecution::instance()->recordBegin();
+
+
 $app = require_once __DIR__.'/bootstrap/app.php';
 
 /*
@@ -49,5 +57,7 @@ $status = $kernel->handle(
 */
 
 $kernel->terminate($input, $status);
+
+\App\Libiary\Context\Dimension\DimExecution::instance()->recordEnd();
 
 exit($status);

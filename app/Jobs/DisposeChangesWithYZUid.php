@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\JobBuffer;
 use App\Services\YouZanService;
 use App\YzUidMobileMap;
 
@@ -41,9 +42,9 @@ class DisposeChangesWithYZUid extends Job
                 $map->save();
             }
 
-            dispatch(new RecalculateVip($map->mobile))->onConnection('sync');
+            JobBuffer::addRecalculateVip($map->mobile);
             if(!empty($map->mobile_last) && $map->mobile_last <> $map->mobile){
-                dispatch(new RecalculateVip($map->mobile_last))->onConnection('sync');
+                JobBuffer::addRecalculateVip($map->mobile_last);
             }
         }
     }

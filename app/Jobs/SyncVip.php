@@ -2,11 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Libiary\Context\Fact\FactException;
 use App\Services\GuanJiaPoService;
 use App\Services\YouZanService;
 use App\Vip;
-use App\YzUidMobileMap;
 
 class SyncVip extends Job
 {
