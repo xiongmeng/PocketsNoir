@@ -17,7 +17,8 @@ Route::get('/', function () {
 });
 
 Route::post('/youzan/push', function () {
-
+    $rawPostData = file_get_contents("php://input");
+    dispatch(new \App\Jobs\DisposeYouZanPush($rawPostData))->onConnection('sync');
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
 

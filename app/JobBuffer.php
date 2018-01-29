@@ -4,6 +4,7 @@ namespace App;
 
 use App\Jobs\DisposeChangesWithYZUid;
 use App\Jobs\RecalculateVip;
+use App\Jobs\YouZanCardActivatedQuery;
 use Illuminate\Database\Eloquent\Model;
 
 class JobBuffer extends Model
@@ -36,6 +37,11 @@ class JobBuffer extends Model
     protected $hidden = [
 //        'password', 'remember_token',
     ];
+
+    public static function addYouZanCardActivatedQuery($cardNo)
+    {
+        self::add(YouZanCardActivatedQuery::class, $cardNo);
+    }
 
     public static function addYouZanParseUid($yzUid)
     {

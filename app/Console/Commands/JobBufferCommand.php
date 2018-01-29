@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 use App\JobBuffer;
 use App\Jobs\DisposeChangesWithYZUid;
 use App\Jobs\RecalculateVip;
+use App\Jobs\YouZanCardActivatedQuery;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -61,6 +62,9 @@ class JobBufferCommand extends Command
                                 break;
                             case RecalculateVip::class:
                                 dispatch(new RecalculateVip($id))->onConnection('sync');
+                                break;
+                            case YouZanCardActivatedQuery::class:
+                                dispatch(new YouZanCardActivatedQuery($id))->onConnection('sync');
                                 break;
                             default:
                                 break;
