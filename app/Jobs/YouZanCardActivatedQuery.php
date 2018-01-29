@@ -40,12 +40,19 @@ class YouZanCardActivatedQuery extends SequenceQueueJob
     {
         $stop = true;
 
-        $card = YouZanService::getCustomerInfoByCardNo($this->cardNo);
+        try{
+            $card = YouZanService::getCustomerInfoByCardNo($this->cardNo);
 
-        if(empty($card['mobile'])){
-           $stop = false;
-        }else{
-            JobBuffer::addRecalculateVip($card['mobile']);
+            if(empty($card['mobile'])){
+                $stop = false;
+            }else{
+                JobBuffer::addRecalculateVip($card['mobile']);
+            }
+        }catch (\Exception $e){
+//            错误 141502107 为卡不存在（此种情况为卡已删除）
+            if($e->getCode() <> '141502107'){
+                throw $e;
+            }
         }
 
         return $stop;

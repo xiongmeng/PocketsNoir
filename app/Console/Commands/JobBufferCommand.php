@@ -5,6 +5,8 @@ use App\JobBuffer;
 use App\Jobs\DisposeChangesWithYZUid;
 use App\Jobs\RecalculateVip;
 use App\Jobs\YouZanCardActivatedQuery;
+use App\Libiary\Context\Dimension\DimExecution;
+use App\Libiary\Context\Fact\FactException;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -31,10 +33,11 @@ class JobBufferCommand extends Command
      */
     public function handle()
     {
+        DimExecution::instance()->recordScriptIdentity(self::class);
+
         $step = $this->argument('step');
 
         $identity = self::class . ": ";
-        \Log::info($identity . 'start');
 
         JobBuffer::whereStatus(JobBuffer::STATUS_IDLE)
             ->groupBy(['job_name', 'job_id'])->select([
@@ -50,35 +53,43 @@ class JobBufferCommand extends Command
                     $name = $item['job_name'];
                     $id = $item['job_id'];
 
-//                    修改状态为分派中
-                    $rows = JobBuffer::whereJobName($name)->whereJobId($id)->whereStatus(JobBuffer::STATUS_IDLE)
-                        ->whereIn('id', explode(',', $item['ids']))->update(['status' => JobBuffer::STATUS_DISPATCHING]);
-
-                    \Log::info($identity . "update dispatching items' count : " . $rows);
-                    if($rows > 0){
-                        switch ($name){
-                            case DisposeChangesWithYZUid::class:
-                                dispatch(new DisposeChangesWithYZUid($id))->onConnection('sync');
-                                break;
-                            case RecalculateVip::class:
-                                dispatch(new RecalculateVip($id))->onConnection('sync');
-                                break;
-                            case YouZanCardActivatedQuery::class:
-                                dispatch(new YouZanCardActivatedQuery($id))->onConnection('sync');
-                                break;
-                            default:
-                                break;
+                    try{
+                        $rows = self::dispatchingItem($name, $id, $item['ids']);
+                        if($rows <= 0){
+                            throw new \Exception("dispatching items' count less than 0！");
                         }
+
+                        JobBuffer::dispatch($name, $id);
+
+                        $rows = self::dispatchedItem($name, $id, $item['ids']);
+
+                        if($rows <= 0){
+                            throw new \Exception("dispatched items' count less than 0！");
+                        }
+                    }catch(\Exception $e){
+                        $rows = self::dispatchingItemFailed($name, $id, $item['ids']);
+
+                        FactException::instance()->recordException($e, "JobBufferDispatchFailed-RevertRows{$rows}");
                     }
-
-//                    修改状态为已分派
-                    $rows = JobBuffer::whereJobName($name)->whereJobId($id)->whereStatus(JobBuffer::STATUS_DISPATCHING)
-                        ->whereIn('id', explode(',', $item['ids']))->update(['status' => JobBuffer::STATUS_DISPATCHED]);
-
-                    \Log::info($identity . "update dispatched items' count : " . $rows);
                 }
             });
+    }
 
-        \Log::info($identity . ' end');
+    private static function dispatchingItem($jobName, $jobId, $ids)
+    {
+        return JobBuffer::whereJobName($jobName)->whereJobId($jobId)->whereStatus(JobBuffer::STATUS_IDLE)
+            ->whereIn('id', explode(',', $ids))->update(['status' => JobBuffer::STATUS_DISPATCHING]);
+    }
+
+    private static function dispatchedItem($jobName, $jobId, $ids)
+    {
+        return JobBuffer::whereJobName($jobName)->whereJobId($jobId)->whereStatus(JobBuffer::STATUS_DISPATCHING)
+            ->whereIn('id', explode(',', $ids))->update(['status' => JobBuffer::STATUS_DISPATCHED]);
+    }
+
+    private static function dispatchingItemFailed($jobName, $jobId, $ids)
+    {
+        return JobBuffer::whereJobName($jobName)->whereJobId($jobId)->whereStatus(JobBuffer::STATUS_DISPATCHING)
+            ->whereIn('id', explode(',', $ids))->update(['status' => JobBuffer::STATUS_IDLE]);
     }
 }

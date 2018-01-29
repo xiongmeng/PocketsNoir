@@ -64,6 +64,18 @@ class JobBuffer extends Model
 
     public static function dispatch($jobName, $jobId)
     {
-
+        switch ($jobName){
+            case DisposeChangesWithYZUid::class:
+                dispatch(new DisposeChangesWithYZUid($jobId))->onConnection('sync');
+                break;
+            case RecalculateVip::class:
+                dispatch(new RecalculateVip($jobId))->onConnection('sync');
+                break;
+            case YouZanCardActivatedQuery::class:
+                dispatch(new YouZanCardActivatedQuery($jobId))->onConnection('sync');
+                break;
+            default:
+                break;
+        }
     }
 }
