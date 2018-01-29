@@ -35,6 +35,15 @@ POST;
         dispatch(new DisposeYouZanPush($post))->onConnection('sync');
     }
 
+    public function testYZCustomerCardEventTaken()
+    {
+        $post = <<<POST
+{"client_id":"cd0e03a4099eb5c933","id":"231382285018826151","kdt_id":17284278,"kdt_name":"Pocket  黑店","mode":1,"msg":"%7B%22fans_id%22%3A0%2C%22fans_type%22%3A0%2C%22mobile%22%3A%2218611367408%22%2C%22card_alias%22%3A%22365dfnbl8ly1yD%22%2C%22card_no%22%3A%22231382285018826151%22%2C%22event_time%22%3A%222018-01-29+19%3A50%3A12%22%7D","sendCount":0,"sign":"e73a3b78ffe123833496dbaa37f4d0ea","status":"CUSTOMER_CARD_TAKEN","test":false,"type":"SCRM_CUSTOMER_CARD","version":1517226612}
+POST;
+
+        dispatch(new DisposeYouZanPush($post))->onConnection('sync');
+    }
+
     public function testYZCustomerEvent()
     {
         $post = <<<POST

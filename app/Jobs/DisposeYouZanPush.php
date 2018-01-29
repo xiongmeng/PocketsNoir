@@ -41,7 +41,18 @@ class DisposeYouZanPush extends Job
                 JobBuffer::addYouZanParseUid($data['trade']['fans_info']['buyer_id']);
                 break;
             case 'SCRM_CUSTOMER_CARD':
-                JobBuffer::addYouZanCardActivatedQuery($json['id']);
+                //如果是删除卡或者是发卡事件（目前已知渠道为程序自己发的）则不处理
+                if(in_array($json['status'], ['CUSTOMER_CARD_DELETED' , 'CUSTOMER_CARD_GIVEN'])){
+                    break;
+                }
+                $data = json_decode(urldecode($json['msg']), true);
+
+                //如果是用户领卡，则马上判断是否符合规则，不符合规则则删除。防止勿发卡。
+                if(!empty($data['mobile']) && in_array($json['status'], ['CUSTOMER_CARD_TAKEN'])){
+                    dispatch(new RecalculateVip($data['mobile']))->onConnection('sync');
+                }else{
+                    JobBuffer::addYouZanCardActivatedQuery($json['id']);
+                }
                 break;
             case 'SCRM_CUSTOMER_EVENT':
                 $data = json_decode(urldecode($json['msg']), true);
