@@ -136,7 +136,7 @@ class Log
 
         $this->entryBuffer[$key] = $newRecord;
 
-        (count($this->entryBuffer) > $this->dumpStep) && $this->dumpBuffer();
+//        (count($this->entryBuffer) > $this->dumpStep) && $this->dumpBuffer();
     }
 
     /**
