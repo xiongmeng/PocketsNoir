@@ -52,7 +52,7 @@ class RecalculateVip extends Job
         $consumeGuanJiaPo = 0;
         $gjpTrades = GuanJiaPoService::getLingShouDanByMobile($mobile);
         foreach ($gjpTrades as $gjpTrade){
-            $consumeYouZan += $gjpTrade['payment'];
+            $consumeGuanJiaPo += $gjpTrade['payment'];
         }
 
         $consume = $consumeYouZan + $consumeGuanJiaPo;
