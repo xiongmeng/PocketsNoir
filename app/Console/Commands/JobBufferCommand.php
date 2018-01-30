@@ -33,8 +33,6 @@ class JobBufferCommand extends Command
      */
     public function handle()
     {
-        DimExecution::instance()->recordScriptIdentity(self::class);
-
         $step = $this->argument('step');
 
         $identity = self::class . ": ";

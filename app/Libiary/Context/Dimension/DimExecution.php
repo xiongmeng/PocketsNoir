@@ -56,7 +56,11 @@ class DimExecution extends DimBase
                 'hostname' => gethostname(),
             ];
             if(!empty($_SERVER['argv'])){
-                $data['argv'] = print_r($_SERVER['argv'], true);
+                $data['url'] = $_SERVER['argv'][0];
+                if(count($_SERVER['argv']) > 1){
+                    $data['mca'] = $_SERVER['argv'][1];
+                }
+                $data['argv'] = json_encode($_SERVER['argv'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
             }
         }else{
             $data = array(
@@ -108,22 +112,6 @@ class DimExecution extends DimBase
                 'session_id' =>session_id()
             )
         );
-    }
-
-    /**
-     * 记录脚本的名称
-     */
-    public function recordScriptIdentity($path, $identity = null)
-    {
-
-        $this->record(
-            array(
-                'url' => $path,
-                'mca' => is_null($identity) ?  basename($path, '.php') : $identity,
-            )
-        );
-
-        return $this;
     }
 
     public function recordMCA($module,$controller,$action)
