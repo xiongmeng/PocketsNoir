@@ -46,25 +46,39 @@ class DimExecution extends DimBase
     public function recordBegin()
     {
         $this->microtimeBegin = microtime(true);
-        $data = array(
-            self::PROPERTY_IP => $this->getClientIp(),
-            self::PROPERTY_URL => $this->getData($_SERVER, 'REQUEST_URI', 'unknown'),
-            'http_method' => $this->getData($_SERVER, 'REQUEST_METHOD', 'unknown'),
-            'server' => $this->getData($_SERVER, 'SERVER_NAME', 'unknown'),
-            'referrer' => $this->getData($_SERVER, 'HTTP_REFERER', 'unknown'),
-            'process_id' => getmypid(),
-            'begin_time' => $this->currentTime(),
-            'mid' => Log::instance()->mid(),
-            'hostname' => gethostname(),
-            self::PROPERTY_USER_AGENT => $this->getData($_SERVER, 'HTTP_USER_AGENT', 'unknown'),
-            '_peid' => $this->getData($_REQUEST, '_peid', 0),
-            '_pmca' => $this->getData($_REQUEST, '_pmca', 'unknown'),
-            '_papp_id' => $this->getData($_REQUEST, '_papp_id', 0),
-        );
 
-        if($data['http_method'] == 'POST'){
-            $rawPostData = file_get_contents("php://input");
-            $data['post_raw_data'] = strlen($rawPostData) <= 102400 ? $rawPostData : substr($rawPostData, 0, 102400);
+//        判断是否是脚本执行还是浏览器执行
+        if(php_sapi_name() == 'cli' || php_sapi_name() == 'phpdbg'){
+            $data = [
+                'process_id' => getmypid(),
+                'begin_time' => $this->currentTime(),
+                'mid' => Log::instance()->mid(),
+                'hostname' => gethostname(),
+            ];
+            if(!empty($_SERVER['argv'])){
+                $data['argv'] = print_r($_SERVER['argv'], true);
+            }
+        }else{
+            $data = array(
+                self::PROPERTY_IP => $this->getClientIp(),
+                self::PROPERTY_URL => $this->getData($_SERVER, 'REQUEST_URI', 'unknown'),
+                'http_method' => $this->getData($_SERVER, 'REQUEST_METHOD', 'unknown'),
+                'server' => $this->getData($_SERVER, 'SERVER_NAME', 'unknown'),
+                'referrer' => $this->getData($_SERVER, 'HTTP_REFERER', 'unknown'),
+                'process_id' => getmypid(),
+                'begin_time' => $this->currentTime(),
+                'mid' => Log::instance()->mid(),
+                'hostname' => gethostname(),
+                self::PROPERTY_USER_AGENT => $this->getData($_SERVER, 'HTTP_USER_AGENT', 'unknown'),
+                '_peid' => $this->getData($_REQUEST, '_peid', 0),
+                '_pmca' => $this->getData($_REQUEST, '_pmca', 'unknown'),
+                '_papp_id' => $this->getData($_REQUEST, '_papp_id', 0),
+            );
+
+            if($data['http_method'] == 'POST'){
+                $rawPostData = file_get_contents("php://input");
+                $data['post_raw_data'] = strlen($rawPostData) <= 102400 ? $rawPostData : substr($rawPostData, 0, 102400);
+            }
         }
 
         $this->record($data);

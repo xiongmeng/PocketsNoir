@@ -20,10 +20,9 @@ require __DIR__.'/vendor/autoload.php';
 \App\Libiary\Context\Log::instance()->init('dc', '/data/wwwlogs/context');
 
 /**
- * ???????? - Begin
+ * - Begin
  */
 \App\Libiary\Context\Dimension\DimExecution::instance()->recordBegin();
-
 
 $app = require_once __DIR__.'/bootstrap/app.php';
 
