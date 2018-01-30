@@ -76,12 +76,13 @@ class Log
      */
     private $entryHandler = null;
 
+    private $dumpStep = null;
     /**
      * 初始化
      * @param $prefix
      * @param $machineId
      */
-    public function init($prefix, $path)
+    public function init($prefix, $path, $dumpStep=null)
     {
         $this->mid = $this->generateMachineId();
 
@@ -102,6 +103,8 @@ class Log
 //        FactError::instance()->registerErrorAndExceptionHandler();
 
         $this->isInit = true;
+
+        $this->dumpStep = $dumpStep ?: 9999;
     }
 
     private $entryBuffer = array();
@@ -132,6 +135,8 @@ class Log
         $newRecord['time'] = date("Y-m-d H:i:s");
 
         $this->entryBuffer[$key] = $newRecord;
+
+        (count($this->entryBuffer) > $this->dumpStep) && $this->dumpBuffer();
     }
 
     /**
@@ -141,11 +146,18 @@ class Log
     {
         FactError::instance()->checkAndRecordErrorCatchByShutdown();
 
+        $this->dumpBuffer();
+    }
+
+    public function dumpBuffer()
+    {
         /**
          * TBD,这样获取mca和app_id的方式很丑陋
          */
-        if(!$this->blackList->discard(DimExecution::instance()))
+        if(!$this->blackList->discard(DimExecution::instance())){
             $this->entryHandler->handleBatch($this->entryBuffer);
+        }
+        $this->entryBuffer=[];
     }
 
     /**
