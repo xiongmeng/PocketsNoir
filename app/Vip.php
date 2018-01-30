@@ -56,6 +56,6 @@ class Vip extends Model
     public static function isYouZanCardOver($cardAlias, $targetCard)
     {
         $alias = array_reverse(self::$youZanCardMaps);
-        return !empty($alias[$cardAlias]) && $alias[$cardAlias] <= $targetCard;
+        return !empty($alias[$cardAlias]) && $alias[$cardAlias] > $targetCard;
     }
 }
