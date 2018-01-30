@@ -50,15 +50,13 @@ class DisposeYouZanPush extends Job
 
                 //如果是用户领卡，则马上判断是否符合规则，不符合规则则删除。防止勿发卡。
                 if(!empty($data['mobile']) && in_array($json['status'], ['CUSTOMER_CARD_TAKEN'])){
-                    dispatch(new RecalculateVip($data['mobile']))->onConnection('sync');
-
                     $vip = Vip::find($data['mobile']);
-                    if(Vip::$youZanCardMaps[$vip->card] <> $data['card_alias']){
+                    if(Vip::isYouZanCardOver($data['card_alias'], $vip->card)){
                         YouZanService::userCardDelete($data['mobile'], $data['card_alias']);
                     }
-                }else{
-                    JobBuffer::addYouZanCardActivatedQuery($json['id']);
                 }
+
+                JobBuffer::addYouZanCardActivatedQuery($json['id']);
                 break;
             case 'SCRM_CUSTOMER_EVENT':
                 $data = json_decode(urldecode($json['msg']), true);

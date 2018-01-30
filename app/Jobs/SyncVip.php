@@ -32,15 +32,18 @@ class SyncVip extends Job
         $youZanCards = YouZanService::getUserCardListByMobile($mobile);
         $targetCardAlias = Vip::$youZanCardMaps[$vip->card];
         $cardExisted = false;
-        foreach ($youZanCards as $youZanCard){
+        foreach($youZanCards as $youZanCard){
             $cardAlias = $youZanCard['card_alias'];
             if($cardAlias <> $targetCardAlias){
-                $mobile== '18611367408' && YouZanService::userCardDelete($mobile, $cardAlias);
+                if(Vip::isYouZanCardOver($cardAlias, $vip->card)){
+                    YouZanService::userCardDelete($mobile, $cardAlias);
+                }
             }else{
                 $cardExisted = true;
             }
         }
-        if(!$cardExisted){
+//        只有卡号不为空
+        if(!$cardExisted && $vip->card <> Vip::CARD_1){
             $mobile== '18611367408' && YouZanService::userCardGrant($mobile, $targetCardAlias);
         }
 

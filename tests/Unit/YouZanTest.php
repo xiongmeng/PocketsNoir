@@ -6,7 +6,7 @@ use App\Services\YouZanService;
 use Tests\TestCase;
 use Youzan\Open\Client;
 
-class ExampleTest extends TestCase
+class YouZanTest extends TestCase
 {
     /**
      * A basic test example.
@@ -132,7 +132,7 @@ class ExampleTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'card_no' => '230597762425525741',
+            'card_no' => '219832627878638634',
         ];
 
         $response = $client->post($method, $apiVersion, $params);

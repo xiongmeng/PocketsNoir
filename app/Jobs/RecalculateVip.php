@@ -45,7 +45,6 @@ class RecalculateVip extends Job
             foreach ($youZanTrades as $youZanTrade){
                 if($youZanTrade['status'] == 'TRADE_BUYER_SIGNED'){
                     $consumeYouZan += $youZanTrade['payment'];
-//                    $consumeYouZan += $youZanTrade['total_fee'];
                 }
             }
         }
@@ -54,7 +53,6 @@ class RecalculateVip extends Job
         $gjpTrades = GuanJiaPoService::getLingShouDanByMobile($mobile);
         foreach ($gjpTrades as $gjpTrade){
             $consumeYouZan += $gjpTrade['payment'];
-//            $consumeYouZan += $gjpTrade['total_fee'];
         }
 
         $consume = $consumeYouZan + $consumeGuanJiaPo;
@@ -69,6 +67,7 @@ class RecalculateVip extends Job
         }elseif ($consume >= 100000){
             $targetVip = Vip::CARD_5;
         }
+//        如果目标会员卡低于当前卡级别，而且此卡是人工设定（众筹员工奖励），则不降级
         if($targetVip < $vip->card && $vip->manual_marked){
             $targetVip = $vip->card;
         }
