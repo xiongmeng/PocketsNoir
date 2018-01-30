@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 //        处理job的缓冲情况
-        $schedule->command('job:buffer 100')->everyMinute()->withoutOverlapping()->runInBackground();
+        $schedule->command('job:buffer 100')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
     }
 
     /**

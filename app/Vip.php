@@ -22,10 +22,10 @@ class Vip extends Model
 
     public static $GuanJiaPoCardMaps = [
         self::CARD_1 => '',
-        self::CARD_1 => '',
-        self::CARD_1 => '',
-        self::CARD_1 => '',
-        self::CARD_1 => '',
+        self::CARD_2 => '',
+        self::CARD_3 => '',
+        self::CARD_4 => '',
+        self::CARD_5 => '',
     ];
 
     /**

@@ -2,7 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Jobs\DisposeChangesWithYZUid;
 use App\Jobs\DisposeYouZanPush;
+use App\Jobs\RecalculateVip;
 use App\Jobs\SyncVip;
 use Tests\TestCase;
 
@@ -69,5 +71,11 @@ POST;
     {
         dispatch(new SyncVip('18611367408'))->onConnection('sync');
         dispatch(new SyncVip('18611367408'))->onConnection('sync');
+    }
+
+    public function testRecalculateVip()
+    {
+        dispatch(new DisposeChangesWithYZUid('56625027'))->onConnection('sync');
+        dispatch(new RecalculateVip('15609973699'))->onConnection('sync');
     }
 }
