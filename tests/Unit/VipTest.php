@@ -75,7 +75,7 @@ POST;
 
     public function testRecalculateVip()
     {
-//        dispatch(new DisposeChangesWithYZUid('56625027'))->onConnection('sync');
-        dispatch(new RecalculateVip('18611367408'))->onConnection('sync');
+        dispatch(new DisposeChangesWithYZUid('561305219'))->onConnection('sync');
+        dispatch(new RecalculateVip('13916011863'))->onConnection('sync');
     }
 }
