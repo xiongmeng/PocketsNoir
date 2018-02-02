@@ -33,3 +33,11 @@ Route::post('guanjiapo/push', function(){
 Route::get('/ab', function (){
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
+
+Route::group(['middleware' => ['wechat.oauth']], function () {
+    Route::get('/user', function () {
+        $user = session('wechat.oauth_user'); // 拿到授权用户资料
+
+        dd($user);
+    });
+});
