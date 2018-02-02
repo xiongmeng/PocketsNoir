@@ -64,7 +64,7 @@ class YouZanTest extends TestCase
 
 
         $cardList = YouZanService::getCardList();
-        foreach ($cardList['items'] as $card) {
+        foreach ($cardList as $card) {
             $params = [
                 'page' => 1,
                 'card_alias' => $card['card_alias'],
@@ -73,6 +73,7 @@ class YouZanTest extends TestCase
             $files = [];
             $response = $client->post($method, $apiVersion, $params, $files);
             $result = $response['response'];
+            print_r($result);
          }
 
 

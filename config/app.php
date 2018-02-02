@@ -179,6 +179,7 @@ return [
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         \Overtrue\LaravelWeChat\ServiceProvider::class,
+        'Folklore\Image\ImageServiceProvider',
     ],
 
     /*
@@ -228,6 +229,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'EasyWeChat' => Overtrue\LaravelWeChat\Facade::class,
+        'Image' => 'Folklore\Image\Facades\Image',
     ],
 
 ];

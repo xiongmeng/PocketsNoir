@@ -30,7 +30,7 @@ class YouZanService
     {
         $response = (new Client(YouZanService::accessToken()))->get(
             'youzan.scrm.card.list', '3.0.0', []);
-        return $response['response'];
+        return $response['items'];
     }
 
     /**
