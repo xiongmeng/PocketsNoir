@@ -6,26 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Vip extends Model
 {
-    const CARD_1 = 1; //普卡
-    const CARD_2 = 2; //银卡
-    const CARD_3 = 3; //金卡
-    const CARD_4 = 4; //砖石卡
-    const CARD_5 = 5; //黑卡
+    const CARD_1 = 1;
+    const CARD_2 = 2;
+    const CARD_3 = 3;
+    const CARD_4 = 4;
+    const CARD_5 = 5;
 
     public static $youZanCardMaps = [
-        self::CARD_1 => '2flg1h77ias9yA',
-        self::CARD_2 => '365dfnbl8ly1yD',
-        self::CARD_3 => '',
-        self::CARD_4 => '',
-        self::CARD_5 => '',
+        self::CARD_1 => '367ty5es53jmeD', //https://www.youzan.com/scrm/card#edit/367ty5es53jmeD
+        self::CARD_2 => '1yf3r9zfic6ueC', //https://www.youzan.com/scrm/card#edit/1yf3r9zfic6ueC
+        self::CARD_3 => '3nrozaybu7k3qA', //https://www.youzan.com/scrm/card#edit/3nrozaybu7k3qA
+        self::CARD_4 => '3nffmhz2rmfmuC', //https://www.youzan.com/scrm/card#edit/3nffmhz2rmfmuC
+        self::CARD_5 => '26vdnev7mbzo6b', //https://www.youzan.com/scrm/card#edit/26vdnev7mbzo6b
     ];
 
     public static $GuanJiaPoCardMaps = [
-        self::CARD_1 => '',
-        self::CARD_2 => '',
-        self::CARD_3 => '',
-        self::CARD_4 => '',
-        self::CARD_5 => '',
+        self::CARD_1 => '青口袋',
+        self::CARD_2 => '蓝口袋',
+        self::CARD_3 => '银口袋',
+        self::CARD_4 => '金口袋',
+        self::CARD_5 => '黑口袋',
     ];
 
     /**
@@ -56,6 +56,6 @@ class Vip extends Model
     public static function isYouZanCardOver($cardAlias, $targetCard)
     {
         $alias = array_flip(self::$youZanCardMaps);
-        return !empty($alias[$cardAlias]) && $alias[$cardAlias] > $targetCard;
+        return empty($alias[$cardAlias]) || $alias[$cardAlias] > $targetCard;
     }
 }
