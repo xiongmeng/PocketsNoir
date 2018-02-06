@@ -52,15 +52,17 @@ class RecalculateVip extends Job
         }
         //加载erp订单
         $consumeGuanJiaPo = 0;
-        $gjpTrades = GuanJiaPoService::getLingShouDanByMobile($mobile);
+        $gjpTrades = [];
+        try{
+//            需要捕获零售单不存在的情况
+            $gjpTrades = GuanJiaPoService::getLingShouDanByMobile($mobile);
+        }catch (\Exception $e){
+            FactException::instance()->recordException($e);
+        }
         foreach ($gjpTrades as $gjpTrade){
             $consumeGuanJiaPo += $gjpTrade['payment'];
         }
-
-        \Log::info("DEBUG_RECALCULATE_" . "SumMoneyBefore:" ,['consumeYouZan' => $consumeYouZan, 'consumeGuanJiaPo' => $consumeGuanJiaPo]);
-
         $consume = $consumeYouZan + $consumeGuanJiaPo;
-        \Log::info("DEBUG_RECALCULATE_" . "SumMoneyBefore:" ,['consume' => $consume, 'consumeYouZan' => $consumeYouZan, 'consumeGuanJiaPo' => $consumeGuanJiaPo]);
 
         $targetVip = Vip::CARD_1;
         if($consume >= 3000){

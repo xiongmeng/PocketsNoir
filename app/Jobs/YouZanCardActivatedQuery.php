@@ -21,7 +21,7 @@ class YouZanCardActivatedQuery extends SequenceQueueJob
         $this->cardNo = $cardNo;
     }
 
-    protected $sequence = [60,60,1800,1800,3600,3600,36000,72000]; //暂时不回调,开启这个时需要配合 php artsian queue:work 命令
+    protected $sequence = [5,10,10,10,10,10,10,30,60,60,1800,1800,3600,3600,36000,72000]; //暂时不回调,开启这个时需要配合 php artsian queue:work 命令
 
     /**
      * @param array $sequence

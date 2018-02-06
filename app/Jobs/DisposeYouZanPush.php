@@ -61,7 +61,12 @@ class DisposeYouZanPush extends Job
             case 'SCRM_CUSTOMER_EVENT':
                 $data = json_decode(urldecode($json['msg']), true);
                 if($data['account_type'] == 'YouZanAccount'){
-                    JobBuffer::addYouZanParseUid($data['account_id']);
+//                    JobBuffer::addYouZanParseUid($data['account_id']);
+                    if($json['status'] == 'CUSTOMER_UPDATED'){
+                        dispatch(new DisposeChangesWithYZUid($data['account_id']))->onConnection('sync');
+                    }else{
+                        JobBuffer::addYouZanParseUid($data['account_id']);
+                    }
                 }
                 break;
             default:
