@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Libiary\Context\Fact\FactException;
 use App\Services\GuanJiaPoService;
 use App\Services\YouZanService;
 use App\Vip;
@@ -29,7 +30,15 @@ class SyncVip extends Job
         /**
          * 同步卡到有赞
          */
-        $youZanCards = YouZanService::getUserCardListByMobile($mobile);
+        $youZanCards = [];
+        try{
+//            补货发卡异常
+            $youZanCards = YouZanService::getUserCardListByMobile($mobile);
+        }catch (\Exception $e){
+            if($e->getCode() <> '141500101' AND $e->getMessage() <> 'invalid params'){
+                FactException::instance()->recordException($e);
+            }
+        }
         $targetCardAlias = Vip::$youZanCardMaps[$vip->card];
         $cardExisted = false;
         foreach($youZanCards as $youZanCard){

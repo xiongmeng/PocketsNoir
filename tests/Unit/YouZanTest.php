@@ -106,7 +106,7 @@ class YouZanTest extends TestCase
         }
     }
 
-    public function testUserCardList()
+    public function testCustomerCardList()
     {
         $accessToken = YouZanService::accessToken();
         $client = new Client($accessToken);
@@ -115,11 +115,11 @@ class YouZanTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'page' => 10,
-            'mobile' => '18611367408',
+            'page' => 1,
+            'mobile' => '15911094370',
         ];
 
-        $response = $client->post($method, $apiVersion, $params);
+        $response = $client->get($method, $apiVersion, $params);
         $result = $response['response'];
         var_dump($result);
     }
