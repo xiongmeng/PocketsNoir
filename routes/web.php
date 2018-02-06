@@ -23,7 +23,11 @@ Route::post('/youzan/push', function () {
 });
 
 Route::post('/guanjiapo/push', function(){
-    dispatch(new \App\Jobs\DisposeGuanJiaPoPush(request()->post()))->onConnection('sync');
+    try{
+        dispatch(new \App\Jobs\DisposeGuanJiaPoPush(request()->post()))->onConnection('sync');
+    }catch (Exception $e){
+        \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
+    }
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
 
