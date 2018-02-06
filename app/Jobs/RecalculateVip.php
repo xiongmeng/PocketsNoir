@@ -60,7 +60,9 @@ class RecalculateVip extends Job
             FactException::instance()->recordException($e);
         }
         foreach ($gjpTrades as $gjpTrade){
-            $consumeGuanJiaPo += $gjpTrade['payment'];
+            if($gjpTrade['status'] == '已出库'){
+                $consumeGuanJiaPo += $gjpTrade['totalinmoney'];
+            }
         }
         $consume = $consumeYouZan + $consumeGuanJiaPo;
 

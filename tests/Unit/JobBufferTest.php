@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use App\JobBuffer;
 use App\Jobs\DisposeChangesWithYZUid;
-use App\Jobs\DisposeYouZanPush;
+use App\Jobs\DisposeGuanJiaPoPush;
 use App\Jobs\RecalculateVip;
 use App\Jobs\SyncVip;
 use App\Vip;

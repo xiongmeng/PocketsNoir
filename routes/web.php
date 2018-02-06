@@ -23,12 +23,7 @@ Route::post('/youzan/push', function () {
 });
 
 Route::post('/guanjiapo/push', function(){
-    $postRawData = [
-        'id' => 'xx',
-        'status' => 'a',
-        'type' => '' //零售单回调
-    ];
-
+    dispatch(new \App\Jobs\DisposeGuanJiaPoPush(request()->post()))->onConnection('sync');
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
 

@@ -28,6 +28,10 @@ class Vip extends Model
         self::CARD_5 => '黑口袋',
     ];
 
+    const MANUAL_MARK_YOUZAN = 0;
+    const MANUAL_MARK_MANUAL = 1;
+    const MANUAL_MARK_GUANJIAPO = 2;
+
     /**
      * 主键
      * @var string
