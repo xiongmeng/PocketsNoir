@@ -6,6 +6,10 @@ class YouZanException extends \Exception
 {
     public function __construct(array $errorResponse)
     {
-        parent::__construct($errorResponse['message'], $errorResponse['code'], null);
+        $msg = '找不见错误原因的字段';
+        !empty($errorResponse['message']) && $msg = $errorResponse['message'];
+        !empty($errorResponse['msg']) && $msg = $errorResponse['msg'];
+
+        parent::__construct($msg, $errorResponse['code'], null);
     }
 }
