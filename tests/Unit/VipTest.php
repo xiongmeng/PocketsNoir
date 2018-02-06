@@ -56,6 +56,15 @@ POST;
         dispatch(new DisposeYouZanPush($post))->onConnection('sync');
     }
 
+    public function testYZCustomerUpdateEvent()
+    {
+        $post = <<<POST
+{"client_id":"cd0e03a4099eb5c933","id":"725462007","kdt_id":17284278,"mode":1,"msg":"%7B%22account_id%22%3A%22725462007%22%2C%22account_type%22%3A%22YouZanAccount%22%2C%22birthday%22%3A%22%22%2C%22gender%22%3A1%2C%22name%22%3A%22%E7%BB%A7%E6%89%BF%22%7D","sendCount":0,"sign":"583bbf16572f252c3872ef7186602d5e","status":"CUSTOMER_UPDATED","test":false,"type":"SCRM_CUSTOMER_EVENT","version":1517055397112}
+POST;
+
+        dispatch(new DisposeYouZanPush($post))->onConnection('sync');
+    }
+
     /**
      * 测试交易第一版本的数据格式
      */

@@ -72,7 +72,7 @@ class YouZanService
         $response = (new Client(YouZanService::accessToken()))->get(
             'youzan.trades.sold.get', '3.0.0', [
                 'buyer_id' => $accountId,
-                'start_created' => '2018-02-7',
+                'start_created' => '2018-02-06',
                 'end_created' => date("Y-m-d 23:59:59"),
                 'status' => 'TRADE_BUYER_SIGNED'
             ]);
