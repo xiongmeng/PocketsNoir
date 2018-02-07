@@ -53,7 +53,7 @@ class SyncVip extends Job
         }
 //        只有卡号不为空
         if(!$cardExisted && $vip->card <> Vip::CARD_1){
-            $mobile== '18611367408' && YouZanService::userCardGrant($mobile, $targetCardAlias);
+            YouZanService::userCardGrant($mobile, $targetCardAlias);
         }
 
         /**
