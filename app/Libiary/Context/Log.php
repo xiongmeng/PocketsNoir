@@ -104,7 +104,7 @@ class Log
 
         $this->isInit = true;
 
-        $this->dumpStep = $dumpStep ?: 9999;
+        $this->dumpStep = is_null($dumpStep) ? 9999 : $dumpStep;
     }
 
     private $entryBuffer = array();
@@ -136,7 +136,7 @@ class Log
 
         $this->entryBuffer[$key] = $newRecord;
 
-//        (count($this->entryBuffer) > $this->dumpStep) && $this->dumpBuffer();
+        (count($this->entryBuffer) > $this->dumpStep) && $this->dumpBuffer();
     }
 
     /**
