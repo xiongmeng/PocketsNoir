@@ -56,7 +56,8 @@ Route::any('/dispatchCard', function (){
             throw new Exception("会员卡已经存在！" . json_encode($vip->toArray()));
         }
 
-//        dispatch(new \App\Jobs\RecalculateVip($mobile))->onConnection('sync');
+        dispatch(new \App\Jobs\RecalculateVip($mobile))->onConnection('sync');
+
         $vip = \App\Vip::find($mobile);
         return response()->json($vip->toArray());
     }else{
