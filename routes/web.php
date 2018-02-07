@@ -16,6 +16,54 @@ Route::get('/', function () {
 //    return 'welcome';
 });
 
+Route::any('/dispatchCard', function (){
+    $method = strtoupper(request()->method());
+    if($method == 'POST'){
+        $posts = request()->post();
+        $channel = $posts['channel'];
+        if(empty($channel)){
+            throw new Exception('渠道不能为空！');
+        }
+        $mobile = $posts['mobile'];
+        if(empty($mobile)){
+            throw new Exception('手机号不能为空！');
+        }
+
+        $card = $posts['card'];
+        if(!empty($card)){
+            if($channel <> '特殊渠道'){
+                throw new Exception('必须选特殊渠道才能自定义选卡！');
+            }
+        }else{
+            if(empty(\App\Vip::$ChannelCardMaps[$channel])){
+                throw new Exception('对应的渠道不存在相对应的卡！');
+            }
+            $card = \App\Vip::$ChannelCardMaps[$channel];
+        }
+
+        if(!isset(\App\Vip::$channelMaps[$channel])){
+            throw new Exception("对应的渠道{$channel}不存在渠道码值(参考channelMaps)");
+        }
+
+        $vip = \App\Vip::find($mobile);
+        if(empty($vip)){
+            $vip = new \App\Vip();
+            $vip->mobile = $mobile;
+            $vip->card = $card;
+            $vip->manual_marked = \App\Vip::$channelMaps[$channel];
+            $vip->save();
+        }else{
+            throw new Exception("会员卡已经存在！" . json_encode($vip->toArray()));
+        }
+
+//        dispatch(new \App\Jobs\RecalculateVip($mobile))->onConnection('sync');
+        $vip = \App\Vip::find($mobile);
+        return response()->json($vip->toArray());
+    }else{
+        return view('dispatchCard');
+    }
+});
+
 Route::post('/youzan/push', function () {
     $rawPostData = file_get_contents("php://input");
     dispatch(new \App\Jobs\DisposeYouZanPush($rawPostData))->onConnection('sync');

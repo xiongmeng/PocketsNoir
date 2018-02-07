@@ -32,6 +32,20 @@ class Vip extends Model
     const MANUAL_MARK_MANUAL = 1;
     const MANUAL_MARK_GUANJIAPO = 2;
 
+    public static $ChannelCardMaps = [
+        '普客' => self::CARD_1,
+        '机场员工' => self::CARD_2,
+//        '多彩筹1份' => self::CARD_2,
+        '特殊渠道' => '特殊渠道'
+    ];
+
+    public static $channelMaps = [
+        '普客' => 0,
+        '多彩筹' => 1,
+        '机场员工' => 3,
+        '特殊渠道' => 99
+    ];
+
     /**
      * 主键
      * @var string
