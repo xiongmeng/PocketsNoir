@@ -17,7 +17,7 @@ define('LARAVEL_START', microtime(true));
 
 require __DIR__.'/vendor/autoload.php';
 
-\App\Libiary\Context\Log::instance()->init('dc', '/data/wwwlogs/context', 0);
+\App\Libiary\Context\Log::instance()->init('dc', '/data/wwwlogs/context', 1);
 
 /**
  * - Begin
