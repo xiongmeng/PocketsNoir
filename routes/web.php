@@ -65,6 +65,18 @@ Route::any('/dispatchCard', function (){
     }
 });
 
+Route::any('/refreshCard', function (){
+    $method = strtoupper(request()->method());
+    if($method == 'POST'){
+        $mobile = request()->post('mobile');
+        dispatch(new \App\Jobs\RecalculateVip($mobile))->onConnection('sync');
+        $vip = \App\Vip::find($mobile);
+        return response()->json($vip->toArray());
+    }else{
+        return view('refreshCard');
+    }
+});
+
 Route::post('/youzan/push', function () {
     $rawPostData = file_get_contents("php://input");
     dispatch(new \App\Jobs\DisposeYouZanPush($rawPostData))->onConnection('sync');

@@ -45,7 +45,11 @@ class SyncVip extends Job
             $cardAlias = $youZanCard['card_alias'];
             if($cardAlias <> $targetCardAlias){
                 if(Vip::isYouZanCardOver($cardAlias, $vip->card)){
-                    YouZanService::userCardDelete($mobile, $cardAlias);
+                    if(app()->environment('production')) {
+                        YouZanService::userCardDelete($mobile, $cardAlias);
+                    }else{
+                        \Log::info("当前环境非生产环境，跳过删卡操作！");
+                    }
                 }
             }else{
                 $cardExisted = true;
@@ -53,7 +57,12 @@ class SyncVip extends Job
         }
 //        只有卡号不为空
         if(!$cardExisted && $vip->card <> Vip::CARD_1){
-            YouZanService::userCardGrant($mobile, $targetCardAlias);
+            if(app()->environment('production')){
+                YouZanService::userCardGrant($mobile, $targetCardAlias);
+            }else{
+
+                \Log::info("当前环境非生产环境，跳过发卡操作！");
+            }
         }
 
         /**
