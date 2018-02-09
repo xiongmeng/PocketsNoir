@@ -52,6 +52,7 @@ class DisposeYouZanPush extends Job
                 if(!empty($data['mobile']) && in_array($json['status'], ['CUSTOMER_CARD_TAKEN'])){
                     $vip = Vip::find($data['mobile']);
                     if(Vip::isYouZanCardOver($data['card_alias'], $vip ? $vip->card : Vip::CARD_1)){
+                        \Log::info("DeleteCardBecauseTakenOver", $data);
                         YouZanService::userCardDelete($data['mobile'], $data['card_alias']);
                     }
                 }
