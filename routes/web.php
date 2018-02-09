@@ -97,11 +97,12 @@ Route::get('/ab', function (){
 });
 
 Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
-    Route::get('/user', function () {
+    Route::get('/entry', function () {
         /** @var $user \Overtrue\Socialite\User */
         $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
-
-//        dd($user);
-        return response()->json($user->toArray());
+//        $cfg = EasyWeChat::officialAccount()->jssdk->buildConfig(array('chooseImage', 'previewImage', 'uploadImage'), true);
+        return view('2018chunjie.entry', ['user' => $user]);
     });
+
+
 });
