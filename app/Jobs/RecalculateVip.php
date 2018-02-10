@@ -67,15 +67,15 @@ class RecalculateVip extends Job
         $consume = $consumeYouZan + $consumeGuanJiaPo;
 
         $targetVip = Vip::CARD_1;
-        if($consume >= 3000){
-//        if($consume > 0){
-            $targetVip = Vip::CARD_2;
-        }elseif ($consume >= 10000){
-            $targetVip = Vip::CARD_3;
+        if ($consume >= 100000){
+            $targetVip = Vip::CARD_5;
         }elseif ($consume >= 50000){
             $targetVip = Vip::CARD_4;
-        }elseif ($consume >= 100000){
-            $targetVip = Vip::CARD_5;
+        }elseif ($consume >= 10000){
+            $targetVip = Vip::CARD_3;
+        }elseif($consume >= 3000){
+//        if($consume > 0){
+            $targetVip = Vip::CARD_2;
         }
 
 //        如果目标会员卡低于当前卡级别，而且此卡是人工设定（众筹员工奖励），则不降级
