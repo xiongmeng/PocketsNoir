@@ -63,7 +63,7 @@ class GuanJiaPoTest extends TestCase
     {
         $sercet = "Grasp010-00335";
         $mobile = '18611367408';
-        $integral = '10';
+        $integral = '100';
         $date = date("Ymd");
         $signature = strtoupper(md5("{$sercet}{$mobile}{$integral}{$date}"));
 
@@ -82,8 +82,8 @@ class GuanJiaPoTest extends TestCase
         $date = date("Ymd");
         $signature = strtoupper(md5("{$sercet}{$mobile}{$date}"));
 
-        $res = CurlWrapper::get(['vipcardcode' => $mobile, 'signature' => $signature],
-            "http://120.76.188.76:82/tdy/RetailBillByVip/RefundRBbyVip");
+        $res = CurlWrapper::get(['mobile' => $mobile, 'signature' => $signature],
+            "http://120.76.188.76:82/tdy/RefundRBbyVip/RefundRBbyVip");
 
         print_r($res);
     }
