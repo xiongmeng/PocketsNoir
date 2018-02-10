@@ -39,6 +39,10 @@ class Vip extends Model
         '特殊渠道' => '特殊渠道'
     ];
 
+    public static $jiChangChannelCardMaps = [
+        '机场员工' => self::CARD_2,
+    ];
+
     public static $channelMaps = [
         '普客' => 0,
         '多彩筹' => 1,

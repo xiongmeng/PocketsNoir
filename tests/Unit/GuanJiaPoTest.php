@@ -55,4 +55,37 @@ class GuanJiaPoTest extends TestCase
 
         print_r($res);
     }
+
+    /**
+     * 修改会员积分接口
+     */
+    public function testModifyIntegral()
+    {
+        $sercet = "Grasp010-00335";
+        $mobile = '18611367408';
+        $integral = '10';
+        $date = date("Ymd");
+        $signature = strtoupper(md5("{$sercet}{$mobile}{$integral}{$date}"));
+
+        $res = CurlWrapper::get(['vipcardcode' => $mobile, 'signature' => $signature, 'integral' => $integral],
+            "http://120.76.188.76:82/tdy/Integral/ModifyIntegral");
+
+        print_r($res);
+    }
+
+//    17687917185
+
+    public function testRefundRBbyVip()
+    {
+        $sercet = "Grasp010-00333";
+        $mobile = '15911094367';
+        $date = date("Ymd");
+        $signature = strtoupper(md5("{$sercet}{$mobile}{$date}"));
+
+        $res = CurlWrapper::get(['vipcardcode' => $mobile, 'signature' => $signature],
+            "http://120.76.188.76:82/tdy/RetailBillByVip/RefundRBbyVip");
+
+        print_r($res);
+    }
+
 }
