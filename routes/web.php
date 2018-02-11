@@ -120,7 +120,7 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         $user = session('wechat.oauth_user.default');
         $serverId = request()->get('serverId');
 
-        dispatch(new \App\Jobs\RegenerateShouKuanQrcode($user->getId(), $serverId))->onConnection('database');
+        dispatch(new \App\Jobs\RegenerateShouKuanQrcode($user->getId(), $serverId))->onConnection('database')->onQueue('h5');
 
         return response()->json($user->toArray());
     });
@@ -132,7 +132,7 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         $publicDisk = \Storage::disk('public');
         $head = "{$user->getId()}.jpeg";
         if(!$publicDisk->exists($head)){
-            $headContent = file_get_contents($user->getAvatar());
+            $headContent = \App\Libiary\Utility\CurlWrapper::curlGet($user->getAvatar());
             $publicDisk->put($head, $headContent);
         }
 
