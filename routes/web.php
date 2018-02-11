@@ -129,22 +129,36 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         /** @var $user \Overtrue\Socialite\User */
         $user = session('wechat.oauth_user.default');
 
-        $shoukumaQrCode = Storage::disk('oss_activity')->get("2018chunjie/shoukuanma/{$user->openId}.jpeg");
+        $publicDisk = \Storage::disk('public');
+        $head = "{$user['openid']}.jpeg";
+        if(!$publicDisk->exists($head)){
+            $headContent = file_get_contents($user->getAvatar());
+            $publicDisk->put($head, $headContent);
+        }
 
-        $file = "shoukuma/{$user->getId()}.jpeg";
-        $publicDisk = \Storage::disk('public')->put($file, $shoukumaQrCode);
+        $shoukumaQrCode = Storage::disk('oss_activity')->get("2018chunjie/shoukuanma/{$user->getId()}.jpeg");
+        $shoukuanma = "shoukuma/{$user->getId()}.jpeg";
+        $publicDisk->put($shoukuanma, $shoukumaQrCode);
 
         $imagine = new \Imagine\Gd\Imagine();
         $bgi = $imagine->open(__DIR__ . "/chunjie2018Bg/WechatIMG3.jpeg");
 
-        $cji = $imagine->open($publicDisk);
-        $bgi->paste($cji, new \Imagine\Image\Point(371, 1467));
+        $headi = $imagine->open($publicDisk->path($head));
+        $bgi->paste($headi, new \Imagine\Image\Point(322, 704));
+
+        $palette = new Imagine\Image\Palette\RGB();
+        $font = new \Imagine\Gd\Font(__DIR__ . '/chunjie2018Bg/SY.ttf', '30', $palette->color('#fff'));
+        $bgi->draw()->text($user->getNickname(), $font, new \Imagine\Image\Point(500,1180), 0, 480);
+
+        $shoukumai = $imagine->open($publicDisk->path($shoukuanma));
+        $bgi->paste($shoukumai, new \Imagine\Image\Point(371, 1467));
+
         $users = "users/{$user->getId()}.jpeg";
-//        $bgi->save(__DIR__ . '/cj4.jpg');
+        $publicDisk->put($users, '');
         $bgi->save(Storage::disk('public')->path($users));
 
-        \Storage::disk('oss_activity')->put("2018chunjie/users/{$this->openId}.jpeg", file_get_contents(Storage::disk('public')->path($users)));
+        \Storage::disk('oss_activity')->put("2018chunjie/users/{$user->getId()}.jpeg", file_get_contents(Storage::disk('public')->path($users)));
 
-        return response()->json(['image' => \Storage::disk('oss_activity')->path("2018chunjie/users/{$this->openId}.jpeg")]);
+        return response()->json(['image' => \Storage::disk('oss_activity')->url("2018chunjie/users/{$user->getId()}.jpeg")]);
     });
 });

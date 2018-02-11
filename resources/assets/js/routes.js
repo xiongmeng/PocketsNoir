@@ -19,6 +19,11 @@ export default new VueRouter({
             name:"select",
             path:'/select',
             component: resolve =>void(require(['./components/select.vue'], resolve))
+        },
+        {
+            name:"share",
+            path:'/share/:image',
+            component: resolve =>void(require(['./components/share.vue'], resolve))
         }
     ]
 })

@@ -6,7 +6,7 @@
             </el-row>
         </template>
         <el-row>
-            <el-col :span="6" :offset="3"><el-button type="danger"><router-link to="select">下一步</router-link></el-button></el-col>
+            <el-col :span="6" :offset="3"><el-button type="danger" @click="generate">下一步</el-button></el-col>
         </el-row>
     </div>
 </template>
@@ -15,6 +15,7 @@
 
     export default {
         mounted() {
+            console.log(window.location.href.split('?')[1])
             console.log('Component mounted.')
         },
         data (){
@@ -49,8 +50,7 @@
                     "/generate?name=" + that.options[that.selected].name,
                     {},
                     function (data) {
-                        
-                        console.log(arguments);
+                        that.$router.push('/share/' + encodeURIComponent(data.image));
                     }
                 );
             }
