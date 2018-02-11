@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\JobBuffer;
+use App\Libiary\Utility\CurlWrapper;
 use App\Services\YouZanService;
 use EasyWeChat\Kernel\Http\StreamResponse;
 use Endroid\QrCode\QrCode;
@@ -37,13 +38,12 @@ class RegenerateShouKuanQrcode extends Job
         $user = \EasyWeChat::officialAccount()->user->get($this->openId);
         $publicDisk = \Storage::disk('public');
         \Log::info("GetHeadImgUrlBegin");
-        $headContent = file_get_contents($user['headimgurl']);
+        $headContent = CurlWrapper::curlGet($user['headimgurl']);
         $file = "{$user['openid']}.jpeg";
         $publicDisk->put($file, $headContent);
         \Log::info("GetHeadImgUrlEnd");
 
         $headPath = $publicDisk->path($file);
-
 
         \Log::info("QrCodeBegin");
         $writer = new QrCode($cjt);

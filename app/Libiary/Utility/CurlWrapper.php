@@ -151,8 +151,8 @@ class CurlWrapper
     public static function curlGet($url){
         $curl = curl_init();
         // 设置你需要抓取的URL
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1); //连接超时
-        curl_setopt($curl, CURLOPT_TIMEOUT, 3); //执行超时
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10); //连接超时
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30); //执行超时
         curl_setopt($curl, CURLOPT_URL, $url); //访问的url
         curl_setopt($curl, CURLOPT_HTTPHEADER , array('Expect:'));
         curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);

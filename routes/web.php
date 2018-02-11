@@ -132,7 +132,7 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         $publicDisk = \Storage::disk('public');
         $head = "{$user['openid']}.jpeg";
         if(!$publicDisk->exists($head)){
-            $headContent = file_get_contents($user->getAvatar());
+            $headContent = \App\Libiary\Utility\CurlWrapper::curlGet($user->getAvatar());
             $publicDisk->put($head, $headContent);
         }
 
