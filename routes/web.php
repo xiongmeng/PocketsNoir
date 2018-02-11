@@ -101,8 +101,23 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         /** @var $user \Overtrue\Socialite\User */
         $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
 //        $cfg = EasyWeChat::officialAccount()->jssdk->buildConfig(array('chooseImage', 'previewImage', 'uploadImage'), true);
+//        return response()->json($user->toArray());
+
         return view('2018chunjie.entry', ['user' => $user]);
     });
 
+    Route::post('/shoukuanma', function(){
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default');
+        $serverId = request()->post('serverId');
 
+        return response()->json($user->toArray());
+    });
+
+    Route::post('/generate', function(){
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default');
+
+        return response()->json(['image' => 'https://res.wx.qq.com/mpres/htmledition/images/advanced/dev_code3a7b38.jpg']);
+    });
 });

@@ -14,5 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'youzan/push',
         'guanjiapo/push',
+        'shoukuanma'
     ];
 }

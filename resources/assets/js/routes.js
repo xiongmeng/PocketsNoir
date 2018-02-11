@@ -14,6 +14,11 @@ export default new VueRouter({
             name:"upload",
             path:'/upload',
             component: resolve =>void(require(['./components/upload.vue'], resolve))
+        },
+        {
+            name:"select",
+            path:'/select',
+            component: resolve =>void(require(['./components/select.vue'], resolve))
         }
     ]
 })
