@@ -59,7 +59,7 @@
                                     "/shoukuanma?serverId=" + mediaId,
                                     {},
                                     function () {
-                                        that.setout = setInterval("that.queryQrcode(mediaId)", 1000);
+                                        that.setout = setInterval(that.queryQrcode(mediaId), 1000);
 
                                     }
                                 );
@@ -82,11 +82,13 @@
 
                 }
                 $.ajax({
-                    url : "/qrcode?serverId=" + mediaId,
+                    url : "/qrcode?serverId=" + serverId,
                     type : 'get'
                 }).done(function (data){
-                    // if(data.)
-                    //TBD 循环
+                    if(data.image){
+                        that.shoukuanma = data.image;
+                        clearInterval(that.setout);
+                    }
                 });
             }
         }
