@@ -118,9 +118,9 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
     Route::post('/shoukuanma', function(){
         /** @var $user \Overtrue\Socialite\User */
         $user = session('wechat.oauth_user.default');
-        $serverId = request()->post('serverId');
+        $serverId = request()->get('serverId');
 
-        dispatch(new \App\Jobs\RegenerateShouKuanQrcode($user->getId(), $serverId));
+        dispatch(new \App\Jobs\RegenerateShouKuanQrcode($user->getId(), $serverId))->onConnection('database');
 
         return response()->json($user->toArray());
     });
