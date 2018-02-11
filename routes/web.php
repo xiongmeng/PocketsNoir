@@ -120,7 +120,7 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         $user = session('wechat.oauth_user.default');
         $serverId = request()->get('serverId');
 
-        dispatch(new \App\Jobs\RegenerateShouKuanQrcode($user->getId(), $serverId))->onConnection('database');
+        dispatch(new \App\Jobs\RegenerateShouKuanQrcode($user->getId(), $serverId))->onConnection('database')->onQueue('h5');
 
         return response()->json($user->toArray());
     });
