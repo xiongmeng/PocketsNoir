@@ -130,7 +130,7 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         $user = session('wechat.oauth_user.default');
 
         $publicDisk = \Storage::disk('public');
-        $head = "{$user['openid']}.jpeg";
+        $head = "{$user->getId()}.jpeg";
         if(!$publicDisk->exists($head)){
             $headContent = file_get_contents($user->getAvatar());
             $publicDisk->put($head, $headContent);
