@@ -16,7 +16,7 @@ class GuanJiaPoService
         $md5Before = "{$sercet}{$mobile}{$date}";
         $md5 = strtoupper(md5($md5Before));
 
-        $resStr = CurlWrapper::get(['mobile' => $mobile, 'MD5' => $md5], $url);
+        $resStr = CurlWrapper::get(['mobile' => $mobile, 'signature' => $md5], $url);
 
         $resJson = json_decode($resStr, true);
         if(empty($resJson['Code']) || $resJson['Code'] <> 1){
@@ -33,7 +33,7 @@ class GuanJiaPoService
         $date = date("Ymd");
         $md5 = strtoupper(md5("{$sercet}{$mobile}{$cardName}{$date}"));
 
-        $resStr = CurlWrapper::get(['mobile' => $mobile, 'MD5' => $md5, 'card_name' => $cardName],$url);
+        $resStr = CurlWrapper::get(['mobile' => $mobile, 'signature' => $md5, 'card_name' => $cardName],$url);
 
         $resJson = json_decode($resStr, true);
         if(empty($resJson['Code']) || $resJson['Code'] <> 1){

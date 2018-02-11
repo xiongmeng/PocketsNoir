@@ -34,9 +34,13 @@ class Vip extends Model
 
     public static $ChannelCardMaps = [
         '普客' => self::CARD_1,
-        '机场员工' => self::CARD_2,
+        '机场员工' => self::CARD_4,
 //        '多彩筹1份' => self::CARD_2,
         '特殊渠道' => '特殊渠道'
+    ];
+
+    public static $jiChangChannelCardMaps = [
+        '机场员工' => self::CARD_4,
     ];
 
     public static $channelMaps = [

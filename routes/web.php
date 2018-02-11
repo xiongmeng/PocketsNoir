@@ -53,7 +53,12 @@ Route::any('/dispatchCard', function (){
             $vip->manual_marked = \App\Vip::$channelMaps[$channel];
             $vip->save();
         }else{
-            throw new Exception("会员卡已经存在！" . json_encode($vip->toArray()));
+            Log::info("AdjustCardLevelAsCardExisted", ['before' => $vip->toArray(),
+                'now' => ['card'=>$card, 'manual_marked' => \App\Vip::$channelMaps[$channel]]]);
+            $vip->card = $card;
+            $vip->manual_marked = \App\Vip::$channelMaps[$channel];
+//            throw new Exception("会员卡已经存在！" . json_encode($vip->toArray()));
+            $vip->save();
         }
 
         dispatch(new \App\Jobs\RecalculateVip($mobile))->onConnection('sync');
@@ -63,6 +68,10 @@ Route::any('/dispatchCard', function (){
     }else{
         return view('dispatchCard');
     }
+});
+
+Route::get('/dispatchCardFotJiChang', function (){
+    return view('dispatchCardForJiChang');
 });
 
 Route::any('/refreshCard', function (){

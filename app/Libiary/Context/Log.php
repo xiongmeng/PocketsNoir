@@ -115,6 +115,10 @@ class Log
      */
     public function recordEntry(EntryBase $entry, $data)
     {
+        if(!$this->isInit){
+            return false;
+        }
+
         $name = $entry->name();
         $key = $entry->getIdentity();
 
