@@ -161,4 +161,16 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
 
         return response()->json(['image' => \Storage::disk('oss_activity')->url("2018chunjie/users/{$user->getId()}.jpeg")]);
     });
+
+    Route::get('/qrcode', function () {
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+
+        $file = "2018chunjie/shoukuanma/{$user->getId()}.jpeg";
+        $ossDisk = \Storage::disk('oss_activity');
+
+        $image = $ossDisk->has($file) ? $ossDisk->url($file) : '';
+
+        return view('2018chunjie.entry', ['image' => $image]);
+    });
 });
