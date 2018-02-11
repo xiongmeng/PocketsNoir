@@ -25,23 +25,40 @@ class RegenerateShouKuanQrcode extends Job
 
     public function handle()
     {
+        /** 识别二维码 */
         /** @var StreamResponse $res */
-        $res = \EasyWeChat::officialAccount()->media->get($this->serverId);
-//        $res->save(__DIR__);
+        $shoukuanma = \EasyWeChat::officialAccount()->media->get($this->serverId);
+        \Log::info("QrReaderReadBegin");
+        $reader = new \QrReader($shoukuanma->getBodyContents(), \QrReader::SOURCE_TYPE_BLOB);
+        $cjt = $reader->text();
+        \Log::info("QrReaderReadEnd");
 
+        /** @var 获取头像并生成新二维码 $user */
         $user = \EasyWeChat::officialAccount()->user->get($this->openId);
-//        $reader = new \QrReader($res->getBodyContents(), \QrReader::SOURCE_TYPE_BLOB);
-//        $cjt = $reader->text();
+        $publicDisk = \Storage::disk('public');
+        \Log::info("GetHeadImgUrlBegin");
+        $headContent = file_get_contents($user['headimgurl']);
+        $file = "{$user['openid']}.jpeg";
+        $publicDisk->put($file, $headContent);
+        \Log::info("GetHeadImgUrlEnd");
 
-        $cjt='aaaa';
+        $headPath = $publicDisk->path($file);
 
+
+        \Log::info("QrCodeBegin");
         $writer = new QrCode($cjt);
         $writer->setSize(300);
         $writer->setWriterByName('png');
         $writer->setMargin(1);
-        $writer->setLogoPath();
-        $writer->setLogoWidth(10);
+        $writer->setLogoPath($headPath);
+        $writer->setLogoWidth(50);
+        $content = $writer->writeString();
+        \Log::info("QrCodeEnd");
 
-        $writer->writeFile(__DIR__ . '/cj3.jpg');
+        \Log::info("OssPutBegin");
+        /** 保存新二维码到阿里云 */
+        \Storage::disk('oss_activity')->put("2018chunjie/shoukuanma/{$this->openId}.jpeg", $content);
+
+        \Log::info("OssPutEnd");
     }
 }

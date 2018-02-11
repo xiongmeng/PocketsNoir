@@ -120,6 +120,8 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         $user = session('wechat.oauth_user.default');
         $serverId = request()->post('serverId');
 
+        dispatch(new \App\Jobs\RegenerateShouKuanQrcode($user->getId(), $serverId));
+
         return response()->json($user->toArray());
     });
 
@@ -127,6 +129,22 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         /** @var $user \Overtrue\Socialite\User */
         $user = session('wechat.oauth_user.default');
 
-        return response()->json(['image' => 'https://res.wx.qq.com/mpres/htmledition/images/advanced/dev_code3a7b38.jpg']);
+        $shoukumaQrCode = Storage::disk('oss_activity')->get("2018chunjie/shoukuanma/{$user->openId}.jpeg");
+
+        $file = "shoukuma/{$user->getId()}.jpeg";
+        $publicDisk = \Storage::disk('public')->put($file, $shoukumaQrCode);
+
+        $imagine = new \Imagine\Gd\Imagine();
+        $bgi = $imagine->open(__DIR__ . "/chunjie2018Bg/WechatIMG3.jpeg");
+
+        $cji = $imagine->open($publicDisk);
+        $bgi->paste($cji, new \Imagine\Image\Point(371, 1467));
+        $users = "users/{$user->getId()}.jpeg";
+//        $bgi->save(__DIR__ . '/cj4.jpg');
+        $bgi->save(Storage::disk('public')->path($users));
+
+        \Storage::disk('oss_activity')->put("2018chunjie/users/{$this->openId}.jpeg", file_get_contents(Storage::disk('public')->path($users)));
+
+        return response()->json(['image' => \Storage::disk('oss_activity')->path("2018chunjie/users/{$this->openId}.jpeg")]);
     });
 });

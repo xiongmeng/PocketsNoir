@@ -180,6 +180,7 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         \Overtrue\LaravelWeChat\ServiceProvider::class,
         'Folklore\Image\ImageServiceProvider',
+        Jacobcyl\AliOSS\AliOssServiceProvider::class,
     ],
 
     /*

@@ -60,6 +60,9 @@ class ImagineTest extends TestCase
         $writer->setSize(300);
         $writer->setWriterByName('png');
         $writer->setMargin(1);
+        $writer->setLogoPath(__DIR__ . '/132.jpeg');
+//        $writer->setLogoPath('');
+        $writer->setLogoWidth(50);
         $writer->writeFile(__DIR__ . '/cj3.jpg');
 
 //        $reader = new \QrReader($xm);
