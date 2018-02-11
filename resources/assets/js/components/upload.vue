@@ -76,7 +76,7 @@
             },
             queryQrcode: function (serverId) {
                 var that= this;
-                this.queryCount +=1;
+                this.queryCount++;
                 if(that.queryCount >5){
                     clearInterval(that.setout )
 
