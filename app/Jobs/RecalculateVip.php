@@ -64,6 +64,17 @@ class RecalculateVip extends Job
                 $consumeGuanJiaPo += $gjpTrade['totalinmoney'];
             }
         }
+        $gjpTuiHuoTrades = [];
+        try{
+//            需要捕获零售单不存在的情况
+            $gjpTuiHuoTrades = GuanJiaPoService::getLingShouTuiHuoDanByMobile($mobile);
+        }catch (\Exception $e){
+            FactException::instance()->recordException($e);
+        }
+        foreach ($gjpTuiHuoTrades as $gjpTuiHuoTrade){
+            $consumeGuanJiaPo -= $gjpTuiHuoTrade['totalmoney'];
+        }
+
         $consume = $consumeYouZan + $consumeGuanJiaPo;
 
         $targetVip = Vip::CARD_1;

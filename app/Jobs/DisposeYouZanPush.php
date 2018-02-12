@@ -67,7 +67,7 @@ class DisposeYouZanPush extends Job
                 if($data['account_type'] == 'YouZanAccount'){
 //                    JobBuffer::addYouZanParseUid($data['account_id']);
                     if($json['status'] == 'CUSTOMER_UPDATED'){
-                        dispatch(new DisposeChangesWithYZUid($data['account_id']))->onConnection('sync');
+                        dispatch(new DisposeChangesWithYZUid($data['account_id']))->onConnection('database');
                     }else{
                         JobBuffer::addYouZanParseUid($data['account_id']);
                     }

@@ -25,6 +25,23 @@ class GuanJiaPoService
         return $resJson['Data'];
     }
 
+    public static function getLingShouTuiHuoDanByMobile($mobile)
+    {
+        $url = env('GUANJIAPO_HOST') . '/tdy/RefundRBbyVip/RefundRBbyVip';
+
+        $sercet = "Grasp010-00333";
+        $date = date("Ymd");
+        $signature = strtoupper(md5("{$sercet}{$mobile}{$date}"));
+
+        $resStr = CurlWrapper::get(['mobile' => $mobile, 'signature' => $signature], $url);
+
+        $resJson = json_decode($resStr, true);
+        if(empty($resJson['Code']) || $resJson['Code'] <> 1){
+            throw new \Exception("管家婆接口调用错误：" . $resJson['Msg'], $resJson['Code']);
+        }
+        return $resJson['Data'];
+    }
+
     public static function grantVip($mobile, $cardName)
     {
         $url = env('GUANJIAPO_HOST') . '/tdy/VipAuthorization/VipAuthorization';

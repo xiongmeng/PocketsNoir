@@ -86,8 +86,8 @@ POST;
 
     public function testRecalculateVip()
     {
-        dispatch(new DisposeChangesWithYZUid('561305219'))->onConnection('sync');
-        dispatch(new RecalculateVip('13916011863'))->onConnection('sync');
+//        dispatch(new DisposeChangesWithYZUid('561305219'))->onConnection('sync');
+        dispatch(new RecalculateVip('15911094367'))->onConnection('sync');
     }
 
     public function testGuanJiaPoAddCardUnExist()

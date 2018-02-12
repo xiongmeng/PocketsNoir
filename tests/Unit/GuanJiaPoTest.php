@@ -77,15 +77,16 @@ class GuanJiaPoTest extends TestCase
 
     public function testRefundRBbyVip()
     {
-        $sercet = "Grasp010-00333";
-        $mobile = '15911094367';
-        $date = date("Ymd");
-        $signature = strtoupper(md5("{$sercet}{$mobile}{$date}"));
-
-        $res = CurlWrapper::get(['mobile' => $mobile, 'signature' => $signature],
-            "http://120.76.188.76:82/tdy/RefundRBbyVip/RefundRBbyVip");
-
-        print_r($res);
+//        $sercet = "Grasp010-00333";
+//        $mobile = '17687917185';
+//        $date = date("Ymd");
+//        $signature = strtoupper(md5("{$sercet}{$mobile}{$date}"));
+//
+//        $res = CurlWrapper::get(['mobile' => $mobile, 'signature' => $signature],
+//            "http://120.76.188.76:81/tdy/RefundRBbyVip/RefundRBbyVip");
+//
+//        print_r($res);
+        $res = GuanJiaPoService::getLingShouTuiHuoDanByMobile('15911094367');
     }
 
 }
