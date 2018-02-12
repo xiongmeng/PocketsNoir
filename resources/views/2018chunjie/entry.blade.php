@@ -15,10 +15,22 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
+        <style type="text/css"> 
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            html,body{
+                font-size:100%;
+                /*background-size:100%;*/
+                height: 100%;
+                width: 100%;
+                background-size:100% 100%; 
+            }
+        </style>
     </head>
 
-    <body style="background:url(http://pn-activity.oss-cn-shenzhen.aliyuncs.com/program/bg.jpeg)">
+    <body style="background:url(http://pn-activity.oss-cn-shenzhen.aliyuncs.com/program/bg.jpeg) repeat">
     <div id="app"></div>
     </body>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
@@ -33,5 +45,6 @@
             openid: "<?= $user->getId()?>"
         }
     </script>
+    <!-- <script src="/node_modules/vue/vue.min.js?v=3" type="text/javascript"></script> -->
     <script src="/js/app.js?v=3" type="text/javascript"></script>
 </html>

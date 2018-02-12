@@ -180,6 +180,6 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
 
         $image = $ossDisk->has($file) ? $ossDisk->url($file) : '';
 
-        return view('2018chunjie.entry', ['image' => $image]);
+        return response()->json(['image' => $image]);
     });
 });

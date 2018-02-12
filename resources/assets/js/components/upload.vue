@@ -29,7 +29,8 @@
                 avatar : Constant.avatar,
                 nickname: Constant.nickname,
                 shoukuanma: 'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo_top_ca79a146.png',
-                queryCount: 0
+                queryCount: 0,
+                setout:'',
             }
         },
         methods:{
@@ -58,7 +59,8 @@
                                     "/shoukuanma?serverId=" + mediaId,
                                     {},
                                     function () {
-                                        setTimeout("that.queryQrcode(mediaId)", 1000);
+                                        that.setout = setInterval(that.queryQrcode(mediaId), 1000);
+
                                     }
                                 );
 
@@ -73,12 +75,20 @@
                 });
             },
             queryQrcode: function (serverId) {
+                var that= this;
+                this.queryCount++;
+                if(that.queryCount >5){
+                    clearInterval(that.setout )
+
+                }
                 $.ajax({
-                    url : "/qrcode?serverId=" + mediaId,
+                    url : "/qrcode?serverId=" + serverId,
                     type : 'get'
                 }).done(function (data){
-                    // if(data.)
-                    //TBD 循环
+                    if(data.image){
+                        that.shoukuanma = data.image;
+                        clearInterval(that.setout);
+                    }
                 });
             }
         }
