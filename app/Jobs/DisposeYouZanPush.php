@@ -28,6 +28,9 @@ class DisposeYouZanPush extends Job
     public function handle()
     {
         $json = json_decode($this->post, true);
+        if(empty($json['type'])){
+            return;
+        }
 
         switch ($json['type']){
             case 'TRADE_ORDER_STATE':   //新版交易时间回调

@@ -87,8 +87,13 @@ Route::any('/refreshCard', function (){
 });
 
 Route::post('/youzan/push', function () {
-    $rawPostData = file_get_contents("php://input");
-    dispatch(new \App\Jobs\DisposeYouZanPush($rawPostData))->onConnection('sync');
+    try{
+        $rawPostData = file_get_contents("php://input");
+        dispatch(new \App\Jobs\DisposeYouZanPush($rawPostData))->onConnection('sync');
+    }catch (Exception $e){
+        Log::info($e);
+    }
+
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
 
