@@ -62,8 +62,8 @@ class GuanJiaPoTest extends TestCase
     public function testModifyIntegral()
     {
         $sercet = "Grasp010-00335";
-        $mobile = '18611367408';
-        $integral = '100';
+        $mobile = '15911094367';
+        $integral = '120';
         $date = date("Ymd");
         $signature = strtoupper(md5("{$sercet}{$mobile}{$integral}{$date}"));
 

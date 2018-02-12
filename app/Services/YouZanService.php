@@ -105,6 +105,17 @@ class YouZanService
         return $response;
     }
 
+    public static function userPointsSync($mobile, $points)
+    {
+        $response = (new Client(YouZanService::accessToken()))->post(
+            'youzan.crm.customer.points.sync', '3.0.0', [
+            'mobile' => $mobile,
+            'points' => $points,
+            'reason' => '同步积分'
+        ]);
+        return $response;
+    }
+
     public static function getCustomerInfoByCardNo($cardNo)
     {
         $response = (new Client(YouZanService::accessToken()))->get(

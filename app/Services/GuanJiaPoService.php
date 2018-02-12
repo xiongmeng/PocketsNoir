@@ -58,4 +58,24 @@ class GuanJiaPoService
         }
         return $resJson;
     }
+
+    public static function syncPoints($mobile, $points)
+    {
+        $url = env('GUANJIAPO_HOST') . '/tdy/Integral/ModifyIntegral';
+
+        $sercet = "Grasp010-00335";
+        $date = date("Ymd");
+        $signature = strtoupper(md5("{$sercet}{$mobile}{$points}{$date}"));
+
+        $resStr = CurlWrapper::get(
+            ['vipcardcode' => $mobile, 'signature' => $signature, 'integral' => strval($points)],
+            $url);
+
+        $resJson = json_decode($resStr, true);
+        if(!isset($resJson['status']) || $resJson['status'] <> 0){
+            throw new \Exception("管家婆接口调用错误：" . $resJson['message'], $resJson['status']);
+        }
+        return $resJson;
+        }
 }
+

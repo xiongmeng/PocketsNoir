@@ -31,7 +31,7 @@ class YouZanTest extends TestCase
 
         $params = [
 //            'alias' => 'fa8989ad342k',
-            'buyer_id' => '719428369',
+            'buyer_id' => '737287904',
         ];
 
         $response = $client->get($method, $apiVersion, $params);
@@ -348,4 +348,42 @@ class YouZanTest extends TestCase
         var_dump($result);
     }
 
+    public function testPointsSync()
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.crm.customer.points.sync';
+        $apiVersion = '3.0.0';
+
+        $params = [
+            'mobile' => '18611367408',
+            'points' => 6,
+            'reason' => '同步积分'
+        ];
+
+        $response = $client->post($method, $apiVersion, $params);
+        $result = $response['response'];
+        var_dump($result);
+    }
+
+    public function testPointsGet()
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.crm.fans.points.get';
+        $apiVersion = '3.0.0';
+
+        $params = [
+            'mobile' => '18611367408'
+//            'account' => json_encode(["account_type"=>"Mobile", "account_id"=>"18611367408"]),
+//            'account' => '{"account_type":"Mobile", "account_id":"18611367408"}',
+//            'customer_update' => json_encode(["contact_address"=>['address' => '北京']])
+        ];
+
+        $response = $client->get($method, $apiVersion, $params);
+        $result = $response['response'];
+        var_dump($result);
+    }
 }

@@ -104,8 +104,9 @@ class RecalculateVip extends Job
         $vip->save();
 
         /**
-         * 同步卡
+         * 同步卡和积分
          */
         dispatch(new SyncVip($mobile))->onConnection('sync');
+        dispatch(new SyncPoints($mobile))->onConnection('sync');
     }
 }
