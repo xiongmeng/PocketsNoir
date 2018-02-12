@@ -1,19 +1,19 @@
 <template>
     <div class="container">
         <el-row :gutter="20">
-            <el-col :span="6" :offset="3"><img v-bind:src="avatar"></el-col>
+            <el-col :span="6" :offset="3" class="userPhone"><img  v-bind:src="avatar"></el-col>
         </el-row>
         <el-row :gutter="20">
-            <el-col :span="6" :offset="3"><div class="grid-content bg-purple">{{nickname}}</div></el-col>
+            <el-col :span="6" :offset="3"  class="userName"><div class="grid-content bg-purple">{{nickname}}</div></el-col>
         </el-row>
         <el-row :gutter="20">
-             <el-col :span="6" :offset="3"><div class="grid-content bg-purple"><el-button type="danger" @click="choose">上传二维收款码</el-button></div></el-col>
+             <el-col :span="6" :offset="3" class="codeBth"><div class="grid-content bg-purple"><el-button type="danger" @click="choose">上传二维收款码</el-button></div></el-col>
         </el-row>
+        <!--<el-row>-->
+            <!--<el-col :span="6" :offset="3"><img width="300px" height="300px" v-bind:src="shoukuanma"></el-col>-->
+        <!--</el-row>-->
         <el-row>
-            <el-col :span="6" :offset="3"><img width="300px" height="300px" v-bind:src="shoukuanma"></el-col>
-        </el-row>
-        <el-row>
-            <el-col :span="6" :offset="3"><el-button type="danger"><router-link to="select">下一步</router-link></el-button></el-col>
+            <el-col :span="6" class="nextBtn" :offset="3"><el-button type="danger"><router-link to="select">下一步</router-link></el-button></el-col>
         </el-row>
     </div>
 </template>
@@ -59,8 +59,9 @@
                                     "/shoukuanma?serverId=" + mediaId,
                                     {},
                                     function () {
-                                        that.setout = setInterval(that.queryQrcode(mediaId), 1000);
-
+                                        if (that.queryCount < 5) {
+                                            that.setout=setInterval(function(){that.queryQrcode( mediaId);that.queryCount++}, 1000);
+                                        }
                                     }
                                 );
 
@@ -76,10 +77,10 @@
             },
             queryQrcode: function (serverId) {
                 var that= this;
-                this.queryCount++;
-                if(that.queryCount >5){
-                    clearInterval(that.setout )
-
+                // this.queryCount++;
+                console.log(this.queryCount)
+                if (that.queryCount > 5) {
+                    clearInterval(that.setout)
                 }
                 $.ajax({
                     url : "/qrcode?serverId=" + serverId,
@@ -94,3 +95,49 @@
         }
     }
 </script>
+<style>
+    .userPhone{
+        width: 132px;
+        height: 132px;
+        margin: 100px auto 0;
+        padding: 0 !important;
+        float: inherit;
+        box-sizing: content-box;
+        border-radius: 50%;
+        overflow:hidden;
+    }
+    .userPhone img{
+        width: 100%;
+        height: 100%;
+    }
+    .userName{
+        text-align: center;
+        color:white;;
+        font-size: 18px;
+        line-height: 35px;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    .codeBth{
+        float: inherit;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    .codeBth button{
+        margin: 0 auto 50px;
+        display: block;
+    }
+    .nextBtn{
+        float: inherit;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    .nextBtn button{
+        margin: 0 auto;
+        display: block;
+    }
+</style>
