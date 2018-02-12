@@ -60,7 +60,7 @@
                                     {},
                                     function () {
                                         if (that.queryCount < 5) {
-                                            that.setout=setInterval(function(){that.queryQrcode( mediaId);that.queryCount++}, 1000);
+                                            that.setout=setInterval(function(){that.queryQrcode( mediaId);that.queryCount++}, 2000);
                                         }
                                     }
                                 );
@@ -88,7 +88,9 @@
                 }).done(function (data){
                     if(data.image){
                         that.shoukuanma = data.image;
+                        alert(data.image)
                         clearInterval(that.setout);
+
                     }
                 });
             }
