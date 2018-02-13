@@ -1,9 +1,37 @@
 <template>
     <div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">
-        <el-row :gutter="20">
+
+        <div class="el-row" style="margin-left: -10px; margin-right: -10px;">
+            <div class="userPhone el-col el-col-6 el-col-offset-3" style="padding-left: 10px; padding-right: 10px;">
+                <img  v-bind:src="avatar">
+            </div>
+        </div>
+       <!--  <el-row :gutter="20">
             <el-col :span="6" :offset="3" class="userPhone"><img  v-bind:src="avatar"></el-col>
-        </el-row>
-        <el-row :gutter="20">
+        </el-row> -->
+        <div class="el-row" style="margin-left: -10px; margin-right: -10px;">
+            <div class="userName el-col el-col-6 el-col-offset-3" style="padding-left: 10px; padding-right: 10px;">
+                <div class="grid-content bg-purple">{{nickname}}</div>
+            </div>
+        </div>
+        <div class="el-row" style="margin-left: -10px; margin-right: -10px;">
+            <div class="codeBth el-col el-col-6 el-col-offset-3" style="padding-left: 10px; padding-right: 10px;">
+                <div class="grid-content bg-purple crod" style="height: 65px;">
+                    <button type="button" class="el-button el-button--danger" v-on:click='choose'><!----><!----><span>上传二维收款码</span></button>
+                </div>
+            </div>
+        </div>
+        <div class="el-row"  v-if="shoukuanma">
+            <div class="el-col el-col-6 width" style="margin: 0px auto; float: none;" v-if="shoukuanma">
+                <img width="100px" height="100px" v-bind:src="shoukuanma">
+            </div>
+        </div>
+        <div class="el-row"  v-if="shoukuanma">
+            <div class="nextBtn el-col el-col-6 el-col-offset-3" style="margin-top: 20px;" v-on:click="ahrefupload">
+                <button type="button" class="el-button el-button--danger"><!----><!----><span><a href="#/share" class="">下一步</a></span></button>
+            </div>
+        </div>
+       <!--  <el-row :gutter="20">
             <el-col :span="6" :offset="3"  class="userName"><div class="grid-content bg-purple">{{nickname}}</div></el-col>
         </el-row>
         <el-row :gutter="20">
@@ -13,8 +41,8 @@
             <el-col :span="6" style="margin: 0 auto; float: none"><img width="100px" height="100px" v-if="shoukuanma" v-bind:src="shoukuanma"></el-col>
         </el-row>
         <el-row>
-            <el-col v-if="shoukuanma" :span="6" class="nextBtn" :offset="3" style="    margin-top: 20px;"><el-button type="danger"><router-link to="select">下一步</router-link></el-button></el-col>
-        </el-row>
+            <el-col v-if="shoukuanma" :span="6" class="nextBtn" :offset="3" style="    margin-top: 20px;" v-on:click="ahrefupload"><el-button type="danger"><router-link to="share">下一步</router-link></el-button></el-col>
+        </el-row> -->
     </div>
 </template>
 
@@ -35,6 +63,9 @@
             }
         },
         methods:{
+            ahrefupload(){
+                this.$router.push({ path: '/share' })
+            },
             choose: function () {
                 console.log("has click the choose!");
                 var that = this;
@@ -56,7 +87,8 @@
                                 console.log("获取到mediaId:" + mediaId);
 
                                 that.queryCount = 0;
-                                $.post(
+
+                                        $.post(
                                     "/shoukuanma?serverId=" + mediaId,
                                     {},
                                     function () {
@@ -184,6 +216,10 @@
 
         border-radius: 5px;
 
+    }
+    .width{
+        width: 100px;
+        margin: 0 auto;
     }
 
     /*.crod .el-button--danger{

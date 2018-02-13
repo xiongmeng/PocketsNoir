@@ -1,7 +1,14 @@
 <template>
     <div class="container">
 
-            <img src="/images/collectmoney.png" alt=""  class="collectimg">
+            <img src="/images/Help1.png" >
+            <img src="/images/Help2.png" >
+            <img src="/images/Help3.png" >
+            <img src="/images/Help4.png" >
+            <img src="/images/Help5.png" >
+            <img src="/images/Help6.png" >
+            <img src="/images/Help7.png" >
+            <img src="/images/Help8.png" v-on:click="ahref" >
 
 
     </div>
@@ -20,50 +27,26 @@
         },
         methods:{
             ahref(){
-                this.$router.push({ path: '/upload' })
+                // this.$router.push({ path: '/upload' })
+                window.location.href ='/entry'
             }
         }
     }
 </script>
 <style>
+    .box{
+        background: #606060;
+        overflow-y: auto;
+    }
     .container{
-        width:100%;
+        width:80%;
+        margin: 10px auto;
         height:100%;
         position: relative;
     }
-    .container> .danger{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        overflow: hidden;
-        background: #d5000f;
-
-    }
-    .collectimg{
-        width: 172px;
-        border-radius: 50%;
-        margin-left: -11px;
-        margin-top: -11px;
-
-
-    }
-    .collectcord{
-        position: absolute;
-        top: 70%;
-        /* left: 50%; */
-        /* right: 50%; */
-        color: #f7bc00;
-        margin: auto;
-        text-align: center;
-        height: 20px;
-        width: 200px;
+    img{
+        height: auto;
         width: 100%;
-        line-height: 20px;
-        font-size: 14px;
-
     }
+
 </style>

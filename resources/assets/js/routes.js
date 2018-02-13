@@ -27,7 +27,7 @@ export default new VueRouter({
         },
         {
             name:"codeimg",
-            path:'/share/:image',
+            path:'/codeimg',
             component: resolve =>void(require(['./components/codeimg.vue'], resolve))
         }
     ]
