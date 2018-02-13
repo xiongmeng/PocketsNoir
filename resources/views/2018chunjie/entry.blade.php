@@ -29,7 +29,7 @@
         </style>
     </head>
 
-    <body style="background:url(http://pn-activity.oss-cn-shenzhen.aliyuncs.com/program/bg.jpeg);background-size: 100%;">
+    <body >
     <div id="app" style="width:100%;height:100%;"></div>
     </body>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
@@ -45,5 +45,5 @@
         }
         var num = new Date().getTime();
     </script>
-    <script src="/js/app.js?v=201802121138" type="text/javascript"></script>
+    <script src="/js/app.js?v=201802131539" type="text/javascript"></script>
 </html>
