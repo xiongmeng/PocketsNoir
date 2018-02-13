@@ -1,6 +1,6 @@
 <template>
     <div >
-        <div class="container" >
+        <div class="container"  :style="'background:url('+imgs+')'+';background-size: 100%;'">
             <el-row :gutter="20" style="margin: 0">
                 <!--<el-col :span="6" :offset="3" class="select"><el-button v-bind:type="option.type" @click="select(option, idx)">{{option.name}}</el-button></el-col>-->
                 <el-col :span="6" :offset="3" class="select" style="padding-left: 0;padding-right: 0"><el-button @click="wholesfn">
@@ -37,6 +37,7 @@
         data (){
             return {
                 wholes:false,
+                imgs:"/images/bg.png",
                 options:[
                     {
                         name : '/images/happynewyear.png',
