@@ -5,7 +5,7 @@
             <img src="/images/logo.png" alt="">
              <!--<span class="collect">
             
-                 <!--<router-link to="upload">收红包</router-link>-->
+                 <router-link to="upload">收红包</router-link>-->
              <!--</span>-->
         </div>
         <div class="collectcord" v-on:click="code">如何获取收款二维码图片</div>

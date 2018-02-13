@@ -8,13 +8,14 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+// window.Vue = require('element-ui');
 
-import ElementUI from 'element-ui'
+/*import ElementUI from ''*/
 import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import router from './routes'
 
-Vue.use(ElementUI)
+// Vue.use(ElementUI)
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
