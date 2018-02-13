@@ -48,11 +48,11 @@ class RegenerateShouKuanQrcode extends Job
 
         \Log::info("QrCodeBegin");
         $writer = new QrCode($cjt);
-        $writer->setSize(237);
+        $writer->setSize(300);
         $writer->setWriterByName('png');
         $writer->setMargin(1);
         $writer->setLogoPath($headPath);
-        $writer->setLogoWidth(40);
+        $writer->setLogoWidth(45);
         $content = $writer->writeString();
         \Log::info("QrCodeEnd");
 

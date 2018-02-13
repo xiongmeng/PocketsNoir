@@ -27,17 +27,20 @@ class ChunJie2018H5Service
         $bgi = $imagine->open(__DIR__ . "/ChunJie2018H5/bg/all.jpg");
 
         $headi = $imagine->open($publicDisk->path($head));
-        $headi->resize(new Box(302,302));
-        $bgi->paste($headi, new Point(359,631));
+        $headi->resize(new Box(375,375));
+        $bgi->paste($headi, new Point(350,625));
 
         $noBgi = $imagine->open(__DIR__ . "/ChunJie2018H5/nobg/all.png");
         $bgi->paste($noBgi, new Point(0,0));
 
         $palette = new RGB();
         $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '40', $palette->color('#000'));
-        $bgi->draw()->text($nickname, $font, new Point(402,1170), 0, 480);
+//        $nickname = '哈哈哈哈哈哈哈哈';
+        $box = $font->box($nickname);
+        $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,1175), 0, 2);
 
         $shoukumai = $imagine->open($publicDisk->path($shoukuanma));
+        $shoukumai->resize(new Box(280,280));
         $bgi->paste($shoukumai, new Point(402, 1446));
 
         $users = "users/{$id}.jpeg";
