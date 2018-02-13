@@ -129,7 +129,7 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         $ossDisk = \Storage::disk('oss_activity');
         $ossDisk->delete($file);
 
-        //dispatch(new \App\Jobs\RegenerateShouKuanQrcode($user->getId(), $serverId))->onConnection('database')->onQueue('h5');
+        dispatch(new \App\Jobs\RegenerateShouKuanQrcode($user->getId(), $serverId))->onConnection('database')->onQueue('h5');
 
         return response()->json($user->toArray());
     });
