@@ -5,7 +5,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+// require('./bootstrap');
 
 window.Vue = require('vue');
 
@@ -25,5 +25,6 @@ Vue.use(ElementUI)
 const app = new Vue({
     el: '#app',
     router,
+    imgs:"./img/bg.png",
     render: h =>h(App),
 });

@@ -24,6 +24,11 @@ export default new VueRouter({
             name:"share",
             path:'/share/:image',
             component: resolve =>void(require(['./components/share.vue'], resolve))
+        },
+        {
+            name:"codeimg",
+            path:'/share/:image',
+            component: resolve =>void(require(['./components/codeimg.vue'], resolve))
         }
     ]
 })
