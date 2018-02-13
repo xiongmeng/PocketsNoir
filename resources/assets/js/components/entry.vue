@@ -2,8 +2,9 @@
     <div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">
         <div class="danger" type="danger" v-on:click="ahref" >
             <img src="/images/collectmoney.png" alt=""  class="collectimg">
+            <img src="/images/logo.png" alt="">
              <!--<span class="collect">
-
+            
                  <!--<router-link to="upload">收红包</router-link>-->
              <!--</span>-->
         </div>
