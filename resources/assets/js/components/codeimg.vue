@@ -27,7 +27,8 @@
         },
         methods:{
             ahref(){
-                this.$router.push({ path: '/upload' })
+                // this.$router.push({ path: '/upload' })
+                window.location.href ='/entry'
             }
         }
     }
