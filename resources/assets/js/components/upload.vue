@@ -13,7 +13,7 @@
             <el-col :span="6" style="margin: 0 auto; float: none"><img width="100px" height="100px" v-if="shoukuanma" v-bind:src="shoukuanma"></el-col>
         </el-row>
         <el-row>
-            <el-col v-if="shoukuanma" :span="6" class="nextBtn" :offset="3" style="    margin-top: 20px;" v-on:click="ahrefupload"><el-button type="danger"><router-link to="select">下一步</router-link></el-button></el-col>
+            <el-col v-if="shoukuanma" :span="6" class="nextBtn" :offset="3" style="    margin-top: 20px;" v-on:click="ahrefupload"><el-button type="danger"><router-link to="share">下一步</router-link></el-button></el-col>
         </el-row>
     </div>
 </template>
@@ -36,7 +36,7 @@
         },
         methods:{
             ahrefupload(){
-                this.$router.push({ path: '/select' })
+                this.$router.push({ path: '/share' })
             },
             choose: function () {
                 console.log("has click the choose!");
@@ -59,7 +59,8 @@
                                 console.log("获取到mediaId:" + mediaId);
 
                                 that.queryCount = 0;
-                                $.post(
+
+                                        $.post(
                                     "/shoukuanma?serverId=" + mediaId,
                                     {},
                                     function () {
