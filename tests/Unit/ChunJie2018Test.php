@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Jobs\RegenerateShouKuanQrcode;
+use App\Services\ChunJie2018H5Service;
 use EasyWeChat\Kernel\Http\StreamResponse;
 use Tests\TestCase;
 
@@ -23,5 +24,13 @@ class ChunJie2018Test extends TestCase
 //        $cjt = $reader->text();
 
         dispatch(new RegenerateShouKuanQrcode($openId, $mediaId))->onConnection('sync');
+    }
+
+    public function testGenerate()
+    {
+        $openId = 'op-3Cww_mqGm2Caj6ZeprJrZ1h8Y';
+        $user = \EasyWeChat::officialAccount()->user->get($openId);
+
+        ChunJie2018H5Service::generate($openId, $user['headimgurl'], '熊猛');
     }
 }

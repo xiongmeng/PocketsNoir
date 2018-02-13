@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\JobBuffer;
 use App\Libiary\Utility\CurlWrapper;
+use App\Services\ChunJie2018H5Service;
 use App\Services\YouZanService;
 use EasyWeChat\Kernel\Http\StreamResponse;
 use Endroid\QrCode\QrCode;
@@ -47,11 +48,11 @@ class RegenerateShouKuanQrcode extends Job
 
         \Log::info("QrCodeBegin");
         $writer = new QrCode($cjt);
-        $writer->setSize(300);
+        $writer->setSize(237);
         $writer->setWriterByName('png');
         $writer->setMargin(1);
         $writer->setLogoPath($headPath);
-        $writer->setLogoWidth(50);
+        $writer->setLogoWidth(40);
         $content = $writer->writeString();
         \Log::info("QrCodeEnd");
 
@@ -60,5 +61,9 @@ class RegenerateShouKuanQrcode extends Job
         \Storage::disk('oss_activity')->put("2018chunjie/shoukuanma/{$this->openId}.jpeg", $content);
 
         \Log::info("OssPutEnd");
+
+        \Log::info("LastImgeGenerateBegin");
+        ChunJie2018H5Service::generate($this->openId, $user['headimgurl'], $user['nickname']);
+        \Log::info("LastImgeGenerateEnd");
     }
 }
