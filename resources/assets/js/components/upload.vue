@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">
         <el-row :gutter="20">
             <el-col :span="6" :offset="3" class="userPhone"><img  v-bind:src="avatar"></el-col>
         </el-row>
@@ -7,13 +7,13 @@
             <el-col :span="6" :offset="3"  class="userName"><div class="grid-content bg-purple">{{nickname}}</div></el-col>
         </el-row>
         <el-row :gutter="20">
-             <el-col :span="6" :offset="3" class="codeBth"><div class="grid-content bg-purple"><el-button type="danger" @click="choose">上传二维收款码</el-button></div></el-col>
+             <el-col :span="6" :offset="3" class="codeBth"><div class="grid-content bg-purple crod" style="height: 65px"><el-button type="danger" @click="choose">上传二维收款码</el-button></div></el-col>
         </el-row>
-        <!--<el-row>-->
-            <!--<el-col :span="6" :offset="3"><img width="300px" height="300px" v-bind:src="shoukuanma"></el-col>-->
-        <!--</el-row>-->
         <el-row>
-            <el-col :span="6" class="nextBtn" :offset="3"><el-button type="danger"><router-link to="select">下一步</router-link></el-button></el-col>
+            <el-col :span="6" style="margin: 0 auto; float: none"><img width="100px" height="100px" v-if="shoukuanma" v-bind:src="shoukuanma"></el-col>
+        </el-row>
+        <el-row>
+            <el-col v-if="shoukuanma" :span="6" class="nextBtn" :offset="3" style="    margin-top: 20px;"><el-button type="danger"><router-link to="select">下一步</router-link></el-button></el-col>
         </el-row>
     </div>
 </template>
@@ -28,9 +28,10 @@
             return {
                 avatar : Constant.avatar,
                 nickname: Constant.nickname,
-                shoukuanma: 'https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo_top_ca79a146.png',
+                shoukuanma: '',
                 queryCount: 0,
                 setout:'',
+                imgs:"/images/bg.png",
             }
         },
         methods:{
@@ -98,6 +99,10 @@
     }
 </script>
 <style>
+    .container{
+        height: 100%;
+        width: 100%;
+    }
     .userPhone{
         width: 132px;
         height: 132px;
@@ -115,6 +120,7 @@
     .userName{
         text-align: center;
         color:white;;
+        height: 100px;
         font-size: 18px;
         line-height: 35px;
         text-align: center;
@@ -141,5 +147,53 @@
     .nextBtn button{
         margin: 0 auto;
         display: block;
+        background-color: #f7bc00;
+        border-color: #f7bc00;
+        color: #d5000f;
+        font-width: 600;
+        padding: 10px 32px;
+        border-radius: 5px;
     }
+    .nextBtn button span{
+        color: #d5000f;
+    }
+    a{
+        text-decoration: none;
+        color: #d5000f;
+    }
+    .crod .el-button--danger{
+        background-color: #f7bc00;
+        border-color: #f7bc00;
+        padding: 16px 7px;
+        border-radius: 5px;
+    }
+    .crod .el-button--danger span{
+        color: #fff;
+        padding: 10px 20px;
+        background-color: #d5000f;
+        border-color: #d5000f;
+        color: #f7bc00;
+        font-width: 600;
+
+        border-radius: 5px;
+
+    }
+
+    /*.crod .el-button--danger{
+        background-color: #d5000f;
+        border-color: #d5000f;
+        padding: 16px 7px;
+        border-radius: 5px;
+    }
+    .crod .el-button--danger span{
+        color: #fff;
+        padding: 10px 20px;
+        background-color: #f7bc00;
+        border-color: #f7bc00;
+        color: #d5000f;
+        font-width: 600;
+
+        border-radius: 5px;
+
+    }*/
 </style>

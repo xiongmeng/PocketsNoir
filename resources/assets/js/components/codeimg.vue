@@ -1,13 +1,9 @@
 <template>
-    <div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">
-        <div class="danger" type="danger" v-on:click="ahref" >
-            <img src="/images/collectmoney.png" alt=""  class="collectimg">
-             <!--<span class="collect">
+    <div class="container">
 
-                 <!--<router-link to="upload">收红包</router-link>-->
-             <!--</span>-->
-        </div>
-        <div class="collectcord" v-on:click="code">如何获取收款二维码图片</div>
+            <img src="/images/collectmoney.png" alt=""  class="collectimg">
+
+
     </div>
 </template>
 
@@ -25,9 +21,6 @@
         methods:{
             ahref(){
                 this.$router.push({ path: '/upload' })
-            },
-            code(){
-                this.$router.push({ path: '/codeimg' })
             }
         }
     }
