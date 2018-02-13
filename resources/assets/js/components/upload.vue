@@ -99,9 +99,16 @@
     }
 </script>
 <style>
+    .box{
+        height: 100%;
+        width: 100%;
+        overflow-y: auto;
+        background: url("/images/bg.png") 0% 0% / 100%;
+    }
     .container{
         height: 100%;
         width: 100%;
+        overflow-y: auto;
     }
     .userPhone{
         width: 132px;

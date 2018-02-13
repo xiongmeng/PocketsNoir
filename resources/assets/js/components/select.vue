@@ -1,6 +1,6 @@
 <template>
-    <div >
-        <div class="container"  :style="'background:url('+imgs+')'+';background-size: 100%;'">
+    <div  class="imgpic" :style="'background:url('+imgs+')'+';background-size: 100%;'">
+        <div class="container"  >
             <el-row :gutter="20" style="margin: 0">
                 <!--<el-col :span="6" :offset="3" class="select"><el-button v-bind:type="option.type" @click="select(option, idx)">{{option.name}}</el-button></el-col>-->
                 <el-col :span="6" :offset="3" class="select" style="padding-left: 0;padding-right: 0"><el-button @click="wholesfn">
@@ -115,6 +115,8 @@
                 }
                 if (this.options.lengh == s){
                     this.wholes = true;
+                }else{
+                    this.wholes = false;
                 }
             },
             wholesfn(){
@@ -145,6 +147,12 @@
     }
 </script>
 <style>
+    .imgpic{
+        overflow: hidden;
+        height: 100%;
+        /*min-height: 667px;*/
+    }
+
     .container{
         height: 400px;
         overflow-y: auto;
