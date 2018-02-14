@@ -13,16 +13,20 @@ class RegenerateShouKuanQrcode extends Job
 {
     private $openId = null;
     private $serverId = null;
+    private $avatar = null;
+    private $nickname = null;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($openId, $serverId)
+    public function __construct($openId, $serverId, $avatar, $nickname)
     {
         $this->openId = $openId;
         $this->serverId = $serverId;
+        $this->avatar = $avatar;
+        $this->nickname = $nickname;
     }
 
     public function handle()
@@ -38,12 +42,10 @@ class RegenerateShouKuanQrcode extends Job
             throw new \Exception("解析图片二维码失败!{$this->openId}|||{$this->serverId}");
         }
 
-        /** @var 获取头像并生成新二维码 $user */
-        $user = \EasyWeChat::officialAccount()->user->get($this->openId);
         $publicDisk = \Storage::disk('public');
         \Log::info("GetHeadImgUrlBegin");
-        $headContent = CurlWrapper::curlGet($user['headimgurl']);
-        $file = "{$user['openid']}.jpeg";
+        $headContent = CurlWrapper::curlGet($this->avatar);
+        $file = "{$this->openId}.jpeg";
         $publicDisk->put($file, $headContent);
         \Log::info("GetHeadImgUrlEnd");
 
@@ -66,7 +68,9 @@ class RegenerateShouKuanQrcode extends Job
         \Log::info("OssPutEnd");
 
         \Log::info("LastImgeGenerateBegin");
-        ChunJie2018H5Service::generate($this->openId, $user['headimgurl'], $user['nickname']);
+        /** @var 获取头像并生成新二维码 $user */
+        $user = \EasyWeChat::officialAccount()->user->get($this->openId);
+        ChunJie2018H5Service::generate($this->openId, $this->avatar, $user['nickname'] ?: $this->nickname);
         \Log::info("LastImgeGenerateEnd");
     }
 }

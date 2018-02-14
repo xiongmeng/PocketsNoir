@@ -11,20 +11,20 @@ class ChunJie2018Test extends TestCase
 {
     public function testGenerateShouKuanMa()
     {
-//        $mediaId = 'C5kojyxCzsYrfrvQH9m-Z8HKvjwfF6N-9CQ98EziY09KPDuPlvQLPbh3lP_VNZhu';
-        $mediaId = '8tQvYzIQHoTa1k1MzRp_UcFn_Sh1h8kO42qqPm3Haj3G-y3TLfGBcuBqqBu_vMCy';
-        $openId = 'op-3Cw52uCyfM2XTbvQCCejkkqAI';
+        $mediaId = 'hk5Z2g7Ij435ynQ9z1aHXSzOZzb6LNVwqHuA_moycnG9f_wuKTt9ZrcwONKJeJso';
+//        $mediaId = '8tQvYzIQHoTa1k1MzRp_UcFn_Sh1h8kO42qqPm3Haj3G-y3TLfGBcuBqqBu_vMCy';
+        $openId = 'op-3Cww_mqGm2Caj6ZeprJrZ1h8Y';
 //        /** @var StreamResponse $res */
 //        $res = \EasyWeChat::officialAccount()->media->get($mediaId);
 ////        $res->save(__DIR__);
 //
-//        $user = \EasyWeChat::officialAccount()->user->get('op-3Cww_mqGm2Caj6ZeprJrZ1h8Y');
+        $user = \EasyWeChat::officialAccount()->user->get($openId);
 //        $header = storage_path($user['openid'] . ".jpeg");
 //        file_put_contents($header, file_get_contents($user['headimgurl']));
 //        $reader = new \QrReader($res->getBodyContents(), \QrReader::SOURCE_TYPE_BLOB);
 //        $cjt = $reader->text();
 
-        dispatch(new RegenerateShouKuanQrcode($openId, $mediaId))->onConnection('sync');
+        dispatch(new RegenerateShouKuanQrcode($openId, $mediaId, $user['headimgurl'], $user['nickname']))->onConnection('sync');
     }
 
     public function testGenerate()
