@@ -30,7 +30,7 @@ class ChunJie2018H5Service
         $headi->resize(new Box(375,375));
         $bgi->paste($headi, new Point(350,625));
 
-        $noBgi = $imagine->open(__DIR__ . "/ChunJie2018H5/nobg/all.png");
+        $noBgi = $imagine->open(__DIR__ . "/ChunJie2018H5/all.png");
         $bgi->paste($noBgi, new Point(0,0));
 
         $palette = new RGB();
