@@ -70,7 +70,7 @@ class RegenerateShouKuanQrcode extends Job
         \Log::info("LastImgeGenerateBegin");
         /** @var 获取头像并生成新二维码 $user */
         $user = \EasyWeChat::officialAccount()->user->get($this->openId);
-        ChunJie2018H5Service::generate($this->openId, $this->avatar, $user['nickname'] ?: $this->nickname);
+        ChunJie2018H5Service::generate($this->openId, $this->avatar, isset($user['nickname']) ? $user['nickname'] : $this->nickname);
         \Log::info("LastImgeGenerateEnd");
     }
 }
