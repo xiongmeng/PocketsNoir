@@ -114,7 +114,14 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
     Route::get('/entry', function () {
         /** @var $user \Overtrue\Socialite\User */
         $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
-        return view('2018chunjie.entry', ['user' => $user]);
+
+        $file = "2018chunjie/users/{$user->getId()}.jpeg";
+        $ossDisk = \Storage::disk('oss_activity');
+        if(0 && $ossDisk->exists($file)){
+            return view('2018chunjie.entry', ['user' => $user]);
+        }else{
+            return view('2018chunjie.codeimg', ['user' => $user]);
+        }
     });
 
     Route::get('/codeimg', function () {
