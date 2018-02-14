@@ -34,6 +34,9 @@ class RegenerateShouKuanQrcode extends Job
         $reader = new \QrReader($shoukuanma->getBodyContents(), \QrReader::SOURCE_TYPE_BLOB);
         $cjt = $reader->text();
         \Log::info("QrReaderReadEnd");
+        if($cjt === false){
+            throw new \Exception("解析图片二维码失败!{$this->openId}|||{$this->serverId}");
+        }
 
         /** @var 获取头像并生成新二维码 $user */
         $user = \EasyWeChat::officialAccount()->user->get($this->openId);
