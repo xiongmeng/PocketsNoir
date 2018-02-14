@@ -58,8 +58,7 @@
     <body >
         <div id="app" style="width:100%;height:100%;">
             <div class="container">
-                <span v-if='pic'>你的神器制作完成啦，请长按图片保存</span>
-                <span v-if='!pic'>图片合成失败,请重新制作</span>
+                <span>@{{test}}</span>
 <!--                <img  v-bind:src="pic"></img>-->
                 <img src="<?=$image ?>"></img>
             </div>
