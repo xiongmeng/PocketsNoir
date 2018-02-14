@@ -18,6 +18,7 @@
             *{
                 padding: 0 ;
                 margin: 0;
+                font-family: '微软雅黑';
             }
             html,body{
                 font-size:100%;
