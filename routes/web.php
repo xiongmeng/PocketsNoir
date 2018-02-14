@@ -132,7 +132,8 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
     Route::get('/share', function () {
         /** @var $user \Overtrue\Socialite\User */
         $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
-        return view('2018chunjie.share', ['user' => $user]);
+        $image = \Storage::disk('oss_activity')->url("2018chunjie/users/{$user->getId()}.jpeg");
+        return view('2018chunjie.share', ['user' => $user, 'image' => $image]);
     });
 
     Route::post('/shoukuanma', function(){

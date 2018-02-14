@@ -59,7 +59,8 @@
         <div id="app" style="width:100%;height:100%;">
             <div class="container">
                 <span>你的神器制作完成啦，请长按图片保存</span>
-                <img  v-bind:src="pic"></img>
+<!--                <img  v-bind:src="pic"></img>-->
+                <img src="<?=$image ?>"></img>
             </div>
         </div>
     </body>
@@ -78,7 +79,6 @@
         }
     </script>
 <!--    <script src="/js/app.js?v=201802141020" type="text/javascript"></script>-->
-<!--    <script src="{{mix('js/app.js')}}" type="text/javascript"></script>-->
     <script>
         var app = new Vue({
             el: '#app',

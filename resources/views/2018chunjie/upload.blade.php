@@ -294,14 +294,13 @@
                             that.image = data.image;
                             that.loading = false
                             clearInterval(that.setout);
-                            window.location.href ='#/share/'+encodeURIComponent(that.image)
+                            window.location.href ='/share'
                         }else{
                             if (that.queryCount > 5) {
                                 that.status = '您上传的二维码图片无法识别或存在问题！请重新上传';
                                 that.loading = false
                                 clearInterval(that.setout);
                             }
-                            
                         }
                     });
                 }
