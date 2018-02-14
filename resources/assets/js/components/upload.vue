@@ -132,7 +132,7 @@
                         // alert(data.image)
                         that.loading = false
                         clearInterval(that.setout);
-
+                        that.$router.push('/share/' + encodeURIComponent(that.image));
                     }
                 });
             }
