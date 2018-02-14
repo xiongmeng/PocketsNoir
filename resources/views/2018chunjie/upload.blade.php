@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div class='text' >
-                    {{avatar}}
+                    <?= $user->getNickname() ?>
                 </div>
                 <div class='positionloding' v-if='loading'>
                     <img src="/images/loading.gif">

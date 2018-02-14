@@ -110,7 +110,6 @@
         var num = new Date().getTime();
     </script>
 <!--    <script src="/js/app.js?v=201802141020" type="text/javascript"></script>-->
-<!--    <script src="{{mix('js/app.js')}}" type="text/javascript"></script>-->
     <script>
         var app = new Vue({
             el: '#app',
