@@ -58,7 +58,7 @@
     <body >
         <div id="app" style="width:100%;height:100%;">
             <div class="container">
-                <span></span>
+                <span>{{test}}</span>
 <!--                <img  v-bind:src="pic"></img>-->
                 <img src="<?=$image ?>"></img>
             </div>
