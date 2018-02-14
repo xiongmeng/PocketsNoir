@@ -28,7 +28,7 @@
         </div>
         <div class="el-row"  v-if="shoukuanma">
             <div class="nextBtn el-col el-col-6 el-col-offset-3" style="margin-top: 20px;" v-on:click="ahrefupload">
-                <button type="button" class="el-button el-button--danger"><!----><!----><span><a :href="'#/share?'+shoukuanma" class="">下一步</a></span></button>
+                <button type="button" class="el-button el-button--danger"><!----><!----><span><a  class="">下一步</a></span></button>
             </div>
         </div>
        <!--  <el-row :gutter="20">
@@ -64,12 +64,14 @@
                 queryCount: 0,
                 setout:'',
                 imgs:"/images/bg.png",
-                loading:false
+                loading:false,
+                image:'',
             }
         },
         methods:{
             ahrefupload(){
-                this.$router.push({ path: '/share?'+this.shoukuanma })
+                // this.$router.push({ path: '/share?'+this.shoukuanma })
+                 this.$router.push('/share/' + encodeURIComponent(this.image));
             },
             choose: function () {
                 console.log("has click the choose!");
@@ -126,7 +128,7 @@
                     type : 'get'
                 }).done(function (data){
                     if(data.image){
-                        that.shoukuanma = data.image;
+                        that.image = data.image;
                         // alert(data.image)
                         that.loading = false
                         clearInterval(that.setout);
