@@ -74,7 +74,7 @@
             //分享朋友圈
             wx.onMenuShareTimeline({
                 title: '我躲过亲戚奇葩问题，还把红包收了',
-                link: protocol+'//'+host+'/login',
+                link: 'http://mp.sylicod.com/entry', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                 desc: '善待“新年恐惧症”患者，人人有责！', // 分享描述
                 imgUrl: protocol+'//'+host+'/images/sueyi.png',// 自定义图标
                 trigger: function (res) {
