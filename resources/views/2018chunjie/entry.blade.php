@@ -27,25 +27,76 @@
                 width: 100%;
                 background-size:100% 100%; 
             }
-        </style>
+
+    .pic{
+        position: fixed;
+        bottom: 10px;
+        left: 30%;
+        width: 40%;
+        height: auto;
+    }
+    .container{
+        width:100%;
+        height:100%;
+        position: relative;
+    }
+    .container> .danger{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        background: #d5000f;
+
+    }
+    .collectimg{
+        width: 172px;
+        border-radius: 50%;
+        margin-left: -11px;
+        margin-top: -11px;
+
+
+    }
+    .collectcord{
+        position: absolute;
+        top: 70%;
+        /* left: 50%; */
+        /* right: 50%; */
+        color: #f7bc00;
+        margin: auto;
+        text-align: center;
+        height: 20px;
+        width: 200px;
+        width: 100%;
+        line-height: 20px;
+        font-size: 14px;
+
+    }
+</style>
     </head>
 
     <body >
-    <div id="app" style="width:100%;height:100%;"></div>
-    <div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">
-        <img src="/images/logo.png" class="pic">
-        <div class="danger" type="danger" v-on:click="ahref" >
-            <img src="/images/collectmoney.png" alt=""  class="collectimg">
-            <img src="/images/logo.png" alt="">
-            <!--<span class="collect">
+        <div id="app" style="width:100%;height:100%;">
+            <div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">
+                <img src="/images/logo.png" class="pic">
+                <div class="danger" type="danger" v-on:click="ahref" >
+                    <img src="/images/collectmoney.png" alt=""  class="collectimg">
+                    <img src="/images/logo.png" alt="">
+                    <!--<span class="collect">
 
-                <router-link to="upload">收红包</router-link>-->
-            <!--</span>-->
+                        <router-link to="upload">收红包</router-link>-->
+                    <!--</span>-->
+                </div>
+                <div class="collectcord" v-on:click="code">如何获取收款二维码图片</div>
+            </div>
         </div>
-        <div class="collectcord" v-on:click="code">如何获取收款二维码图片</div>
-    </div>
     </body>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
         wx.config(<?php echo EasyWeChat::officialAccount()->jssdk->buildConfig(array('chooseImage', 'previewImage', 'uploadImage'), false) ?>);
     </script>
@@ -63,6 +114,24 @@
     <script>
         var app = new Vue({
             el: '#app',
+            mounted() {
+            console.log('Component mounted.')
+            },
+            data (){
+                return {
+                    imgs:"/images/bg.png",
+                }
+            },
+            methods:{
+                ahref(){
+                    // this.$router.push({ path: '/upload' })
+                    window.location.href ='/upload'
+                },
+                code(){
+                    // this.$router.push({ path: '/codeimg' })
+                    window.location.href ='/codeimg'
+                }
+            }
         });
     </script>
 </html>
