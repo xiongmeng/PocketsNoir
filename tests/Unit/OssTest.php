@@ -18,4 +18,12 @@ class OssTest extends TestCase
         $headContent = \Storage::disk('public')->get($file);
         \Storage::disk('oss_activity')->put("2018chunjie/users/{$user['openid']}.jpeg", $headContent);
     }
+
+    public function testDelete()
+    {
+        $id = "op-3Cww_mqGm2Caj6ZeprJrZ1h8Y";
+        $file = "2018chunjie/users/{$id}.jpeg";
+        $ossDisk = \Storage::disk('oss_activity');
+        $res = $ossDisk->delete($file);
+    }
 }

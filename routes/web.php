@@ -132,8 +132,10 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
     Route::get('/share', function () {
         /** @var $user \Overtrue\Socialite\User */
         $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
-        $image = \Storage::disk('oss_activity')->url("2018chunjie/users/{$user->getId()}.jpeg");
-        return view('2018chunjie.share', ['user' => $user, 'image' => $image]);
+
+        $file = "2018chunjie/users/{$user->getId()}.jpeg";
+        $ossDisk = \Storage::disk('oss_activity');
+        return view('2018chunjie.share', ['user' => $user, 'image' => $ossDisk->exists($file) ? $ossDisk->url($file) : '']);
     });
 
     Route::post('/shoukuanma', function(){
@@ -141,7 +143,7 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         $user = session('wechat.oauth_user.default');
         $serverId = request()->get('serverId');
 
-        $file = "2018chunjie/shoukuanma/{$user->getId()}.jpeg";
+        $file = "2018chunjie/users/{$user->getId()}.jpeg";
         $ossDisk = \Storage::disk('oss_activity');
         $ossDisk->delete($file);
 
@@ -167,6 +169,8 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
 //        $image = $ossDisk->has($file) ? $ossDisk->url($file) : '';
 //
 //        return response()->json(['image' => $image]);
-        return response()->json(['image' => \Storage::disk('oss_activity')->url("2018chunjie/users/{$user->getId()}.jpeg")]);
+        $file = "2018chunjie/users/{$user->getId()}.jpeg";
+        $ossDisk = \Storage::disk('oss_activity');
+        return response()->json(['image' => $ossDisk->exists($file) ? $ossDisk->url($file) : '']);
     });
 });
