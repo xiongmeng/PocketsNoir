@@ -13,6 +13,7 @@
         <title>Pocket 黑店</title>
 
         <!-- Fonts -->
+        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
         <style type="text/css"> 
             *{
@@ -28,6 +29,25 @@
                 background-size:100% 100%; 
             }
 
+        .positionloding{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #666;
+    opacity: .7;
+}
+.positionloding img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 10%;
+    height: auto;
+}
     .pic{
         position: fixed;
         bottom: 10px;
@@ -35,75 +55,149 @@
         width: 40%;
         height: auto;
     }
-    .container{
-        width:100%;
-        height:100%;
-        position: relative;
-    }
-    .container> .danger{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        overflow: hidden;
-        background: #d5000f;
-
-    }
-    .collectimg{
-        width: 172px;
-        border-radius: 50%;
-        margin-left: -11px;
-        margin-top: -11px;
-
-
-    }
-    .collectcord{
-        position: absolute;
-        top: 70%;
-        /* left: 50%; */
-        /* right: 50%; */
-        color: #f7bc00;
-        margin: auto;
-        text-align: center;
-        height: 20px;
-        width: 200px;
+    .box{
+        height: 100%;
         width: 100%;
-        line-height: 20px;
-        font-size: 14px;
+        overflow-y: auto;
+        background: url("/images/bg.png") 0% 0% / 100%;
+    }
+    .container{
+        height: 100%;
+        width: 100%;
+        overflow-y: auto;
+    }
+    .userPhone{
+        width: 132px;
+        height: 132px;
+        margin: 100px auto 0;
+        padding: 0 !important;
+        float: inherit;
+        box-sizing: content-box;
+        border-radius: 50%;
+        overflow:hidden;
+    }
+    .userPhone img{
+        width: 100%;
+        height: 100%;
+    }
+    .userName{
+        text-align: center;
+        color:white;;
+        height: 70px;
+        font-size: 18px;
+        line-height: 70px;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    .codeBth{
+        float: inherit;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    .codeBth button{
+        margin: 0 auto 50px;
+        display: block;
+    }
+    .nextBtn{
+        float: inherit;
+        padding: 0;
+        margin: 0;
+        width: 80%;
+        color: #fff;
+        margin-left: 10%;
+        line-height: 28px;
 
     }
-    .text{
-        height: 80px;
-        line-height: 80px;
-        text-align: center;
+    .nextBtn button{
+        margin: 0 auto;
+        display: block;
+        background-color: #f7bc00;
+        border-color: #f7bc00;
+        color: #d5000f;
+        font-width: 600;
+        padding: 10px 32px;
+        border-radius: 5px;
     }
+    .nextBtn button span{
+        color: #d5000f;
+    }
+    a{
+        text-decoration: none;
+        color: #d5000f;
+    }
+    .crod .el-button--danger{
+        background-color: #f7bc00;
+        border-color: #f7bc00;
+        padding: 16px 7px;
+        border-radius: 5px;
+    }
+    .crod .el-button--danger span{
+        color: #fff;
+        padding: 10px 20px;
+        background-color: #d5000f;
+        border-color: #d5000f;
+        color: #f7bc00;
+        font-width: 600;
+
+        border-radius: 5px;
+
+    }
+    .width{
+        width: 100px;
+        margin: 0 auto;
+    }
+        .el-col.el-col-6{
+            float: none;
+            margin: 0 auto;
+        }
+
+
 </style>
     </head>
 
     <body >
-        <div id="app" style="width:100%;height:100%;"></div>
+        <div id="app" style="width:100%;height:100%;">
             <div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">
                 <img src="/images/logo.png" class="pic">
-                <div class="el-row" style="margin-left: -10px; margin-right: -10px;">
-                    <div class="userPhone el-col el-col-6 el-col-offset-3" style="padding-left: 10px; padding-right: 10px;">
+                <div class="el-row" style="padding-top: 30%;">
+                    <div class="userPhone el-col el-col-6 " style="width: 36%;">
                         <img v-bind:src="avatar">
                     </div>
                 </div>
-                <div class='text' >
-                    <?= $user->getNickname() ?>
+               <!--  <div class='text' >
+                   
+                </div> -->
+                 <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
+                    <div class="userName el-col el-col-6 " style="width: 36%;">
+                        <div class="grid-content bg-purple"> <?= $user->getNickname() ?></div>
+                    </div>
+                </div>
+                <div class="el-row" style="margin-left: -10px; margin-right: -10px;">
+                    <div class="codeBth el-col el-col-6 " style="width: 36%;">
+                        <div class="grid-content bg-purple crod" style="height: 65px;">
+                            <button type="button" class="el-button el-button--danger" v-on:click='choose'><span>上传二维收款码</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="el-row"  v-if="shoukuanma">
+                    <div class="el-col el-col-6 width" style="margin: 0px auto; float: none;" v-if="shoukuanma">
+                        <img width="100px" height="100px" v-bind:src="shoukuanma">
+                    </div>
+                </div>
+                <div class="el-row"  v-if="status">
+                    <div class="nextBtn el-col el-col-6 " style="margin-top: 20px;" v-on:click="ahrefupload">
+                    </div>
                 </div>
                 <div class='positionloding' v-if='loading'>
-                    <img src="/images/loading.gif">
-                </div>
-               <div class='positionloding' v-if='loading'>
                     <img src="/images/loading.gif">
                 </div>
                
                 
             </div>
+        </div>
         
     </body>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
@@ -111,7 +205,7 @@
     <script type="text/javascript" charset="utf-8">
         wx.config(<?php echo EasyWeChat::officialAccount()->jssdk->buildConfig(array('chooseImage', 'previewImage', 'uploadImage'), false) ?>);
     </script>
-    <script src="/js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/vue.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script>
         var Constant={
@@ -121,17 +215,19 @@
         }
         var vm = new Vue({
             el:'#app',
-            data: {
-
-                avatar : Constant.avatar,
-                nickname: Constant.nickname,
-                shoukuanma: '',
-                queryCount: 0,
-                setout:'',
-                imgs:"/images/bg.png",
-                loading:false,
-                image:'',
-                status:'',
+            data(){
+                return {
+                        avatar : Constant.avatar,
+                        nickname: Constant.nickname,
+                        shoukuanma: '',
+                        queryCount: 0,
+                        setout:'',
+                        imgs:"/images/bg.png",
+                        loading:false,
+                        image:'',
+                        status:'',
+                    }
+                
                 
             },
             methods:{
