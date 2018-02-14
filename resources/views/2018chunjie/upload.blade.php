@@ -294,6 +294,7 @@
                         }else{
                             if (that.queryCount > 4) {
                                 that.status = '您上传的二维码图片无法识别或存在问题！请重新上传';
+                                alert(that.status);
                                 that.loading = false
                                 clearInterval(that.setout);
                             }
