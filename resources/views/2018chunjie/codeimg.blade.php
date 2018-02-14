@@ -31,18 +31,6 @@
 
     <body >
     <div id="app" style="width:100%;height:100%;"></div>
-    <div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">
-        <img src="/images/logo.png" class="pic">
-        <div class="danger" type="danger" v-on:click="ahref" >
-            <img src="/images/collectmoney.png" alt=""  class="collectimg">
-            <img src="/images/logo.png" alt="">
-            <!--<span class="collect">
-
-                <router-link to="upload">收红包</router-link>-->
-            <!--</span>-->
-        </div>
-        <div class="collectcord" v-on:click="code">如何获取收款二维码图片</div>
-    </div>
     </body>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
@@ -58,10 +46,5 @@
         var num = new Date().getTime();
     </script>
 <!--    <script src="/js/app.js?v=201802141020" type="text/javascript"></script>-->
-<!--    <script src="{{mix('js/app.js')}}" type="text/javascript"></script>-->
-    <script>
-        var app = new Vue({
-            el: '#app',
-        });
-    </script>
+    <script src="{{mix('js/app.js')}}" type="text/javascript"></script>
 </html>
