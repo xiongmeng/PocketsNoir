@@ -9,7 +9,7 @@
 
     export default {
         mounted() {
-            wx.config({
+            /*wx.config({
                 debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来
                 appId: Constant.openid, // 必填，公众号的唯一标识
                 timestamp: global_vars.wxJsConfig.timestamp, // 必填，生成签名的时间戳
@@ -64,7 +64,7 @@
                 wx.error(function (res) {
                     console.log(res);
                 });
-            });
+            });*/
         },
         data (){
             return {
