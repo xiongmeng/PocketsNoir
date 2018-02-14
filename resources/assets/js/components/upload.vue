@@ -194,7 +194,7 @@
     .userName{
         text-align: center;
         color:white;;
-        height: 100px;
+        height: 80px;
         font-size: 18px;
         line-height: 35px;
         text-align: center;

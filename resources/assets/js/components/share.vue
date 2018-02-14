@@ -90,7 +90,7 @@
     span {
         position: absolute;
         margin: auto;
-        top: 40px;
+
         display: block;
         height: 30px;
         line-height: 30px;
