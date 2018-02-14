@@ -58,7 +58,7 @@
     <body >
         <div id="app" style="width:100%;height:100%;">
             <div class="container">
-                <span>你的神器制作完成啦，请长按图片保存</span>
+                <span></span>
 <!--                <img  v-bind:src="pic"></img>-->
                 <img src="<?=$image ?>"></img>
             </div>
@@ -80,10 +80,25 @@
     </script>
 <!--    <script src="/js/app.js?v=201802141020" type="text/javascript"></script>-->
     <script>
+        var pic = <?=$image ?>;
         var app = new Vue({
             el: '#app',
+            watch:{
+                pic:function(){
+                    if (this.pic) {
+                        this.test = '你的神器制作完成啦，请长按图片保存'
+                    }else{
+                        this.test = '图片合成失败,请重新制作'
+                    }
+                },
+            },
             mounted() {
-                this.pic = window.location.href.split('?')[1]
+                // this.pic = window.location.href.split('?')[1]
+                if (this.pic) {
+                    this.test = '你的神器制作完成啦，请长按图片保存'
+                }else{
+                    this.test = '图片合成失败,请重新制作'
+                }
                 /*wx.config({
                     debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来
                     appId: Constant.openid, // 必填，公众号的唯一标识
@@ -143,7 +158,8 @@
             },
             data (){
                 return {
-                    pic:'',
+                    pic:pic,
+                    test:'',
                     imgs:"/images/bg.png",
                 }
             }
