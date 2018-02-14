@@ -114,10 +114,25 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
     Route::get('/entry', function () {
         /** @var $user \Overtrue\Socialite\User */
         $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
-//        $cfg = EasyWeChat::officialAccount()->jssdk->buildConfig(array('chooseImage', 'previewImage', 'uploadImage'), true);
-//        return response()->json($user->toArray());
-
         return view('2018chunjie.entry', ['user' => $user]);
+    });
+
+    Route::get('/codeimg', function () {
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+        return view('2018chunjie.codeimg', ['user' => $user]);
+    });
+
+    Route::get('/upload', function () {
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+        return view('2018chunjie.upload', ['user' => $user]);
+    });
+
+    Route::get('/share', function () {
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+        return view('2018chunjie.share', ['user' => $user]);
     });
 
     Route::post('/shoukuanma', function(){
