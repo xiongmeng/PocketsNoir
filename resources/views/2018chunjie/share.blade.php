@@ -10,7 +10,7 @@
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="0" />
-        <title>Pocket 黑店</title>
+        <title>讨红包神器</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -129,7 +129,7 @@
             watch:{
                 pic:function(){
                     if (this.pic) {
-                        this.test = '你的神器制作完成啦，请长按图片保存'
+                        this.test = '完成！长按图片保存，点击右上角分享↑'
                     }else{
                         this.test = '图片合成失败,请重新制作'
                     }
@@ -138,7 +138,7 @@
             mounted() {
                 // this.pic = window.location.href.split('?')[1]
                 if (this.pic) {
-                    this.test = '你的神器制作完成啦，请长按图片保存'
+                    this.test = '完成！长按图片保存，点击右上角分享↑'
                 }else{
                     this.test = '图片合成失败,请重新制作'
                 }
