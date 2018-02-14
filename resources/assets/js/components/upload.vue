@@ -26,11 +26,16 @@
                 <img width="100px" height="100px" v-bind:src="shoukuanma">
             </div>
         </div>
-        <div class="el-row"  v-if="shoukuanma">
+        <div class="el-row"  v-if="status">
             <div class="nextBtn el-col el-col-6 el-col-offset-3" style="margin-top: 20px;" v-on:click="ahrefupload">
-                <button type="button" class="el-button el-button--danger"><!----><!----><span><a  class="">下一步</a></span></button>
+                {{status}}
             </div>
         </div>
+        <!--<div class="el-row"  v-if="shoukuanma">
+            <div class="nextBtn el-col el-col-6 el-col-offset-3" style="margin-top: 20px;" v-on:click="ahrefupload">
+                <button type="button" class="el-button el-button&#45;&#45;danger">&lt;!&ndash;&ndash;&gt;&lt;!&ndash;&ndash;&gt;<span><a  class="">下一步</a></span></button>
+            </div>
+        </div>-->
        <!--  <el-row :gutter="20">
             <el-col :span="6" :offset="3"  class="userName"><div class="grid-content bg-purple">{{nickname}}</div></el-col>
         </el-row>
@@ -66,6 +71,7 @@
                 imgs:"/images/bg.png",
                 loading:false,
                 image:'',
+                status:'',
             }
         },
         methods:{
@@ -128,11 +134,18 @@
                     type : 'get'
                 }).done(function (data){
                     if(data.image){
+                        that.status ='';
                         that.image = data.image;
-                        // alert(data.image)
                         that.loading = false
                         clearInterval(that.setout);
-
+                        window.location.href ='#/share/'+encodeURIComponent(that.image)
+                    }else{
+                        if (that.queryCount > 5) {
+                            that.status = '您上传的二维码图片无法识别或存在问题！请重新上传';
+                            that.loading = false
+                            clearInterval(that.setout);
+                        }
+                        
                     }
                 });
             }
@@ -194,9 +207,9 @@
     .userName{
         text-align: center;
         color:white;;
-        height: 80px;
+        height: 70px;
         font-size: 18px;
-        line-height: 35px;
+        line-height: 70px;
         text-align: center;
         padding: 0;
         margin: 0;
@@ -216,7 +229,11 @@
         float: inherit;
         padding: 0;
         margin: 0;
-        width: 100%;
+        width: 80%;
+        color: #fff;
+        margin-left: 10%;
+        line-height: 28px;
+
     }
     .nextBtn button{
         margin: 0 auto;

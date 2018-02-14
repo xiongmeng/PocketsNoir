@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <span>长按图片分享</span>
+        <span>你的神器制作完成啦，请长按图片保存</span>
         <img  v-bind:src="$route.params.image"></img>
     </div>
 </template>

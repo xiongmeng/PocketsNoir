@@ -18,6 +18,7 @@
             *{
                 padding: 0 ;
                 margin: 0;
+                font-family: '微软雅黑';
             }
             html,body{
                 font-size:100%;
@@ -45,5 +46,6 @@
         }
         var num = new Date().getTime();
     </script>
-    <script src="/js/app.js?v=201802141020" type="text/javascript"></script>
+<!--    <script src="/js/app.js?v=201802141020" type="text/javascript"></script>-->
+    <script src="{{mix('js/app.js')}}" type="text/javascript"></script>
 </html>
