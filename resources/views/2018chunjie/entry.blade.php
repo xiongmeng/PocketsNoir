@@ -97,10 +97,53 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
     <script src="/js/vue.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript" charset="utf-8">
-        wx.config(<?php echo EasyWeChat::officialAccount()->jssdk->buildConfig(array('chooseImage', 'previewImage', 'uploadImage'), false) ?>);
-    </script>
 
+    <script type="text/javascript" charset="utf-8">
+        wx.config(<?php echo EasyWeChat::officialAccount()->jssdk->buildConfig(array('onMenuShareTimeline', 'onMenuShareAppMessage'), false) ?>);
+        wx.ready(function () {
+            //var link = window.location.href;
+            var protocol = window.location.protocol;
+            var host =  window.location.host;
+            //分享朋友圈
+            wx.onMenuShareTimeline({
+                title: '我躲过亲戚奇葩问题，还把红包收了',
+                link: protocol+'//'+host+'/login',
+                desc: '善待“新年恐惧症”患者，人人有责！', // 分享描述
+                imgUrl: protocol+'//'+host+'/images/sueyi.png',// 自定义图标
+                trigger: function (res) {
+
+                },
+                success: function (res) {
+
+                },
+                cancel: function (res) {
+
+                },
+                fail: function (res) {
+
+                }
+            });
+            //分享给好友
+            wx.onMenuShareAppMessage({
+                title: '我躲过亲戚奇葩问题，还把红包收了', // 分享标题
+                desc: '善待“新年恐惧症”患者，人人有责！', // 分享描述
+                link: 'http://mp.sylicod.com/entry', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                imgUrl: protocol+'//'+host+'/images/sueyi.png',// 自定义图标
+                // type: 'link', // 分享类型,music、video或link，不填默认为link
+                // dataUrl: 'http://mp.sylicod.com/entry', // 如果type是music或video，则要提供数据链接，默认为空
+                success: function (data) {
+                    // 用户确认分享后执行的回调函数
+                    console.log(data)
+                },
+                cancel: function () {
+                    // 用户取消分享后执行的回调函数
+                }
+            });
+            wx.error(function (res) {
+                console.log(res);
+            });
+        });
+    </script>
     <script>
         var Constant={
             avatar : "<?= $user->getAvatar()?>",
