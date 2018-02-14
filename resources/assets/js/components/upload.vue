@@ -1,6 +1,6 @@
 <template>
     <div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">
-
+        <img src="/images/logo.png" class="pic">
         <div class="el-row" style="margin-left: -10px; margin-right: -10px;">
             <div class="userPhone el-col el-col-6 el-col-offset-3" style="padding-left: 10px; padding-right: 10px;">
                 <img  v-bind:src="avatar">
@@ -28,7 +28,7 @@
         </div>
         <div class="el-row"  v-if="shoukuanma">
             <div class="nextBtn el-col el-col-6 el-col-offset-3" style="margin-top: 20px;" v-on:click="ahrefupload">
-                <button type="button" class="el-button el-button--danger"><!----><!----><span><a href="#/share" class="">下一步</a></span></button>
+                <button type="button" class="el-button el-button--danger"><!----><!----><span><a  class="">下一步</a></span></button>
             </div>
         </div>
        <!--  <el-row :gutter="20">
@@ -43,7 +43,11 @@
         <el-row>
             <el-col v-if="shoukuanma" :span="6" class="nextBtn" :offset="3" style="    margin-top: 20px;" v-on:click="ahrefupload"><el-button type="danger"><router-link to="share">下一步</router-link></el-button></el-col>
         </el-row> -->
+        <div class='positionloding' v-if='loading'>
+            <img src="/images/loading.gif">
+        </div>
     </div>
+     
 </template>
 
 <script>
@@ -60,11 +64,14 @@
                 queryCount: 0,
                 setout:'',
                 imgs:"/images/bg.png",
+                loading:false,
+                image:'',
             }
         },
         methods:{
             ahrefupload(){
-                this.$router.push({ path: '/share' })
+                // this.$router.push({ path: '/share?'+this.shoukuanma })
+                 this.$router.push('/share/' + encodeURIComponent(this.image));
             },
             choose: function () {
                 console.log("has click the choose!");
@@ -93,6 +100,7 @@
                                     {},
                                     function () {
                                         if (that.queryCount < 5) {
+                                            that.loading = true
                                             that.setout=setInterval(function(){that.queryQrcode( mediaId);that.queryCount++}, 2000);
                                         }
                                     }
@@ -120,8 +128,9 @@
                     type : 'get'
                 }).done(function (data){
                     if(data.image){
-                        that.shoukuanma = data.image;
-                        alert(data.image)
+                        that.image = data.image;
+                        // alert(data.image)
+                        that.loading = false
                         clearInterval(that.setout);
 
                     }
@@ -131,6 +140,32 @@
     }
 </script>
 <style>
+.positionloding{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #666;
+    opacity: .7;
+}
+.positionloding img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 10%;
+    height: auto;
+}
+    .pic{
+        position: fixed;
+        bottom: 10px;
+        left: 30%;
+        width: 40%;
+        height: auto;
+    }
     .box{
         height: 100%;
         width: 100%;
@@ -159,7 +194,7 @@
     .userName{
         text-align: center;
         color:white;;
-        height: 100px;
+        height: 80px;
         font-size: 18px;
         line-height: 35px;
         text-align: center;

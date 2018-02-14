@@ -45,5 +45,5 @@
         }
         var num = new Date().getTime();
     </script>
-    <script src="/js/app.js?v=201802132211" type="text/javascript"></script>
+    <script src="/js/app.js?v=201802141020" type="text/javascript"></script>
 </html>

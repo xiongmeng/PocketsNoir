@@ -1,5 +1,6 @@
 <template>
     <div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">
+        <img src="/images/logo.png" class="pic">
         <div class="danger" type="danger" v-on:click="ahref" >
             <img src="/images/collectmoney.png" alt=""  class="collectimg">
             <img src="/images/logo.png" alt="">
@@ -34,6 +35,13 @@
     }
 </script>
 <style>
+.pic{
+        position: fixed;
+        bottom: 10px;
+        left: 30%;
+        width: 40%;
+        height: auto;
+    }
     .container{
         width:100%;
         height:100%;
