@@ -31,7 +31,12 @@ class YouZanTest extends TestCase
 
         $params = [
 //            'alias' => 'fa8989ad342k',
-            'buyer_id' => '737287904',
+//            'buyer_id' => '737287904',
+//            'type' => 'FIXED'
+//            'type' => 'QRCODE'
+
+            'buyer_id' => '742033847',
+            'type' => 'QRCODE'
         ];
 
         $response = $client->get($method, $apiVersion, $params);
@@ -223,7 +228,7 @@ class YouZanTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'tid' => 'E20180128145918042500003',
+            'tid' => 'E20180305182355016600014',
         ];
 
         $response = $client->get($method, $apiVersion, $params);

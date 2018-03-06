@@ -46,7 +46,11 @@ class RecalculateVip extends Job
             $youZanTrades = YouZanService::getTradeListByYouZanAccountId($map->yz_uid);
             foreach ($youZanTrades as $youZanTrade){
                 if($youZanTrade['status'] == 'TRADE_BUYER_SIGNED'){
-                    $consumeYouZan += $youZanTrade['payment'];
+                    if(in_array($youZanTrade['type'], ['FIXED'])){
+                        $consumeYouZan += $youZanTrade['payment'];
+                    }else if($youZanTrade['type'] <> 'QRCODE'){
+                        throw new \Exception("Undisposed youzan type：{$youZanTrade['type']}");
+                    }
                 }
             }
         }
