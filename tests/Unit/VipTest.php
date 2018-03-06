@@ -78,6 +78,30 @@ POST;
         dispatch(new DisposeYouZanPush($post))->onConnection('sync');
     }
 
+    /**
+     * 积分回调由手机号的情况
+     */
+    public function testPointsWithMobileEvent()
+    {
+        $post = <<<POST
+{"client_id":"cd0e03a4099eb5c933","id":"yzuser_2493731","kdt_id":17284278,"kdt_name":"Pocket  黑店","mode":1,"msg":"%7B%22amount%22%3A6%2C%22client_hash%22%3A%22%22%2C%22create_time%22%3A%222018-03-06+15%3A30%3A37%22%2C%22description%22%3A%22%E9%A2%86%E5%8D%A1%E9%80%81%E7%A7%AF%E5%88%86%22%2C%22fans_id%22%3A0%2C%22mobile%22%3A%2213608372960%22%2C%22open_user_id%22%3A%22%22%2C%22total%22%3A6%7D","sendCount":0,"sign":"d1165da5bc2bdf991aa0667c8d10e13c","test":false,"type":"POINTS","version":1520321437}
+POST;
+
+        dispatch(new DisposeYouZanPush($post))->onConnection('sync');
+    }
+
+    /**
+     * 积分回调无手机号的情况
+     */
+    public function testPointsWithoutMobileEvent()
+    {
+        $post = <<<POST
+{"client_id":"cd0e03a4099eb5c933","id":"yzuser_2493731","kdt_id":17284278,"kdt_name":"Pocket  黑店","mode":1,"msg":"%7B%22amount%22%3A6%2C%22client_hash%22%3A%22%22%2C%22create_time%22%3A%222018-03-06+15%3A30%3A37%22%2C%22description%22%3A%22%E9%A2%86%E5%8D%A1%E9%80%81%E7%A7%AF%E5%88%86%22%2C%22fans_id%22%3A0%2C%22open_user_id%22%3A%22%22%2C%22total%22%3A6%7D","sendCount":0,"sign":"d1165da5bc2bdf991aa0667c8d10e13c","test":false,"type":"POINTS","version":1520321437}
+POST;
+
+        dispatch(new DisposeYouZanPush($post))->onConnection('sync');
+    }
+
     public function testReplicateGrant()
     {
         dispatch(new SyncVip('18611367408'))->onConnection('sync');

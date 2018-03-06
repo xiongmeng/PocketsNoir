@@ -44,6 +44,12 @@ class DisposeYouZanPush extends Job
                 $data = json_decode(urldecode($json['msg']), true);
                 JobBuffer::addYouZanParseUid($data['trade']['fans_info']['buyer_id']);
                 break;
+            case 'POINTS':
+                $data = json_decode(urldecode($json['msg']), true);
+                if(!empty($data['mobile'])){
+                    dispatch(new DisposeChangesWithYZUid($data['mobile']))->onConnection('database');
+                }
+                break;
             case 'SCRM_CUSTOMER_CARD':
                 //如果是删除卡或者是发卡事件（目前已知渠道为程序自己发的）则不处理
                 if(in_array($json['status'], ['CUSTOMER_CARD_DELETED' , 'CUSTOMER_CARD_GIVEN'])){
@@ -58,9 +64,13 @@ class DisposeYouZanPush extends Job
                         \Log::info("DeleteCardBecauseTakenOver", $data);
                         YouZanService::userCardDelete($data['mobile'], $data['card_alias']);
                     }
+                }else if(in_array($json['status'], ['CUSTOMER_CARD_TAKEN'])){
+//                    如果是领卡了，则立即启动卡的查询
+                    dispatch(new YouZanCardActivatedQuery($json['id']))->onConnection('sync');
+                }else{
+                    JobBuffer::addYouZanCardActivatedQuery($json['id']);
                 }
 
-                JobBuffer::addYouZanCardActivatedQuery($json['id']);
                 break;
             case 'SCRM_CUSTOMER_EVENT':
                 $data = json_decode(urldecode($json['msg']), true);
