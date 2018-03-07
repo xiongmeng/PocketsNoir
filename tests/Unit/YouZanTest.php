@@ -228,7 +228,7 @@ class YouZanTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'tid' => 'E20180305182355016600014',
+            'tid' => 'E20180212134535008300004',
         ];
 
         $response = $client->get($method, $apiVersion, $params);

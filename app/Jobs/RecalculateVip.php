@@ -48,7 +48,7 @@ class RecalculateVip extends Job
                 if($youZanTrade['status'] == 'TRADE_BUYER_SIGNED'){
                     if(in_array($youZanTrade['type'], ['FIXED'])){
                         $consumeYouZan += $youZanTrade['payment'];
-                    }else if($youZanTrade['type'] <> 'QRCODE'){
+                    }else if(!in_array($youZanTrade['type'], ['QRCODE', 'PRESENT'])){
                         throw new \Exception("Undisposed youzan type：{$youZanTrade['type']}");
                     }
                 }
