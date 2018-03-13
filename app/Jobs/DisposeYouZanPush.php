@@ -38,11 +38,13 @@ class DisposeYouZanPush extends Job
             case 'TRADE_ORDER_REMARK':
             case 'TRADE_ORDER_EXPRESS':
                 $trade = YouZanService::tradeGet($json['id']);
-                JobBuffer::addYouZanParseUid($trade['fans_info']['buyer_id']);
+//                JobBuffer::addYouZanParseUid($trade['fans_info']['buyer_id']);
+                dispatch(new DisposeChangesWithYZUid($trade['fans_info']['buyer_id']));
                 break;
             case 'TRADE':   //V1版交易回调，官方文档说在1231结束，但是到目前为止还没有，且和TRADE并不完全重复
                 $data = json_decode(urldecode($json['msg']), true);
-                JobBuffer::addYouZanParseUid($data['trade']['fans_info']['buyer_id']);
+//                JobBuffer::addYouZanParseUid($data['trade']['fans_info']['buyer_id']);
+                dispatch(new DisposeChangesWithYZUid($data['trade']['fans_info']['buyer_id']));
                 break;
             case 'POINTS':
                 $data = json_decode(urldecode($json['msg']), true);
@@ -66,9 +68,10 @@ class DisposeYouZanPush extends Job
                     }
                 }else if(in_array($json['status'], ['CUSTOMER_CARD_TAKEN'])){
 //                    如果是领卡了，则立即启动卡的查询
-                    dispatch(new YouZanCardActivatedQuery($json['id']))->onConnection('sync');
+                    dispatch(new YouZanCardActivatedQuery($json['id']));
                 }else{
-                    JobBuffer::addYouZanCardActivatedQuery($json['id']);
+//                    JobBuffer::addYouZanCardActivatedQuery($json['id']);
+                    dispatch(new YouZanCardActivatedQuery($json['id']));
                 }
 
                 break;
@@ -77,7 +80,7 @@ class DisposeYouZanPush extends Job
                 if($data['account_type'] == 'YouZanAccount'){
 //                    JobBuffer::addYouZanParseUid($data['account_id']);
                     if($json['status'] == 'CUSTOMER_UPDATED'){
-                        dispatch(new DisposeChangesWithYZUid($data['account_id']))->onConnection('database');
+                        dispatch(new DisposeChangesWithYZUid($data['account_id']));
                     }else{
                         JobBuffer::addYouZanParseUid($data['account_id']);
                     }
