@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Jobs\DisposeChangesWithYZUid;
 use App\Jobs\DisposeGuanJiaPoPush;
 use App\Jobs\DisposeYouZanPush;
+use App\Jobs\DisposeZuLinPush;
 use App\Jobs\RecalculateVip;
 use App\Jobs\SyncVip;
 use App\Libiary\Utility\CurlWrapper;
@@ -136,6 +137,22 @@ POST;
         ];
 
         dispatch(new DisposeGuanJiaPoPush($post))->onConnection('sync');
+    }
+
+    public function testZuLinProfile()
+    {
+        $post = [
+            'id' => 19, 'type'=> 'SCRM_CUSTOMER_PROFILE'
+        ];
+        dispatch(new DisposeZuLinPush($post))->onConnection('sync');
+    }
+
+    public function testZuLinOrder()
+    {
+        $post = [
+            'id' => 21, 'type'=> 'TRADE_ORDER_STATE'
+        ];
+        dispatch(new DisposeZuLinPush($post))->onConnection('sync');
     }
 
     public function testBatchRefreshCard()

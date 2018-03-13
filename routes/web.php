@@ -107,5 +107,10 @@ Route::post('/guanjiapo/push', function(){
 });
 
 Route::post('/zulin/push', function(){
+    try{
+        dispatch(new \App\Jobs\DisposeZuLinPush(request()->post()))->onConnection('sync');
+    }catch (Exception $e){
+        \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
+    }
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
