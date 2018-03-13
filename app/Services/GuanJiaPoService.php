@@ -19,7 +19,7 @@ class GuanJiaPoService
         $resStr = CurlWrapper::get(['mobile' => $mobile, 'signature' => $md5], $url);
 
         $resJson = json_decode($resStr, true);
-        if(empty($resJson['Code']) || $resJson['Code'] <> 1){
+        if (empty($resJson['Code']) || $resJson['Code'] <> 1) {
             throw new \Exception("管家婆接口调用错误：" . $resJson['Msg'], $resJson['Code']);
         }
         return $resJson['Data'];
@@ -36,7 +36,7 @@ class GuanJiaPoService
         $resStr = CurlWrapper::get(['mobile' => $mobile, 'signature' => $signature], $url);
 
         $resJson = json_decode($resStr, true);
-        if(empty($resJson['Code']) || $resJson['Code'] <> 1){
+        if (empty($resJson['Code']) || $resJson['Code'] <> 1) {
             throw new \Exception("管家婆接口调用错误：" . $resJson['Msg'], $resJson['Code']);
         }
         return $resJson['Data'];
@@ -50,10 +50,10 @@ class GuanJiaPoService
         $date = date("Ymd");
         $md5 = strtoupper(md5("{$sercet}{$mobile}{$cardName}{$date}"));
 
-        $resStr = CurlWrapper::get(['mobile' => $mobile, 'signature' => $md5, 'card_name' => $cardName],$url);
+        $resStr = CurlWrapper::get(['mobile' => $mobile, 'signature' => $md5, 'card_name' => $cardName], $url);
 
         $resJson = json_decode($resStr, true);
-        if(empty($resJson['Code']) || $resJson['Code'] <> 1){
+        if (empty($resJson['Code']) || $resJson['Code'] <> 1) {
             throw new \Exception("管家婆接口调用错误：" . $resJson['Msg'], $resJson['Code']);
         }
         return $resJson;
@@ -72,10 +72,10 @@ class GuanJiaPoService
             $url);
 
         $resJson = json_decode($resStr, true);
-        if(!isset($resJson['status']) || $resJson['status'] <> 0){
+        if (!isset($resJson['status']) || $resJson['status'] <> 0) {
             throw new \Exception("管家婆接口调用错误：" . $resJson['message'], $resJson['status']);
         }
         return $resJson;
-        }
+    }
 }
 

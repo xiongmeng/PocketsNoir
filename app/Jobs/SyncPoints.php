@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Libiary\Context\Fact\FactException;
 use App\Services\GuanJiaPoService;
 use App\Services\YouZanService;
+use App\Services\ZuLinService;
 use App\Vip;
 
 class SyncPoints extends Job
@@ -28,7 +29,23 @@ class SyncPoints extends Job
         $mobile = $vip->mobile;
 
         $points = 6 + round($vip->consumes);
-        YouZanService::userPointsSync($mobile, $points);
-        GuanJiaPoService::syncPoints($mobile, $points);
+
+        try{
+            YouZanService::userPointsSync($mobile, $points);
+        }catch (\Exception $e){
+            FactException::instance()->recordException($e);
+        }
+
+        try{
+            GuanJiaPoService::syncPoints($mobile, $points);
+        }catch (\Exception $e){
+            FactException::instance()->recordException($e);
+        }
+
+        try{
+            ZuLinService::syncPoints($mobile, $points);
+        }catch (\Exception $e){
+            FactException::instance()->recordException($e);
+        }
     }
 }

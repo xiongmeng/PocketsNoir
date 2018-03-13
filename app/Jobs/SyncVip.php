@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Libiary\Context\Fact\FactException;
 use App\Services\GuanJiaPoService;
 use App\Services\YouZanService;
+use App\Services\ZuLinService;
 use App\Vip;
 
 class SyncVip extends Job
@@ -68,6 +69,16 @@ class SyncVip extends Job
         /**
          * 同步到管家婆
          */
-        GuanJiaPoService::grantVip($mobile, Vip::$GuanJiaPoCardMaps[$vip->card]);
+        try{
+            GuanJiaPoService::grantVip($mobile, Vip::$GuanJiaPoCardMaps[$vip->card]);
+        }catch (\Exception $e){
+            FactException::instance()->recordException($e);
+        }
+
+        try{
+            ZuLinService::grantVip($mobile, Vip::$GuanJiaPoCardMaps[$vip->card]);
+        }catch (\Exception $e){
+            FactException::instance()->recordException($e);
+        }
     }
 }
