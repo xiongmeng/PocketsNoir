@@ -47,7 +47,7 @@ class DisposeYouZanPush extends Job
             case 'POINTS':
                 $data = json_decode(urldecode($json['msg']), true);
                 if(!empty($data['mobile'])){
-                    dispatch(new DisposeChangesWithYZUid($data['mobile']))->onConnection('database');
+                    dispatch(new RecalculateVip($data['mobile']))->onConnection('database');
                 }
                 break;
             case 'SCRM_CUSTOMER_CARD':
