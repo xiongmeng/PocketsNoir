@@ -15,7 +15,8 @@
         "khanamiryan/qrcode-detector-decoder": "^1.0",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "overtrue/laravel-wechat": "~4.0"
+        "overtrue/laravel-wechat": "~4.0",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
