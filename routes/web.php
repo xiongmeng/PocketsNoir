@@ -61,7 +61,7 @@ Route::any('/dispatchCard', function (){
             $vip->save();
         }
 
-        dispatch(new \App\Jobs\RecalculateVip($mobile))->onConnection('sync');
+        dispatch(new \App\Jobs\SingleRecalculateVip($mobile));
 
         $vip = \App\Vip::find($mobile);
         return response()->json($vip->toArray());

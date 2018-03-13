@@ -46,7 +46,7 @@ class YouZanCardActivatedQuery extends SequenceQueueJob
             if(empty($card['mobile'])){
                 $stop = false;
             }else{
-                JobBuffer::addRecalculateVip($card['mobile']);
+                dispatch(new SingleRecalculateVip($card['mobile']));
             }
         }catch (\Exception $e){
 //            错误 141502107 为卡不存在（此种情况为卡已删除）

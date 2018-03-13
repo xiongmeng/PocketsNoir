@@ -4,6 +4,7 @@ namespace App;
 
 use App\Jobs\DisposeChangesWithYZUid;
 use App\Jobs\RecalculateVip;
+use App\Jobs\SingleRecalculateVip;
 use App\Jobs\YouZanCardActivatedQuery;
 use Illuminate\Database\Eloquent\Model;
 
@@ -48,11 +49,6 @@ class JobBuffer extends Model
         self::add(DisposeChangesWithYZUid::class, $yzUid);
     }
 
-    public static function addRecalculateVip($mobile)
-    {
-        self::add(RecalculateVip::class, $mobile);
-    }
-
     public static function add($jobName, $jobId)
     {
         $model = new JobBuffer();
@@ -67,9 +63,6 @@ class JobBuffer extends Model
         switch ($jobName){
             case DisposeChangesWithYZUid::class:
                 dispatch(new DisposeChangesWithYZUid($jobId))->onConnection('sync');
-                break;
-            case RecalculateVip::class:
-                dispatch(new RecalculateVip($jobId))->onConnection('sync');
                 break;
             case YouZanCardActivatedQuery::class:
                 dispatch(new YouZanCardActivatedQuery($jobId))->onConnection('sync');

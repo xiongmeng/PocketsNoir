@@ -42,11 +42,9 @@ class DisposeChangesWithYZUid extends Job
                 $map->save();
             }
 
-//            JobBuffer::addRecalculateVip($map->mobile);
-            dispatch(new RecalculateVip($map->mobile))->onConnection('database');
+            dispatch(new SingleRecalculateVip($map->mobile));
             if(!empty($map->mobile_last) && $map->mobile_last <> $map->mobile){
-//                JobBuffer::addRecalculateVip($map->mobile_last);
-                dispatch(new RecalculateVip($map->mobile_last))->onConnection('database');
+                dispatch(new SingleRecalculateVip($map->mobile_last));
             }
         }
     }

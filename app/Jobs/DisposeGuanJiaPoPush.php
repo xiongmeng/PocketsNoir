@@ -30,7 +30,7 @@ class DisposeGuanJiaPoPush extends Job
         switch ($json['type']){
             case 'TRADE_ORDER_STATE':
                 if(!empty($json['buyer_mobile'] && $json['buyer_mobile'] <> 'null')){
-                    dispatch(new RecalculateVip($json['buyer_mobile']))->onConnection('database');
+                    dispatch(new SingleRecalculateVip($json['buyer_mobile']));
                 }
                 break;
             case 'SCRM_CUSTOMER_CARD':
@@ -51,7 +51,7 @@ class DisposeGuanJiaPoPush extends Job
                         $vip->manual_marked = Vip::MANUAL_MARK_GUANJIAPO;
                         $vip->save();
 
-                        dispatch(new RecalculateVip($mobile))->onConnection('database');
+                        dispatch(new SingleRecalculateVip($mobile));
                     }else{
                         throw new \Exception("卡在数据中心已经存在：{$mobile}");
                     }
