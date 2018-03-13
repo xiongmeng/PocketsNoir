@@ -78,7 +78,7 @@ Route::any('/refreshCard', function (){
     $method = strtoupper(request()->method());
     if($method == 'POST'){
         $mobile = request()->post('mobile');
-        dispatch(new \App\Jobs\RecalculateVip($mobile))->onConnection('sync');
+        dispatch(new \App\Jobs\SingleRecalculateVip($mobile));
         $vip = \App\Vip::find($mobile);
         return response()->json($vip->toArray());
     }else{
