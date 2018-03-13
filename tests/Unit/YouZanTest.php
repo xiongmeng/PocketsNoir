@@ -265,8 +265,8 @@ class YouZanTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'mobile' => '15210264742',
-            'customer_create' => json_encode(['name' => '熊猛旧手机']),
+            'mobile' => '18500300265',
+            'customer_create' => json_encode(['name' => '马助']),
         ];
 
         $response = $client->post($method, $apiVersion, $params);
@@ -344,8 +344,8 @@ class YouZanTest extends TestCase
 
         $params = [
 //            'account' => json_encode(["account_type"=>"Mobile", "account_id"=>"18611367408"]),
-            'account' => '{"account_type":"Mobile", "account_id":"18611367408"}',
-            'customer_update' => json_encode(["contact_address"=>['address' => '北京']])
+            'account' => '{"account_type":"Mobile", "account_id":"18500300265"}',
+            'customer_update' => json_encode(["contact_address"=>['address' => '广州']])
         ];
 
         $response = $client->get($method, $apiVersion, $params);
