@@ -78,9 +78,13 @@ Route::any('/refreshCard', function (){
     $method = strtoupper(request()->method());
     if($method == 'POST'){
         $mobile = request()->post('mobile');
-        dispatch(new \App\Jobs\SingleRecalculateVip($mobile));
         $vip = \App\Vip::find($mobile);
-        return response()->json($vip->toArray());
+        if(empty($vip)){
+            return response("会员卡{$mobile}不存在！！！");
+        }else{
+            dispatch(new \App\Jobs\SingleRecalculateVip($mobile));
+            return response()->json($vip->toArray());
+        }
     }else{
         return view('refreshCard');
     }

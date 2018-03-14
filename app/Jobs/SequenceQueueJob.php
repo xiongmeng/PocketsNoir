@@ -53,7 +53,7 @@ abstract class SequenceQueueJob extends Job
                 /**
                  * 设置延时和connection
                  */
-                $job->delay($next)->onConnection('database');
+                $job->delay($next);
 
                 /**
                  * 重新分发job
