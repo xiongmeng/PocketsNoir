@@ -79,11 +79,11 @@ class DisposeYouZanPush extends Job
                 $data = json_decode(urldecode($json['msg']), true);
                 if($data['account_type'] == 'YouZanAccount'){
 //                    JobBuffer::addYouZanParseUid($data['account_id']);
-                    if($json['status'] == 'CUSTOMER_UPDATED'){
+//                    if($json['status'] == 'CUSTOMER_UPDATED'){
                         dispatch(new DisposeChangesWithYZUid($data['account_id']));
-                    }else{
-                        JobBuffer::addYouZanParseUid($data['account_id']);
-                    }
+//                    }else{
+//                        JobBuffer::addYouZanParseUid($data['account_id']);
+//                    }
                 }
                 break;
             default:
