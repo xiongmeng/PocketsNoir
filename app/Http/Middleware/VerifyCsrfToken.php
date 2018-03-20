@@ -17,6 +17,7 @@ class VerifyCsrfToken extends Middleware
         'zulin/push',
         'shoukuanma',
         'generate',
-        'refreshCard'
+        'refreshCard',
+        'vip/face/import'
     ];
 }

@@ -120,5 +120,21 @@ Route::post('/zulin/push', function(){
 });
 
 Route::post('/vip/face/import', function (){
-    return response()->json($_FILES);
+    header("Access-Control-Allow-Origin: *");
+//    print_r($_FILES);
+
+    try{
+        if(empty($_FILES['file'])){
+            throw new Exception("未发现文件内容！");
+        }
+
+        $res = \App\Services\KoaLaService::subjectPhoto($_FILES['file']['tmp_name']);
+//        \Storage::disk('oss_activity')->put("2018chunjie/shoukuanma/{$this->openId}.jpeg", $content);
+
+        return response()->json(['code' => 0, 'data' => $res]);
+    }catch (Exception $e){
+        return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
+    }
+    //    $_FILES['file']['tmp_name'];
+//    return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });

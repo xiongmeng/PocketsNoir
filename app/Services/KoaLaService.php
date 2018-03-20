@@ -22,6 +22,17 @@ class KoaLaService
         return $jar;
     }
 
+    public static function subjectPhoto($photo)
+    {
+        $res = KoaLaService::upload(
+            '/subject/photo',
+            ['photo' => $photo],
+            []
+        );
+
+        return $res['data'];
+    }
+
     public static function upload($path, $files, $data)
     {
         $multipart = [];
