@@ -12,7 +12,7 @@ class KoaLaService
         $jar = \Cache::get('face_cookie');
         if(empty($jar)){
             $jar = new CookieJar();
-            $data = ['username' => 'xiongmeng@pocketnoir.com', 'password' => 'xiongmeng'];
+            $data = ['username' => env('KOALA_USENAME'), 'password' => env('KOALA_PASSWORD')];
 
             self::request('POST','/auth/login',['form_params' => $data, 'cookies' => $jar]);
 
@@ -66,7 +66,7 @@ class KoaLaService
 
     public static function request($method, $path, $options)
     {
-        $baseUri = "https://v2.koalacam.net";
+        $baseUri = env('KOALA_HOST');
         $client = new Client(['base_uri' => $baseUri]);
 
         empty($options['cookies']) && ($options['cookies'] = self::loginCookie());

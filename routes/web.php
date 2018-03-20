@@ -121,7 +121,6 @@ Route::post('/zulin/push', function(){
 
 Route::post('/vip/face/import', function (){
     header("Access-Control-Allow-Origin: *");
-//    print_r($_FILES);
 
     try{
         if(empty($_FILES['file'])){
@@ -135,6 +134,31 @@ Route::post('/vip/face/import', function (){
     }catch (Exception $e){
         return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
     }
-    //    $_FILES['file']['tmp_name'];
-//    return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
+});
+
+Route::post('/vip/mobile/code', function(){
+    $mobile = request()->post('mobile');
+
+    try{
+        if(empty($mobile)){
+            throw new Exception("必须传入手机号!");
+        }
+
+        $cacheKey = "vip_mobile_code_$mobile";
+        $cacheExpired = "vip_mobile_expired_$mobile";
+        if(Cache::has($cacheExpired)){
+            throw new Exception("一分钟内不能重复发送验证码！");
+        }
+
+        $code = '888888';
+        Cache::put($cacheExpired, '', 1);
+        Cache::put($cacheKey, $code, 5);
+
+        $aliSms = new \Mrgoon\AliSms\AliSms();
+        $response = $aliSms->sendSms($mobile, 'SMS_111890588', ['code'=> $code]);
+
+        return response()->json(['code' => 0, 'data' => $response]);
+    }catch (Exception $e){
+        return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
+    }
 });

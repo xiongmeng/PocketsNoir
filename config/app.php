@@ -181,6 +181,7 @@ return [
         \Overtrue\LaravelWeChat\ServiceProvider::class,
         'Folklore\Image\ImageServiceProvider',
         Jacobcyl\AliOSS\AliOssServiceProvider::class,
+        \Mrgoon\AliSms\ServiceProvider::class
     ],
 
     /*

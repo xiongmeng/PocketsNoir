@@ -18,6 +18,7 @@ class VerifyCsrfToken extends Middleware
         'shoukuanma',
         'generate',
         'refreshCard',
-        'vip/face/import'
+        'vip/face/import',
+        'vip/mobile/code'
     ];
 }
