@@ -119,6 +119,6 @@ Route::post('/zulin/push', function(){
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
 
-Route::post('/face/import', function (){
+Route::post('/vip/face/import', function (){
     return response()->json($_FILES);
 });
