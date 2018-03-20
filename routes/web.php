@@ -150,7 +150,7 @@ Route::post('/vip/mobile/code', function(){
             throw new Exception("一分钟内不能重复发送验证码！");
         }
 
-        $code = '888888';
+        $code = rand(100000,999999);
         Cache::put($cacheExpired, '', 1);
         Cache::put($cacheKey, $code, 5);
 
