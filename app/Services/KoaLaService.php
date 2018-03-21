@@ -33,6 +33,22 @@ class KoaLaService
         return $res['data'];
     }
 
+    public static function subjectGetByName($name)
+    {
+        $res = KoaLaService::get('/mobile-admin/subjects/list', ['category' => 'employee', 'name' => $name]);
+        return count($res['data']) > 0 ? $res['data'][0] : [];
+    }
+
+    public static function subjectPut($id, $params)
+    {
+        return self::request('PUT', "/subject/$id", ['json' => $params]);
+    }
+
+    public static function subjectPost($params)
+    {
+        return self::request('POST', "/subject", ['form_params' => $params]);
+    }
+
     public static function upload($path, $files, $data)
     {
         $multipart = [];

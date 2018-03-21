@@ -164,5 +164,49 @@ Route::post('/vip/mobile/code', function(){
 });
 
 Route::post('/vip/checkin', function(){
-    return response()->json($_POST);
+    header("Access-Control-Allow-Origin: *");
+
+    $code = request()->post('code');
+    $mobile = request()->post('mobile');
+    $faceId = request()->post('face_id');
+    try{
+        if(empty($code)){
+            throw new Exception("短信验证码不能为空!");
+        }
+        if(empty($mobile)){
+            throw new Exception("必须传入手机号!");
+        }
+        if(empty($faceId)){
+            throw new Exception("必须传入人脸Id!");
+        }
+
+        $cacheKey = "vip_mobile_code_$mobile";
+        $codeExpected = Cache::get($cacheKey);
+        if(empty($codeExpected)){
+            throw new Exception("短信验证码不存在或已过期，请重新获取！");
+        }
+        if(empty($codeExpected <> $code)){
+            throw new Exception("验证码输入错误！");
+        }
+
+//        dispatch(new \App\Jobs\RecalculateVip($mobile))->onConnection('sync');
+
+        $subject = \App\Services\KoaLaService::subjectGetByName($mobile);
+        if(empty($subject)){
+            $subject = \App\Services\KoaLaService::subjectPost(['subject_type' => 0, 'name' => '18611367408']);
+        }
+        $photoIds = [];
+//        if(!empty($subject['photos'])){
+//            foreach ($subject['photos'] as $photo) {
+//                $photoIds[$photo['id']] = $photo['id'];
+//            }
+//        }
+        $photoIds[$faceId] = $faceId;
+
+        $res = \App\Services\KoaLaService::subjectPut($subject['id'], ['photo_ids' => $photoIds]);
+
+        return response()->json(['code' => 0, 'data' => $res]);
+    }catch (Exception $e){
+        return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
+    }
 });

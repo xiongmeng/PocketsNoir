@@ -49,4 +49,24 @@ class KoalaTest extends TestCase
         $res = KoaLaService::get('/mobile-admin/subjects/list', ['category' => 'employee', 'name' => '18611367408']);
         print_r($res);
     }
+
+    public function testResetPhoto()
+    {
+        $faceId = 1019932;
+        $mobile = '18611367408';
+
+        $subject = \App\Services\KoaLaService::subjectGetByName($mobile);
+        if(empty($subject)){
+            $subject = \App\Services\KoaLaService::subjectPost(['subject_type' => 0, 'name' => '18611367408']);
+        }
+        $photoIds = [];
+//        if(!empty($subject['photos'])){
+//            foreach ($subject['photos'] as $photo) {
+//                $photoIds[$photo['id']] = $photo['id'];
+//            }
+//        }
+        $photoIds[$faceId] = $faceId;
+
+        $res = \App\Services\KoaLaService::subjectPut($subject['id'], ['photo_ids' => array_values($photoIds)]);
+    }
 }
