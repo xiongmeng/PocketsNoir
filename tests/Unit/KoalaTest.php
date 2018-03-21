@@ -52,12 +52,12 @@ class KoalaTest extends TestCase
 
     public function testResetPhoto()
     {
-        $faceId = 1020225;
-        $mobile = '18611367408';
+        $faceId = 1019097;
+        $mobile = '15201065165';
 
         $subject = \App\Services\KoaLaService::subjectGetByName($mobile);
         if(empty($subject)){
-            $subject = \App\Services\KoaLaService::subjectPost(['subject_type' => 0, 'name' => '18611367408']);
+            $subject = \App\Services\KoaLaService::subjectPost(['subject_type' => 0, 'name' => $mobile]);
         }
         $photoIds = [];
         if(!empty($subject['photos'])){

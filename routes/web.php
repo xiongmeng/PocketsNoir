@@ -193,7 +193,7 @@ Route::post('/vip/checkin', function(){
 
         $subject = \App\Services\KoaLaService::subjectGetByName($mobile);
         if(empty($subject)){
-            $subject = \App\Services\KoaLaService::subjectPost(['subject_type' => 0, 'name' => '18611367408']);
+            $subject = \App\Services\KoaLaService::subjectPost(['subject_type' => 0, 'name' => $mobile]);
         }
         $photoIds = [];
 //        if(!empty($subject['photos'])){

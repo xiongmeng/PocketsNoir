@@ -48,7 +48,8 @@ class KoaLaService
 
     public static function subjectPost($params)
     {
-        return self::request('POST', "/subject", ['form_params' => $params]);
+        $res = self::request('POST', "/subject", ['form_params' => $params]);
+        return !empty($res['data']) ? $res['data'] : [];
     }
 
     public static function upload($path, $files, $data)
