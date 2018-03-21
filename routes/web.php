@@ -127,10 +127,10 @@ Route::post('/vip/face/import', function (){
             throw new Exception("未发现文件内容！");
         }
 
-        $res = \App\Services\KoaLaService::subjectPhoto($_FILES['file']['tmp_name']);
-
         $path = md5($_FILES['file']['tmp_name']) . date("YmdHis");
         \Storage::disk('oss_activity')->put("vip/face/tmp/{$path}.jpeg", file_get_contents($_FILES['file']['tmp_name']));
+
+        $res = \App\Services\KoaLaService::subjectPhoto($_FILES['file']['tmp_name']);
 
         return response()->json(['code' => 0, 'data' => $res]);
     }catch (Exception $e){
