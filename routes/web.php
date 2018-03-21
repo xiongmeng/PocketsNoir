@@ -128,7 +128,9 @@ Route::post('/vip/face/import', function (){
         }
 
         $res = \App\Services\KoaLaService::subjectPhoto($_FILES['file']['tmp_name']);
-//        \Storage::disk('oss_activity')->put("2018chunjie/shoukuanma/{$this->openId}.jpeg", $content);
+
+        $path = md5($_FILES['file']['tmp_name']) . date("YmdHis");
+        \Storage::disk('oss_activity')->put("vip/face/tmp/{$path}.jpeg", file_get_contents($_FILES['file']['tmp_name']));
 
         return response()->json(['code' => 0, 'data' => $res]);
     }catch (Exception $e){
