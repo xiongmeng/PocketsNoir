@@ -134,6 +134,7 @@ Route::post('/vip/face/import', function (){
 
         return response()->json(['code' => 0, 'data' => $res]);
     }catch (Exception $e){
+        \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
         return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
     }
 });
@@ -161,6 +162,7 @@ Route::post('/vip/mobile/code', function(){
 
         return response()->json(['code' => 0, 'data' => $response]);
     }catch (Exception $e){
+        \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
         return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
     }
 });
@@ -211,6 +213,8 @@ Route::post('/vip/checkin', function(){
 
         return response()->json(['code' => 0, 'data' => $res]);
     }catch (Exception $e){
+        \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
+
         return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
     }
 });
