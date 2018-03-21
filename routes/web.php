@@ -185,7 +185,7 @@ Route::post('/vip/checkin', function(){
         if(empty($codeExpected)){
             throw new Exception("短信验证码不存在或已过期，请重新获取！");
         }
-        if(empty($codeExpected <> $code)){
+        if($codeExpected <> $code){
             throw new Exception("验证码输入错误！");
         }
 
