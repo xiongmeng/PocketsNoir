@@ -41,8 +41,10 @@ class KoaLaService
 
     public static function subjectPut($id, $params)
     {
-        return self::request('PUT', "/subject/$id", ['json' => $params]);
+        $res = self::request('PUT', "/subject/$id", ['json' => $params]);
+        return !empty($res['data']) ? $res['data'] : [];
     }
+
 
     public static function subjectPost($params)
     {

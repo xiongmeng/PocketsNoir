@@ -201,9 +201,11 @@ Route::post('/vip/checkin', function(){
 //                $photoIds[$photo['id']] = $photo['id'];
 //            }
 //        }
-        $photoIds[$faceId] = $faceId;
+//        这个地方一定要转换成整形，不然会被face++认为是空
+        $photoIds[$faceId] = intval($faceId);
 
-        $res = \App\Services\KoaLaService::subjectPut($subject['id'], ['photo_ids' => $photoIds]);
+//        return response()->json($photoIds);
+        $res = \App\Services\KoaLaService::subjectPut($subject['id'], ['photo_ids' => array_values($photoIds)]);
 
         return response()->json(['code' => 0, 'data' => $res]);
     }catch (Exception $e){

@@ -52,7 +52,7 @@ class KoalaTest extends TestCase
 
     public function testResetPhoto()
     {
-        $faceId = 1019932;
+        $faceId = 1020225;
         $mobile = '18611367408';
 
         $subject = \App\Services\KoaLaService::subjectGetByName($mobile);
@@ -60,13 +60,15 @@ class KoalaTest extends TestCase
             $subject = \App\Services\KoaLaService::subjectPost(['subject_type' => 0, 'name' => '18611367408']);
         }
         $photoIds = [];
-//        if(!empty($subject['photos'])){
-//            foreach ($subject['photos'] as $photo) {
-//                $photoIds[$photo['id']] = $photo['id'];
-//            }
-//        }
+        if(!empty($subject['photos'])){
+            foreach ($subject['photos'] as $photo) {
+                $photoIds[$photo['id']] = $photo['id'];
+            }
+        }
         $photoIds[$faceId] = $faceId;
 
         $res = \App\Services\KoaLaService::subjectPut($subject['id'], ['photo_ids' => array_values($photoIds)]);
+
+        print_r($res);
     }
 }
