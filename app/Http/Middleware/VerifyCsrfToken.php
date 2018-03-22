@@ -20,6 +20,7 @@ class VerifyCsrfToken extends Middleware
         'refreshCard',
         'vip/face/import',
         'vip/mobile/code',
+        'vip/face/importBase64',
         'vip/checkin'
     ];
 }

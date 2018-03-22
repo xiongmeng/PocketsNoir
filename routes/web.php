@@ -119,6 +119,33 @@ Route::post('/zulin/push', function(){
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
 
+Route::post('/vip/face/importBase64', function (){
+    header("Access-Control-Allow-Origin: *");
+
+    try{
+        $base64_image_content = $_POST['imgBase64'];
+//匹配出图片的格式
+        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)) {
+            $type = $result[2];
+
+
+//        $path = md5($_FILES['file']['tmp_name']) . date("YmdHis");
+        $path = time();
+        \Storage::disk('oss_activity')->put("vip/face/tmp/{$path}.jpeg", base64_decode(str_replace($result[1], '', $base64_image_content)));
+
+//        $res = \App\Services\KoaLaService::subjectPhoto($_FILES['file']['tmp_name']);
+
+        return response()->json(['code' => 0, 'data' => 'ok']);
+        }else{
+            throw new Exception("base64格式不正确！");
+        }
+
+    }catch (Exception $e){
+        \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
+        return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
+    }
+});
+
 Route::post('/vip/face/import', function (){
     header("Access-Control-Allow-Origin: *");
 
