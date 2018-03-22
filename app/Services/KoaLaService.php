@@ -57,9 +57,14 @@ class KoaLaService
         $multipart = [];
 
         foreach ($files as $filename => $filePath){
+            if(strlen($filePath) > 1024){
+                $contents = $filePath;
+            }else{
+                $contents = fopen($filePath, 'r');
+            }
             $multipart[] = [
                 'name' => $filename,
-                'contents' => fopen($filePath, 'r')
+                'contents' => $contents
             ];
         }
 

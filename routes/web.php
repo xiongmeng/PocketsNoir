@@ -133,9 +133,9 @@ Route::post('/vip/face/importBase64', function (){
         $path = time();
         \Storage::disk('oss_activity')->put("vip/face/tmp/{$path}.jpeg", base64_decode(str_replace($result[1], '', $base64_image_content)));
 
-//        $res = \App\Services\KoaLaService::subjectPhoto($_FILES['file']['tmp_name']);
+        $res = \App\Services\KoaLaService::subjectPhoto($_FILES['file']['tmp_name']);
 
-        return response()->json(['code' => 0, 'data' => 'ok']);
+        return response()->json(['code' => 0, 'data' => $res]);
         }else{
             throw new Exception("base64格式不正确！");
         }
