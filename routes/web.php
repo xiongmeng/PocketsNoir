@@ -134,7 +134,11 @@ Route::post('/vip/face/importBase64', function (){
         $content = base64_decode(str_replace($result[1], '', $base64_image_content));
         \Storage::disk('oss_activity')->put("vip/face/tmp/{$path}.jpeg", $content);
 
-        $res = \App\Services\KoaLaService::subjectPhoto($content);
+        $publicDisk = \Storage::disk('public');
+        $file = "{$path}.jpeg";
+        $publicDisk->put($file, $content);
+
+        $res = \App\Services\KoaLaService::subjectPhoto($publicDisk->path($file));
 
         return response()->json(['code' => 0, 'data' => $res]);
         }else{
