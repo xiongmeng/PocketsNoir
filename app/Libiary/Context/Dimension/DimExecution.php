@@ -81,7 +81,7 @@ class DimExecution extends DimBase
 
             if($data['http_method'] == 'POST'){
                 $rawPostData = file_get_contents("php://input");
-                $data['post_raw_data'] = strlen($rawPostData) <= 102400 ? $rawPostData : substr($rawPostData, 0, 102400);
+                $data['post_raw_data'] = strlen($rawPostData) <= 1024 ? $rawPostData : substr($rawPostData, 0, 1024);
             }
         }
 

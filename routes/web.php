@@ -131,9 +131,10 @@ Route::post('/vip/face/importBase64', function (){
 
 //        $path = md5($_FILES['file']['tmp_name']) . date("YmdHis");
         $path = time();
-        \Storage::disk('oss_activity')->put("vip/face/tmp/{$path}.jpeg", base64_decode(str_replace($result[1], '', $base64_image_content)));
+        $content = base64_decode(str_replace($result[1], '', $base64_image_content));
+        \Storage::disk('oss_activity')->put("vip/face/tmp/{$path}.jpeg", $content);
 
-        $res = \App\Services\KoaLaService::subjectPhoto($_FILES['file']['tmp_name']);
+        $res = \App\Services\KoaLaService::subjectPhoto($content);
 
         return response()->json(['code' => 0, 'data' => $res]);
         }else{
