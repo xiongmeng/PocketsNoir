@@ -138,7 +138,7 @@ class YouZanTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'card_no' => '219832627878638634',
+            'card_no' => '233967531359284137',
         ];
 
         $response = $client->post($method, $apiVersion, $params);

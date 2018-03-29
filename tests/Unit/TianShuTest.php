@@ -3,6 +3,8 @@
 namespace Tests\Unit;
 
 use App\Services\KoaLaService;
+use App\Services\TianShuService;
+use App\Vip;
 use Softonic\GraphQL\ClientBuilder;
 use Tests\TestCase;
 
@@ -10,37 +12,9 @@ class TianShuTest extends TestCase
 {
     public function testImportPocketNoirVIP()
     {
-        $client = ClientBuilder::build("https://prism.orgrimmar.tk/prism-pocketnoir-api/graphql");
+        $vip = TianShuService::syncVip(Vip::find('18611367408'));
 
-        $query = <<<'QUERY'
-mutation($data: JSON!){
-      importPocketNoirVIP(data: $data) {
-        isOk
-        result
-      }
-    }
-QUERY;
-
-#   名称: 'name',
-#   会员号: 'vipNo',
-#   电子邮箱: 'email',
-#   电话号码: 'mobile',
-#   会员等级: 'vipLevel',
-#   created_at: 'createdAt',
-#   updated_at: 'updatedAt'
-
-        $variables = ['data' => json_encode([
-            'vipNo' => '18611367408',
-            'mobile' => '18611367408'
-        ], JSON_UNESCAPED_UNICODE)];
-
-        $variables = ['data' => [
-            'vipNo' => '18611367408',
-            'mobile' => '18611367408'
-        ]];
-
-        $response = $client->query($query, $variables);
-
+        print_r($vip);
     }
 
     public function testmportPocketNoirTransaction()
