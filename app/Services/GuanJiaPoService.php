@@ -22,7 +22,7 @@ class GuanJiaPoService
         if (!isset($resJson['Code']) || ($resJson['Code'] <> 1 && $resJson['Msg'] <> '该会员不存在！请输入正确的手机号码！')) {
             throw new \Exception("管家婆接口调用错误：" . $resJson['Msg'], $resJson['Code']);
         }
-        return $resJson['Data'];
+        return !empty($resJson['Data']) ? $resJson['Data'] : [];
     }
 
     public static function getLingShouTuiHuoDanByMobile($mobile)
@@ -39,7 +39,7 @@ class GuanJiaPoService
         if (!isset($resJson['Code']) || ($resJson['Code'] <> 1 && $resJson['Msg'] <> '该会员不存在！请输入正确的手机号码！')) {
             throw new \Exception("管家婆接口调用错误：" . $resJson['Msg'], $resJson['Code']);
         }
-        return $resJson['Data'];
+        return !empty($resJson['Data']) ? $resJson['Data'] : [];
     }
 
     public static function grantVip($mobile, $cardName)
