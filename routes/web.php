@@ -25,10 +25,22 @@ Route::any('/dispatchCardForJiChang', function () {
     }
 });
 
-Route::any('/refreshCard', function () {
+Route::any('/createCard', function () {
     $method = strtoupper(request()->method());
     if ($method == 'POST') {
         $vip = \App\Vip::createFromAdmin(request()->post('mobile'));
+        return response()->json($vip->toArray());
+    } else {
+        return view('refreshCard');
+    }
+});
+
+Route::any('/refreshCard', function () {
+    $method = strtoupper(request()->method());
+    if ($method == 'POST') {
+        $mobile = request()->post('mobile');
+        dispatch(new \App\Jobs\SingleRecalculateVip($mobile))->onConnection('sync');
+        $vip = \App\Vip::find($mobile);
         return response()->json($vip->toArray());
     } else {
         return view('refreshCard');

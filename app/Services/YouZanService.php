@@ -144,7 +144,10 @@ class YouZanService
     }
 
     /**
-     * 创建有赞会员
+     * 确保手机号在有赞存在
+     * @param $mobile
+     * @return bool - 如果新建则返回true，否在返回false
+     * @throws \Exception
      */
     public static function ensureCustomerExisted($mobile)
     {
@@ -153,11 +156,15 @@ class YouZanService
 
             /** 更新用户后此时有赞再发卡的话就可以发卡成功 */
             self::updateCustomer($mobile, ["remark"=> 'MarkedByProgramForGrantCard']);
+
+            return true;
         }catch (\Exception $e){
 //            如果用户存在
             if($e->getCode() <> '141502109'){
                 throw $e;
             }
+
+            return false;
         }
     }
 

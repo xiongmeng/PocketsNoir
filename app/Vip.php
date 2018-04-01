@@ -135,7 +135,7 @@ class Vip extends Model
      * 创建普通卡
      * @param $mobile
      */
-    public static function createFromAdmin($mobile, $recalculate = true)
+    public static function createFromAdmin($mobile)
     {
         YouZanService::ensureCustomerExisted($mobile);
         return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_ADMIN, false);
