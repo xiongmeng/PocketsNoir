@@ -150,15 +150,15 @@ class YouZanService
     {
         try{
             self::createCustomer($mobile, ["remark"=> 'MarkedByProgramCreate']);
+
+            /** 更新用户后此时有赞再发卡的话就可以发卡成功 */
+            self::updateCustomer($mobile, ["remark"=> 'MarkedByProgramForGrantCard']);
         }catch (\Exception $e){
 //            如果用户存在
             if($e->getCode() <> '141502109'){
                 throw $e;
             }
         }
-
-        /** 更新用户后此时有赞再发卡的话就可以发卡成功 */
-        self::updateCustomer($mobile, ["remark"=> 'MarkedByProgramForGrantCard']);
     }
 
 

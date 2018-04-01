@@ -94,9 +94,10 @@ class Vip extends Model
      * 给机场员工发卡-金卡
      * @param $mobile
      */
-    public static function createForJiChangYG($mobile, $recalcuate=true)
+    public static function createForJiChangYG($mobile)
     {
-        return self::insertOrUpdate($mobile, self::CARD_4, self::MANUAL_MARK_JICHANGYG, $recalcuate);
+        YouZanService::ensureCustomerExisted($mobile);
+        return self::insertOrUpdate($mobile, self::CARD_4, self::MANUAL_MARK_JICHANGYG, false);
     }
 
     /**
@@ -104,13 +105,13 @@ class Vip extends Model
      * @param $mobile
      * @param $card
      */
-    public static function createForDuoChaiTou($mobile, $card, $recalculate = true)
+    public static function createForDuoChaiTou($mobile, $card)
     {
         if(in_array($card, [self::CARD_4, self::CARD_3])){
             $card = self::CARD_1;
         }
-
-        return self::insertOrUpdate($mobile, $card, self::MANUAL_MARK_DUOCHATOU, $recalculate);
+        YouZanService::ensureCustomerExisted($mobile);
+        return self::insertOrUpdate($mobile, $card, self::MANUAL_MARK_DUOCHATOU, false);
     }
 
     public static function createFromYouZan($mobile, $recalculate = true)
