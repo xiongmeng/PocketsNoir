@@ -86,7 +86,7 @@ class GuanJiaPoTest extends TestCase
 //            "http://120.76.188.76:81/tdy/RefundRBbyVip/RefundRBbyVip");
 //
 //        print_r($res);
-        $res = GuanJiaPoService::getLingShouTuiHuoDanByMobile('15911094367');
+        $res = GuanJiaPoService::getLingShouTuiHuoDanByMobile('15911094267');
     }
 
 }
