@@ -47,7 +47,7 @@ class YouZanCardActivatedQuery extends SequenceQueueJob
             if(empty($card['mobile'])){
                 $stop = false;
             }else{
-                Vip::createNormal($card['mobile']);
+                Vip::createFromYouZan($card['mobile']);
 //                dispatch(new SingleRecalculateVip($card['mobile']));
             }
         }catch (\Exception $e){

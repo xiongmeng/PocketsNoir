@@ -35,6 +35,8 @@ class Vip extends Model
     const MANUAL_MARK_GUANJIAPO = 2;
     const MANUAL_MARK_JICHANGYG = 3;
     const MANUAL_MARK_ADMIN=99;
+    const MANUAL_MARK_ZULIN=98;
+    const MANUAL_MARK_JICHANG=97;
 
     public static $ChannelCardMaps = [
         '普客' => self::CARD_1,
@@ -110,11 +112,26 @@ class Vip extends Model
         return self::insertOrUpdate($mobile, $card, self::MANUAL_MARK_DUOCHATOU, $recalculate);
     }
 
+    public static function createFromYouZan($mobile, $recalculate = true)
+    {
+        return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_YOUZAN, $recalculate);
+    }
+
+    public static function createFromZuLin($mobile, $recalculate = true)
+    {
+        return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_ZULIN, $recalculate);
+    }
+
+    public static function createFromJiChang($mobile, $recalculate = true)
+    {
+        return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_JICHANG, $recalculate);
+    }
+
     /**
      * 创建普通卡
      * @param $mobile
      */
-    public static function createNormal($mobile, $recalculate = true)
+    public static function createFromAdmin($mobile, $recalculate = true)
     {
         return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_ADMIN, $recalculate);
     }

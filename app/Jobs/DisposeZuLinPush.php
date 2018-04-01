@@ -33,7 +33,7 @@ class DisposeZuLinPush extends Job
                 $customer = $zuLinDb->table('User')->find($json['id']);
                 if(!empty($customer) && !empty($customer->phone)){
 //                    dispatch(new SingleRecalculateVip($customer->phone));
-                    Vip::createNormal($customer->phone);
+                    Vip::createFromZuLin($customer->phone);
                 }
                 break;
             case 'TRADE_ORDER_STATE':
@@ -43,7 +43,7 @@ class DisposeZuLinPush extends Job
                 }
                 $customer = $zuLinDb->table('User')->find($odr->customerId);
                 if(!empty($customer) && !empty($customer->phone)){
-                    Vip::createNormal($customer->phone);
+                    Vip::createFromZuLin($customer->phone);
 //                    dispatch(new SingleRecalculateVip($customer->phone));
                 }
                 break;

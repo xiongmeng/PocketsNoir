@@ -43,9 +43,9 @@ class DisposeChangesWithYZUid extends Job
                 $map->save();
             }
 
-            Vip::createNormal($map->mobile);
+            Vip::createFromYouZan($map->mobile);
             if(!empty($map->mobile_last) && $map->mobile_last <> $map->mobile){
-                Vip::createNormal($map->mobile_last);
+                Vip::createFromYouZan($map->mobile_last);
             }
 
 //            dispatch(new SingleRecalculateVip($map->mobile));

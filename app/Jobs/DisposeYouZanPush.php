@@ -49,7 +49,7 @@ class DisposeYouZanPush extends Job
             case 'POINTS':
                 $data = json_decode(urldecode($json['msg']), true);
                 if(!empty($data['mobile'])){
-                    Vip::createNormal($data['mobile']);
+                    Vip::createFromYouZan($data['mobile']);
 //                    dispatch(new SingleRecalculateVip($data['mobile']));
                 }
                 break;

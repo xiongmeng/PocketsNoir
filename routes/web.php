@@ -28,7 +28,7 @@ Route::any('/dispatchCardForJiChang', function () {
 Route::any('/refreshCard', function () {
     $method = strtoupper(request()->method());
     if ($method == 'POST') {
-        $vip = \App\Vip::createNormal(request()->post('mobile'));
+        $vip = \App\Vip::createFromAdmin(request()->post('mobile'));
         return response()->json($vip->toArray());
     } else {
         return view('refreshCard');
@@ -159,7 +159,7 @@ Route::post('/vip/checkin', function () {
             throw new Exception("验证码输入错误！");
         }
 
-        \App\Vip::createNormal($mobile);
+        \App\Vip::createFromJiChang($mobile);
         $res = \App\Services\VipFaceImportService::bindVipFace($faceId, $mobile);
 
         return response()->json(['code' => 0, 'data' => $res]);
