@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\JobBuffer;
 use App\Services\YouZanService;
+use App\Vip;
 
 class YouZanCardActivatedQuery extends SequenceQueueJob
 {
@@ -46,7 +47,8 @@ class YouZanCardActivatedQuery extends SequenceQueueJob
             if(empty($card['mobile'])){
                 $stop = false;
             }else{
-                dispatch(new SingleRecalculateVip($card['mobile']));
+                Vip::createNormal($card['mobile']);
+//                dispatch(new SingleRecalculateVip($card['mobile']));
             }
         }catch (\Exception $e){
 //            错误 141502107 为卡不存在（此种情况为卡已删除）

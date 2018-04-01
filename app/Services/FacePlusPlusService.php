@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use App\Libiary\Utility\CurlWrapper;
-use function EasyWeChat\Kernel\Support\current_url;
 
 class FacePlusPlusService
 {
+    const DEFAULT_OUTER_ID = 1;
+
     public static function detect($imageUrl)
     {
         $res = self::query('detect', ['image_url' => $imageUrl]);
@@ -14,17 +15,19 @@ class FacePlusPlusService
         return $res;
     }
 
-    public static function facesetCreate()
+    public static function facesetCreate($faceTokens, $outerId = self::DEFAULT_OUTER_ID)
     {
         $res = self::query('faceset/create', [
             'display_name' => '集合1',
-            'outer_id' => 1
+            'outer_id' => $outerId,
+            'face_tokens' => $faceTokens,
+            'force_merge' => 1
         ]);
 
         return $res;
     }
 
-    public static function facesetAddface($outerId, $faceTokens)
+    public static function facesetAddface($faceTokens, $outerId = self::DEFAULT_OUTER_ID)
     {
         $res = self::query('faceset/addface',[
             'outer_id' => $outerId,
@@ -34,7 +37,7 @@ class FacePlusPlusService
         return $res;
     }
 
-    public static function facesetRemoveface($outerId, $faceTokens)
+    public static function facesetRemoveface($faceTokens, $outerId = self::DEFAULT_OUTER_ID)
     {
         $res = self::query('faceset/removeface', [
             'outer_id' => $outerId,
@@ -53,10 +56,61 @@ class FacePlusPlusService
         return $res;
     }
 
-    public static function facesetSearch($faceToken, $outerId)
+    public static function facesetSearchByToken($faceToken, $outerId = self::DEFAULT_OUTER_ID)
     {
         $res = self::query('search', [
             'face_token' => $faceToken,
+            'outer_id' => $outerId,
+        ]);
+
+        return $res;
+    }
+
+    public static function faceSetuserid($faceToken, $userId)
+    {
+        $res = self::query('face/setuserid', [
+            'face_token' => $faceToken,
+            'user_id' => $userId
+        ]);
+    }
+
+    /**
+     * 查找指定头像是否存在，如果存在则返回相似度
+     * @param $faceToken
+     * @return array|mixed
+     */
+    public static function searchPeopleExist($faceToken)
+    {
+        $res = self::facesetSearchByToken($faceToken);
+        if(!empty($res['results']) && count($res['results']) > 0){
+            $maxConfidence = current($res['results']);
+            foreach ($res['results'] as $result){
+                if($result['confidence'] > $maxConfidence['confidence']){
+                    $maxConfidence = $result;
+                }
+            }
+
+            $same = null;
+            if($maxConfidence['confidence'] >= $res['thresholds']['1e-5']){
+                $same = '1e-5';
+            }elseif($maxConfidence['confidence'] >= $res['thresholds']['1e-4']){
+                $same = '1e-4';
+            }elseif ($maxConfidence['confidence'] >= $res['thresholds']['1e-3']){
+                $same = '1e-3';
+            }
+
+            $maxConfidence['same'] = $same;
+
+            return $maxConfidence;
+        }
+
+        return [];
+    }
+
+    public static function facesetSearchByImageUrl($imageUrl, $outerId = self::DEFAULT_OUTER_ID)
+    {
+        $res = self::query('search', [
+            'image_url' => $imageUrl,
             'outer_id' => $outerId,
         ]);
 
@@ -69,7 +123,7 @@ class FacePlusPlusService
      * @return mixed
      * @throws \Exception
      */
-    public static function DetectOnlyOneFace($imageUrl)
+    public static function detectOnlyOneFace($imageUrl)
     {
         $res = self::detect($imageUrl);
 

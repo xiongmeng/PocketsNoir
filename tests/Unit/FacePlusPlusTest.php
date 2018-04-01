@@ -45,16 +45,25 @@ class FacePlusPlusTest extends TestCase
         ];
 
         foreach ($faces as $face){
-            $faceDe = FacePlusPlusService::DetectOnlyOneFace($face);
+            $faceDe = FacePlusPlusService::detectOnlyOneFace($face);
 
             FacePlusPlusService::facesetAddface(1, $faceDe['face_token']);
         }
 
 //        $searchFace = 'https://pn-activity.oss-cn-shenzhen.aliyuncs.com/vip/face/tmp/a36ed17a0ca6bb481ebb75484bd121db20180328141212.jpeg';
         $searchFace = 'https://koala-online.oss-cn-beijing.aliyuncs.com/static/upload/photo/2018-03-29/v2_dab30fade89ab623f3357a1a46b97b95f05d4e41.jpg';
-        $faceDe = FacePlusPlusService::DetectOnlyOneFace($searchFace);
+        $faceDe = FacePlusPlusService::detectOnlyOneFace($searchFace);
 
-        $res = FacePlusPlusService::facesetSearch($faceDe['face_token'], 1);
+        $res = FacePlusPlusService::facesetSearchByToken($faceDe['face_token'], 1);
     }
 
+    public function testFacesetGetDetail()
+    {
+        $res = FacePlusPlusService::facesetGetDetail(1);
+        foreach ($res['face_tokens'] as $face_token){
+            $res = FacePlusPlusService::facesetRemoveface($face_token);
+        }
+    }
+
+//29b1db47eb42a6252227e674a2fb2edb
 }

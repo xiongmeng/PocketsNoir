@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Jobs\SingleRecalculateVip;
+use App\Libiary\Utility\IsHelper;
 use Illuminate\Database\Eloquent\Model;
 
 class Vip extends Model
@@ -29,8 +31,10 @@ class Vip extends Model
     ];
 
     const MANUAL_MARK_YOUZAN = 0;
-    const MANUAL_MARK_MANUAL = 1;
+    const MANUAL_MARK_DUOCHATOU = 1;
     const MANUAL_MARK_GUANJIAPO = 2;
+    const MANUAL_MARK_JICHANGYG = 3;
+    const MANUAL_MARK_ADMIN=99;
 
     public static $ChannelCardMaps = [
         '普客' => self::CARD_1,
@@ -75,9 +79,74 @@ class Vip extends Model
 //        'password', 'remember_token',
     ];
 
+    public $incrementing = false;
+
     public static function isYouZanCardOver($cardAlias, $targetCard)
     {
         $alias = array_flip(self::$youZanCardMaps);
         return empty($alias[$cardAlias]) || $alias[$cardAlias] > $targetCard;
     }
+
+    /**
+     * 给机场员工发卡-金卡
+     * @param $mobile
+     */
+    public static function createForJiChangYG($mobile, $recalcuate=true)
+    {
+        return self::insertOrUpdate($mobile, self::CARD_4, self::MANUAL_MARK_JICHANGYG, $recalcuate);
+    }
+
+    /**
+     * 给多彩投用户发卡-金卡or银卡
+     * @param $mobile
+     * @param $card
+     */
+    public static function createForDuoChaTou($mobile, $card, $recalculate = true)
+    {
+        if(in_array($card, [self::CARD_4, self::CARD_3])){
+            $card = self::CARD_1;
+        }
+
+        return self::insertOrUpdate($mobile, $card, self::MANUAL_MARK_DUOCHATOU, $recalculate);
+    }
+
+    /**
+     * 创建普通卡
+     * @param $mobile
+     */
+    public static function createNormal($mobile, $recalculate = true)
+    {
+        return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_ADMIN, $recalculate);
+    }
+
+    /**
+     * 新增一个会员，如果成功则可以设置是否同步到其他业务系统
+     * @param $mobile
+     * @param $card
+     * @param $manualMarked
+     * @param bool $recalculate
+     * @return Vip|\Illuminate\Database\Eloquent\Collection|Model|null|static|static[]
+     * @throws \Exception
+     */
+    private static function insertOrUpdate($mobile, $card, $manualMarked, $recalculate = true)
+    {
+        if(!IsHelper::isMobile($mobile)){
+            throw new \Exception("请输入合法的手机号{$mobile}");
+        }
+
+        $vip = Vip::find($mobile);
+        if(empty($vip)){
+            $vip = new Vip();
+            $vip->mobile = $mobile;
+        }
+        $vip->card = $card;
+        $vip->manual_marked = $manualMarked;
+
+        $vip->save();
+
+        $recalculate && dispatch(new SingleRecalculateVip($mobile));
+
+        return $vip;
+    }
+
 }

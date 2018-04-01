@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\JobBuffer;
 use App\Services\YouZanService;
+use App\Vip;
 use App\YzUidMobileMap;
 
 class DisposeChangesWithYZUid extends Job
@@ -42,10 +43,15 @@ class DisposeChangesWithYZUid extends Job
                 $map->save();
             }
 
-            dispatch(new SingleRecalculateVip($map->mobile));
+            Vip::createNormal($map->mobile);
             if(!empty($map->mobile_last) && $map->mobile_last <> $map->mobile){
-                dispatch(new SingleRecalculateVip($map->mobile_last));
+                Vip::createNormal($map->mobile_last);
             }
+
+//            dispatch(new SingleRecalculateVip($map->mobile));
+//            if(!empty($map->mobile_last) && $map->mobile_last <> $map->mobile){
+//                dispatch(new SingleRecalculateVip($map->mobile_last));
+//            }
         }
     }
 }

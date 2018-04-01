@@ -25,12 +25,7 @@ class SingleRecalculateVip extends SingleQueueJob
         $mobile = $this->identity;
         $vip = Vip::find($this->identity);
         if(empty($vip)){
-            $vip = new Vip();
-            $vip->mobile = $mobile;
-            $vip->card = Vip::CARD_1;
-            $vip->save();
-
-            $vip = Vip::find($this->identity);
+            throw new \Exception("指定手机号会员不存在{$this->identity}");
         }
 
         /**

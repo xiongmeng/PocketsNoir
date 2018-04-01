@@ -9,7 +9,7 @@
 
     </head>
     <body>
-    <form method="post" action="/dispatchCard">
+    <form method="post">
         <p>手机号： <input name="mobile" value=""></p>
         <p>来源渠道：<select name="channel">
             <?php foreach (\App\Vip::$jiChangChannelCardMaps as $channel => $card){ ?>
@@ -21,8 +21,6 @@
             <?php }?>
             </select>
         </p>
-        <input type="hidden" name="card">
-        <p>备注：<input name="comment" value=""></p>
 
         {!! csrf_field() !!}
 

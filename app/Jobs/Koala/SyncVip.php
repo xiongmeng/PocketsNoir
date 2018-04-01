@@ -29,7 +29,7 @@ class SyncVip extends Job
         $subject = KoaLaService::subjectGetByName($this->mobile);
 
         if(empty($subject)){
-                KoaLaService::subjectPost(['subject_type' => 0, 'name' => $mobile]);
+            KoaLaService::subjectPost(['subject_type' => 0, 'name' => $mobile, 'phone' => $mobile]);
         }
     }
 }

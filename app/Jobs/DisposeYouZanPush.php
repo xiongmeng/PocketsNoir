@@ -49,7 +49,8 @@ class DisposeYouZanPush extends Job
             case 'POINTS':
                 $data = json_decode(urldecode($json['msg']), true);
                 if(!empty($data['mobile'])){
-                    dispatch(new SingleRecalculateVip($data['mobile']));
+                    Vip::createNormal($data['mobile']);
+//                    dispatch(new SingleRecalculateVip($data['mobile']));
                 }
                 break;
             case 'SCRM_CUSTOMER_CARD':

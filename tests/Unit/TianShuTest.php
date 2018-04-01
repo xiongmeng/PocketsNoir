@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Jobs\TianShu\SyncVip;
 use App\Services\KoaLaService;
 use App\Services\TianShuService;
 use App\Vip;
@@ -15,6 +16,11 @@ class TianShuTest extends TestCase
         $vip = TianShuService::syncVip(Vip::find('18611367408'));
 
         print_r($vip);
+    }
+
+    public function testSyncPocketNoir()
+    {
+        dispatch(new SyncVip('18611367408'))->onConnection('sync');
     }
 
     public function testmportPocketNoirTransaction()

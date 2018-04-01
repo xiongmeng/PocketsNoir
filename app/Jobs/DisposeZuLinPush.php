@@ -32,7 +32,8 @@ class DisposeZuLinPush extends Job
             case 'SCRM_CUSTOMER_PROFILE':
                 $customer = $zuLinDb->table('User')->find($json['id']);
                 if(!empty($customer) && !empty($customer->phone)){
-                    dispatch(new SingleRecalculateVip($customer->phone));
+//                    dispatch(new SingleRecalculateVip($customer->phone));
+                    Vip::createNormal($customer->phone);
                 }
                 break;
             case 'TRADE_ORDER_STATE':
@@ -42,7 +43,8 @@ class DisposeZuLinPush extends Job
                 }
                 $customer = $zuLinDb->table('User')->find($odr->customerId);
                 if(!empty($customer) && !empty($customer->phone)){
-                    dispatch(new SingleRecalculateVip($customer->phone));
+                    Vip::createNormal($customer->phone);
+//                    dispatch(new SingleRecalculateVip($customer->phone));
                 }
                 break;
             default:

@@ -39,6 +39,12 @@ class KoaLaService
         return count($res['data']) > 0 ? $res['data'][0] : [];
     }
 
+    public static function subjectGet($id)
+    {
+        $res = self::request('GET', "/subject/$id", []);
+        return $res['data'];
+    }
+
     public static function subjectPut($id, $params)
     {
         $res = self::request('PUT', "/subject/$id", ['json' => $params]);
@@ -56,15 +62,13 @@ class KoaLaService
     {
         $multipart = [];
 
-        foreach ($files as $filename => $filePath){
-            if(strlen($filePath) > 1024){
-                $contents = $filePath;
-            }else{
-                $contents = fopen($filePath, 'r');
+        foreach ($files as $filename => $fileResource){
+            if(!is_resource($fileResource)){
+                $fileResource = fopen($fileResource, 'r');
             }
             $multipart[] = [
                 'name' => $filename,
-                'contents' => $contents
+                'contents' => $fileResource
             ];
         }
 

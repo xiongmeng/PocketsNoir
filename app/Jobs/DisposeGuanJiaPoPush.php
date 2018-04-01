@@ -44,16 +44,8 @@ class DisposeGuanJiaPoPush extends Job
                     }
 
                     $vip = Vip::find($mobile);
-                    if(empty($vip)){
-                        $vip = new Vip();
-                        $vip->mobile = $mobile;
-                        $vip->card = $revert[$card];
-                        $vip->manual_marked = Vip::MANUAL_MARK_GUANJIAPO;
-                        $vip->save();
-
-                        dispatch(new SingleRecalculateVip($mobile));
-                    }else{
-                        throw new \Exception("卡在数据中心已经存在：{$mobile}");
+                    if(empty($vip) || $vip->card <> $revert[$card]){
+                        throw new \Exception("管家婆添加过卡且卡等级和数据中心不一致：{$mobile}");
                     }
                 }
                 break;

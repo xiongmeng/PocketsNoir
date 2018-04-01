@@ -19,7 +19,7 @@ class GuanJiaPoService
         $resStr = CurlWrapper::get(['mobile' => $mobile, 'signature' => $md5], $url);
 
         $resJson = json_decode($resStr, true);
-        if (empty($resJson['Code']) || $resJson['Code'] <> 1) {
+        if (empty($resJson['Code']) || ($resJson['Code'] <> 1 && $resJson['Msg'] <> '该会员不存在！请输入正确的手机号码！')) {
             throw new \Exception("管家婆接口调用错误：" . $resJson['Msg'], $resJson['Code']);
         }
         return $resJson['Data'];
@@ -36,7 +36,7 @@ class GuanJiaPoService
         $resStr = CurlWrapper::get(['mobile' => $mobile, 'signature' => $signature], $url);
 
         $resJson = json_decode($resStr, true);
-        if (empty($resJson['Code']) || $resJson['Code'] <> 1) {
+        if (empty($resJson['Code']) || ($resJson['Code'] <> 1 && $resJson['Msg'] <> '该会员不存在！请输入正确的手机号码！')) {
             throw new \Exception("管家婆接口调用错误：" . $resJson['Msg'], $resJson['Code']);
         }
         return $resJson['Data'];

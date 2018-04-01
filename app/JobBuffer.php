@@ -3,8 +3,6 @@
 namespace App;
 
 use App\Jobs\DisposeChangesWithYZUid;
-use App\Jobs\RecalculateVip;
-use App\Jobs\SingleRecalculateVip;
 use App\Jobs\YouZanCardActivatedQuery;
 use Illuminate\Database\Eloquent\Model;
 

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Vip;
+use App\VipKoalaFaceppMap;
 use GuzzleHttp\Client;
 use Softonic\GraphQL\ResponseBuilder;
 
@@ -27,12 +28,16 @@ QUERY;
 #   created_at: 'createdAt',
 #   updated_at: 'updatedAt'
 
+        /** @var VipKoalaFaceppMap $map */
+        $map = VipKoalaFaceppMap::find($vip->mobile);
+
         $variables = ['data' => [
             'vipNo' => $vip->mobile,
             'mobile' => $vip->mobile,
             'vipLevel' => Vip::$GuanJiaPoCardMaps[$vip->card],
             'createdAt' => $vip->created_at,
-            'updatedAt' => $vip->updated_at
+            'updatedAt' => $vip->updated_at,
+            'mainFaceId' => $map->koala_id
         ]];
 
         $response = self::query($query, $variables);

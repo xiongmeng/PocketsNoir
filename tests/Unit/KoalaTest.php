@@ -71,4 +71,16 @@ class KoalaTest extends TestCase
 
         print_r($res);
     }
+
+    public function testUploadWithContent()
+    {
+        $res = KoaLaService::upload(
+            '/subject/photo',
+//            ['photo' => __DIR__ . '/face_shebao.jpg'],
+            ['photo' => file_get_contents(__DIR__ . '/unface.jpg')],
+            []
+        );
+
+        print_r($res);
+    }
 }

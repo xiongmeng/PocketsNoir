@@ -36,7 +36,7 @@ class ZuLinService
         $resStr = CurlWrapper::post($params, $url);
 
         $resJson = json_decode($resStr, true);
-        if (empty($resJson['return_code']) || $resJson['return_code'] <> 'SUCCESS') {
+        if (empty($resJson['return_code']) || ($resJson['return_code'] <> 'SUCCESS' && $resJson['sub_code'] <> '用户不存在')) {
             throw new \Exception("租赁接口调用错误：" . $resJson['message']);
         }
         return $resJson;
