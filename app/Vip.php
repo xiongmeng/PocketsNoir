@@ -4,6 +4,7 @@ namespace App;
 
 use App\Jobs\SingleRecalculateVip;
 use App\Libiary\Utility\IsHelper;
+use App\Services\YouZanService;
 use Illuminate\Database\Eloquent\Model;
 
 class Vip extends Model
@@ -103,7 +104,7 @@ class Vip extends Model
      * @param $mobile
      * @param $card
      */
-    public static function createForDuoChaTou($mobile, $card, $recalculate = true)
+    public static function createForDuoChaiTou($mobile, $card, $recalculate = true)
     {
         if(in_array($card, [self::CARD_4, self::CARD_3])){
             $card = self::CARD_1;
@@ -119,12 +120,14 @@ class Vip extends Model
 
     public static function createFromZuLin($mobile, $recalculate = true)
     {
-        return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_ZULIN, $recalculate);
+        YouZanService::ensureCustomerExisted($mobile);
+        return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_ZULIN, false);
     }
 
     public static function createFromJiChang($mobile, $recalculate = true)
     {
-        return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_JICHANG, $recalculate);
+        YouZanService::ensureCustomerExisted($mobile);
+        return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_JICHANG, false);
     }
 
     /**
@@ -133,7 +136,8 @@ class Vip extends Model
      */
     public static function createFromAdmin($mobile, $recalculate = true)
     {
-        return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_ADMIN, $recalculate);
+        YouZanService::ensureCustomerExisted($mobile);
+        return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_ADMIN, false);
     }
 
     /**

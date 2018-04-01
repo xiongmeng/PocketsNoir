@@ -391,4 +391,9 @@ class YouZanTest extends TestCase
         $result = $response['response'];
         var_dump($result);
     }
+
+    public static function testEnsureCustomerExisted()
+    {
+        YouZanService::ensureCustomerExisted('18611367408');
+    }
 }

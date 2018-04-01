@@ -28,6 +28,8 @@ class SyncVip extends Job
         $vip = Vip::find($this->mobile);
         $mobile = $vip->mobile;
 
+
+
         /**
          * 同步卡到有赞
          */
@@ -57,7 +59,7 @@ class SyncVip extends Job
             }
         }
 //        只有卡号不为空
-        if(!$cardExisted && $vip->card <> Vip::CARD_1){
+        if(!$cardExisted){
             if(app()->environment('production')){
                 YouZanService::userCardGrant($mobile, $targetCardAlias);
             }else{

@@ -122,4 +122,44 @@ class YouZanService
             'youzan.scrm.customer.info.get', '3.0.0', ['card_no' => $cardNo]);
         return $response;
     }
+
+    public static function createCustomer($mobile, $profile)
+    {
+        $response = (new Client(YouZanService::accessToken()))->post(
+            'youzan.scrm.customer.create', '3.0.0', [
+                'mobile' => $mobile,
+                'customer_create' => json_encode($profile)
+            ]);
+        return $response;
+    }
+
+    public static function updateCustomer($mobile, $profile)
+    {
+        $response = (new Client(YouZanService::accessToken()))->post(
+            'youzan.scrm.customer.update', '3.0.0', [
+                'account' => json_encode(['account_type' => 'Mobile', 'account_id' => $mobile]),
+                'customer_update' => json_encode($profile)
+            ]);
+        return $response;
+    }
+
+    /**
+     * 创建有赞会员
+     */
+    public static function ensureCustomerExisted($mobile)
+    {
+        try{
+            self::createCustomer($mobile, ["remark"=> 'MarkedByProgramCreate']);
+        }catch (\Exception $e){
+//            如果用户存在
+            if($e->getCode() <> '141502109'){
+                throw $e;
+            }
+        }
+
+        /** 更新用户后此时有赞再发卡的话就可以发卡成功 */
+        self::updateCustomer($mobile, ["remark"=> 'MarkedByProgramForGrantCard']);
+    }
+
+
 }
