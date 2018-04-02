@@ -77,7 +77,7 @@ class VipFaceImportService
             dispatch(new \App\Jobs\FacePlusPlus\SyncVip($mobile))->onConnection('sync');
         }
 
-        dispatch(new SyncVip($mobile))->onConnection('sync');
+//        dispatch(new SyncVip($mobile))->onConnection('sync');
 
         return $subject;
     }
