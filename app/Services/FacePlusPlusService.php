@@ -81,27 +81,33 @@ class FacePlusPlusService
      */
     public static function searchPeopleExist($faceToken)
     {
-        $res = self::facesetSearchByToken($faceToken);
-        if(!empty($res['results']) && count($res['results']) > 0){
-            $maxConfidence = current($res['results']);
-            foreach ($res['results'] as $result){
-                if($result['confidence'] > $maxConfidence['confidence']){
-                    $maxConfidence = $result;
+        try{
+            $res = self::facesetSearchByToken($faceToken);
+            if(!empty($res['results']) && count($res['results']) > 0){
+                $maxConfidence = current($res['results']);
+                foreach ($res['results'] as $result){
+                    if($result['confidence'] > $maxConfidence['confidence']){
+                        $maxConfidence = $result;
+                    }
                 }
+
+                $same = null;
+                if($maxConfidence['confidence'] >= $res['thresholds']['1e-5']){
+                    $same = '1e-5';
+                }elseif($maxConfidence['confidence'] >= $res['thresholds']['1e-4']){
+                    $same = '1e-4';
+                }elseif ($maxConfidence['confidence'] >= $res['thresholds']['1e-3']){
+                    $same = '1e-3';
+                }
+
+                $maxConfidence['same'] = $same;
+
+                return $maxConfidence;
             }
-
-            $same = null;
-            if($maxConfidence['confidence'] >= $res['thresholds']['1e-5']){
-                $same = '1e-5';
-            }elseif($maxConfidence['confidence'] >= $res['thresholds']['1e-4']){
-                $same = '1e-4';
-            }elseif ($maxConfidence['confidence'] >= $res['thresholds']['1e-3']){
-                $same = '1e-3';
+        }catch (\Exception $e){
+            if($e->getMessage() <> 'Face++Exception:INVALID_OUTER_ID'){
+                throw $e;
             }
-
-            $maxConfidence['same'] = $same;
-
-            return $maxConfidence;
         }
 
         return [];
