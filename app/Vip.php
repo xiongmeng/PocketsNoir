@@ -97,7 +97,7 @@ class Vip extends Model
     public static function createForJiChangYG($mobile)
     {
         YouZanService::ensureCustomerExisted($mobile);
-        return self::insertOrUpdate($mobile, self::CARD_4, self::MANUAL_MARK_JICHANGYG, false);
+        return self::insertOrUpdate($mobile, self::CARD_4, self::MANUAL_MARK_JICHANGYG, true);
     }
 
     /**

@@ -18,6 +18,13 @@ Route::get('/', function () {
 Route::any('/dispatchCardForJiChang', function () {
     $method = strtoupper(request()->method());
     if ($method == 'POST') {
+        $mobile = request()->post('mobile');
+        $vip = \App\Vip::find($mobile);
+        if(!empty($vip)){
+            $vip->card = \App\Vip::CARD_4;
+            $vip->manual_marked = \App\Vip::MANUAL_MARK_JICHANGYG;
+            $vip->save();
+        }
         $vip = \App\Vip::createForJiChangYG(request()->post('mobile'));
         return response()->json($vip->toArray());
     }else{
@@ -182,13 +189,28 @@ Route::post('/vip/checkin', function () {
     }
 });
 
-Route::get('/entry', function () {
-    /** @var $user \Overtrue\Socialite\User */
-//    $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
 
-    return view('2018chunjie.entry', []);
-});
 
 Route::get('/jsCfg', function (){
-    return EasyWeChat::officialAccount()->jssdk->buildConfig(array('onMenuShareTimeline', 'onMenuShareAppMessage'), false);
+    $refer = URL::previous();
+    $json = EasyWeChat::officialAccount()->jssdk
+        ->setUrl($refer)
+        ->buildConfig(array("onMenuShareTimeline","onMenuShareAppMessage","onMenuShareQQ","onMenuShareWeibo","onMenuShareQZone","startRecord","stopRecord","onVoiceRecordEnd","playVoice","pauseVoice","stopVoice","onVoicePlayEnd","uploadVoice","downloadVoice","chooseImage","previewImage","uploadImage","downloadImage","translateVoice","getNetworkType","openLocation","getLocation","hideOptionMenu","showOptionMenu","hideMenuItems","showMenuItems","hideAllNonBaseMenuItem","showAllNonBaseMenuItem","closeWindow","scanQRCode","chooseWXPay","openProductSpecificView","addCard","chooseCard","openCard"), false);
+    return response()->json(json_decode($json, true));
+});
+
+Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
+    Route::get('/entry', function () {
+        /** @var $user \Overtrue\Socialite\User */
+//    $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+
+        return view('2018chunjie.entry', []);
+    });
+
+    Route::get('/auth', function () {
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+
+        return response()->json($user);
+    });
 });
