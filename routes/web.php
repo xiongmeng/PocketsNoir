@@ -181,3 +181,14 @@ Route::post('/vip/checkin', function () {
         return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
     }
 });
+
+Route::get('/entry', function () {
+    /** @var $user \Overtrue\Socialite\User */
+//    $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+
+    return view('2018chunjie.entry', []);
+});
+
+Route::get('/jsCfg', function (){
+    return EasyWeChat::officialAccount()->jssdk->buildConfig(array('onMenuShareTimeline', 'onMenuShareAppMessage'), false);
+});
