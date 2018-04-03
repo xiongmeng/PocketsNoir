@@ -160,9 +160,9 @@ class Vip extends Model
         if(empty($vip)){
             $vip = new Vip();
             $vip->mobile = $mobile;
+            $vip->card = $card;
+            $vip->manual_marked = $manualMarked;
         }
-        $vip->card = $card;
-        $vip->manual_marked = $manualMarked;
 
         $vip->save();
 
