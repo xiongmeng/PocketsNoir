@@ -248,7 +248,8 @@ class YouZanTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'mobile' => '13709413994',
+//            'mobile' => '13709413994',
+            'mobile' => '18506835679'
         ];
 
         $response = $client->get($method, $apiVersion, $params);

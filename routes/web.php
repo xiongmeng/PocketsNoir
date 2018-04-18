@@ -13,240 +13,249 @@
 
 Route::get('/', function () {
     return view('welcome');
-//    return 'welcome';
 });
 
-Route::any('/dispatchCard', function (){
+Route::any('/dispatchCardForJiChang', function () {
     $method = strtoupper(request()->method());
-    if($method == 'POST'){
-        $posts = request()->post();
-        $channel = $posts['channel'];
-        if(empty($channel)){
-            throw new Exception('渠道不能为空！');
-        }
-        $mobile = $posts['mobile'];
-        if(empty($mobile)){
-            throw new Exception('手机号不能为空！');
-        }
-
-        $card = $posts['card'];
-        if(!empty($card)){
-            if($channel <> '特殊渠道'){
-                throw new Exception('必须选特殊渠道才能自定义选卡！');
-            }
-        }else{
-            if(empty(\App\Vip::$ChannelCardMaps[$channel])){
-                throw new Exception('对应的渠道不存在相对应的卡！');
-            }
-            $card = \App\Vip::$ChannelCardMaps[$channel];
-        }
-
-        if(!isset(\App\Vip::$channelMaps[$channel])){
-            throw new Exception("对应的渠道{$channel}不存在渠道码值(参考channelMaps)");
-        }
-
+    if ($method == 'POST') {
+        $mobile = request()->post('mobile');
         $vip = \App\Vip::find($mobile);
-        if(empty($vip)){
-            $vip = new \App\Vip();
-            $vip->mobile = $mobile;
-            $vip->card = $card;
-            $vip->manual_marked = \App\Vip::$channelMaps[$channel];
-            $vip->save();
-        }else{
-            Log::info("AdjustCardLevelAsCardExisted", ['before' => $vip->toArray(),
-                'now' => ['card'=>$card, 'manual_marked' => \App\Vip::$channelMaps[$channel]]]);
-            $vip->card = $card;
-            $vip->manual_marked = \App\Vip::$channelMaps[$channel];
-//            throw new Exception("会员卡已经存在！" . json_encode($vip->toArray()));
+        if(!empty($vip)){
+            $vip->card = \App\Vip::CARD_4;
+            $vip->manual_marked = \App\Vip::MANUAL_MARK_JICHANGYG;
             $vip->save();
         }
-
-        dispatch(new \App\Jobs\SingleRecalculateVip($mobile));
-
-        $vip = \App\Vip::find($mobile);
+        $vip = \App\Vip::createForJiChangYG(request()->post('mobile'));
         return response()->json($vip->toArray());
     }else{
-        return view('dispatchCard');
+        return view('dispatchCardForJiChang');
     }
 });
 
-Route::get('/dispatchCardFotJiChang', function (){
-    return view('dispatchCardForJiChang');
+Route::any('/createCard', function () {
+    $method = strtoupper(request()->method());
+    if ($method == 'POST') {
+        $vip = \App\Vip::createFromAdmin(request()->post('mobile'));
+        return response()->json($vip->toArray());
+    } else {
+        return view('refreshCard');
+    }
 });
 
-Route::any('/refreshCard', function (){
+Route::any('/refreshCard', function () {
     $method = strtoupper(request()->method());
-    if($method == 'POST'){
+    if ($method == 'POST') {
         $mobile = request()->post('mobile');
+        dispatch(new \App\Jobs\SingleRecalculateVip($mobile));
         $vip = \App\Vip::find($mobile);
-        if(empty($vip)){
-            return response("会员卡{$mobile}不存在！！！");
-        }else{
-            dispatch(new \App\Jobs\SingleRecalculateVip($mobile));
-            return response()->json($vip->toArray());
-        }
-    }else{
+        return response()->json($vip->toArray());
+    } else {
         return view('refreshCard');
     }
 });
 
 Route::post('/youzan/push', function () {
-    try{
+    try {
         $rawPostData = file_get_contents("php://input");
         dispatch(new \App\Jobs\DisposeYouZanPush($rawPostData))->onConnection('sync');
-    }catch (Exception $e){
+    } catch (Exception $e) {
         Log::info($e);
     }
 
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
 
-Route::post('/guanjiapo/push', function(){
-    try{
+Route::post('/guanjiapo/push', function () {
+    try {
         dispatch(new \App\Jobs\DisposeGuanJiaPoPush(request()->post()))->onConnection('sync');
-    }catch (Exception $e){
+    } catch (Exception $e) {
         \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
     }
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
 
-Route::post('/zulin/push', function(){
-    try{
+Route::post('/zulin/push', function () {
+    try {
         dispatch(new \App\Jobs\DisposeZuLinPush(request()->post()))->onConnection('sync');
-    }catch (Exception $e){
+    } catch (Exception $e) {
         \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
     }
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
 
-Route::post('/vip/face/importBase64', function (){
+Route::post('/vip/face/importBase64', function () {
     header("Access-Control-Allow-Origin: *");
 
-    try{
+    try {
         $base64_image_content = $_POST['imgBase64'];
 //匹配出图片的格式
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)) {
-            $type = $result[2];
+            $content = base64_decode(str_replace($result[1], '', $base64_image_content));
 
+            $temp = tmpfile();
+            fwrite($temp, $content);
+            $res = \App\Services\VipFaceImportService::detectFormFile($temp);
+            is_resource($temp) && fclose($temp);
 
-//        $path = md5($_FILES['file']['tmp_name']) . date("YmdHis");
-        $path = time();
-        $content = base64_decode(str_replace($result[1], '', $base64_image_content));
-        \Storage::disk('oss_activity')->put("vip/face/tmp/{$path}.jpeg", $content);
-
-        $publicDisk = \Storage::disk('public');
-        $file = "{$path}.jpeg";
-        $publicDisk->put($file, $content);
-
-        $res = \App\Services\KoaLaService::subjectPhoto($publicDisk->path($file));
-
-        return response()->json(['code' => 0, 'data' => $res]);
-        }else{
+            return response()->json(['code' => 0, 'data' => $res]);
+        } else {
             throw new Exception("base64格式不正确！");
         }
 
-    }catch (Exception $e){
+    } catch (Exception $e) {
         \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
         return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
     }
 });
 
-Route::post('/vip/face/import', function (){
+Route::post('/vip/face/import', function () {
     header("Access-Control-Allow-Origin: *");
 
-    try{
-        if(empty($_FILES['file'])){
+    try {
+        if (empty($_FILES['file'])) {
             throw new Exception("未发现文件内容！");
         }
-
-        $path = md5($_FILES['file']['tmp_name']) . date("YmdHis");
-        \Storage::disk('oss_activity')->put("vip/face/tmp/{$path}.jpeg", file_get_contents($_FILES['file']['tmp_name']));
-
-        $res = \App\Services\KoaLaService::subjectPhoto($_FILES['file']['tmp_name']);
-
+        $res = \App\Services\VipFaceImportService::detectFormFile($_FILES['file']['tmp_name']);
         return response()->json(['code' => 0, 'data' => $res]);
-    }catch (Exception $e){
+
+    } catch (Exception $e) {
         \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
         return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
     }
 });
 
-Route::post('/vip/mobile/code', function(){
+Route::post('/vip/mobile/code', function () {
     $mobile = request()->post('mobile');
 
-    try{
-        if(empty($mobile)){
+    try {
+        if (empty($mobile)) {
             throw new Exception("必须传入手机号!");
         }
 
         $cacheKey = "vip_mobile_code_$mobile";
         $cacheExpired = "vip_mobile_expired_$mobile";
-        if(Cache::has($cacheExpired)){
+        if (Cache::has($cacheExpired)) {
             throw new Exception("一分钟内不能重复发送验证码！");
         }
 
-        $code = rand(100000,999999);
+        $code = rand(100000, 999999);
         Cache::put($cacheExpired, '', 1);
         Cache::put($cacheKey, $code, 5);
 
         $aliSms = new \Mrgoon\AliSms\AliSms();
-        $response = $aliSms->sendSms($mobile, 'SMS_111890588', ['code'=> $code]);
+        $response = $aliSms->sendSms($mobile, 'SMS_111890588', ['code' => $code]);
 
         return response()->json(['code' => 0, 'data' => $response]);
-    }catch (Exception $e){
+    } catch (Exception $e) {
         \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
         return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
     }
 });
 
-Route::post('/vip/checkin', function(){
+Route::post('/vip/checkin', function () {
     header("Access-Control-Allow-Origin: *");
 
     $code = request()->post('code');
     $mobile = request()->post('mobile');
     $faceId = request()->post('face_id');
-    try{
-        if(empty($code)){
+    try {
+        if (empty($code)) {
             throw new Exception("短信验证码不能为空!");
         }
-        if(empty($mobile)){
+        if (empty($mobile)) {
             throw new Exception("必须传入手机号!");
         }
-        if(empty($faceId)){
+        if (empty($faceId)) {
             throw new Exception("必须传入人脸Id!");
         }
 
         $cacheKey = "vip_mobile_code_$mobile";
         $codeExpected = Cache::get($cacheKey);
-        if(empty($codeExpected)){
+        if (empty($codeExpected)) {
             throw new Exception("短信验证码不存在或已过期，请重新获取！");
         }
-        if($codeExpected <> $code){
+        if ($codeExpected <> $code) {
             throw new Exception("验证码输入错误！");
         }
 
-//        dispatch(new \App\Jobs\RecalculateVip($mobile))->onConnection('sync');
-
-        $subject = \App\Services\KoaLaService::subjectGetByName($mobile);
-        if(empty($subject)){
-            $subject = \App\Services\KoaLaService::subjectPost(['subject_type' => 0, 'name' => $mobile]);
-        }
-        $photoIds = [];
-//        if(!empty($subject['photos'])){
-//            foreach ($subject['photos'] as $photo) {
-//                $photoIds[$photo['id']] = $photo['id'];
-//            }
-//        }
-//        这个地方一定要转换成整形，不然会被face++认为是空
-        $photoIds[$faceId] = intval($faceId);
-
-//        return response()->json($photoIds);
-        $res = \App\Services\KoaLaService::subjectPut($subject['id'], ['photo_ids' => array_values($photoIds)]);
+        \App\Vip::createFromJiChang($mobile);
+        $res = \App\Services\VipFaceImportService::bindVipFace($faceId, $mobile);
 
         return response()->json(['code' => 0, 'data' => $res]);
-    }catch (Exception $e){
+    } catch (Exception $e) {
         \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
 
         return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
     }
+});
+
+
+
+Route::get('/jsCfg', function (){
+    $refer = URL::previous();
+    $json = EasyWeChat::officialAccount()->jssdk
+        ->setUrl($refer)
+        ->buildConfig(array("onMenuShareTimeline","onMenuShareAppMessage","onMenuShareQQ","onMenuShareWeibo","onMenuShareQZone","startRecord","stopRecord","onVoiceRecordEnd","playVoice","pauseVoice","stopVoice","onVoicePlayEnd","uploadVoice","downloadVoice","chooseImage","previewImage","uploadImage","downloadImage","translateVoice","getNetworkType","openLocation","getLocation","hideOptionMenu","showOptionMenu","hideMenuItems","showMenuItems","hideAllNonBaseMenuItem","showAllNonBaseMenuItem","closeWindow","scanQRCode","chooseWXPay","openProductSpecificView","addCard","chooseCard","openCard"), false);
+    return response()->json(json_decode($json, true));
+});
+
+Route::get('/prize', function (){
+    $point = rand(100, 999);
+    return view('2018chunjie.prize', ['point' => $point]);
+});
+
+Route::get('/qrCode', function (){
+    $writer = new \Endroid\QrCode\QrCode(request()->get('data'));
+    $writer->setSize(300);
+    $writer->setWriterByName('png');
+    $writer->setMargin(1);
+    $writer->setLogoWidth(50);
+    $content = $writer->writeString();
+
+    return response($content, 200, ["Content-type" => 'image/png']);
+});
+
+Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
+    Route::get('/entry', function () {
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+        $point = request()->get('point');
+        Cache::driver('file')->put('yzPoints_' . $user->getId(), $point, 60000);
+        return view('2018chunjie.entry', ['user' => $user, 'point' => $point]);
+    });
+
+    Route::get('/auth', function () {
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+
+        return response()->json($user);
+    });
+});
+
+Route::post('/pushYz', function () {
+    Log::info(5);
+    try {
+        $rawPostData = file_get_contents("php://input");
+        $json = json_decode($rawPostData, true);
+        Log::info(4);
+        if($json['type'] == 'SCRM_CUSTOMER_EVENT'){
+            $data = json_decode(urldecode($json['msg']), true);
+            Log::info(1);
+            if($data['account_type'] == 'YouZanAccount'){
+                Log::info(2);
+                $customer = \App\Services\YouZanService::getCustomerByYouZanAccount($data['account_id']);
+                if(!empty($customer['mobile'])){
+                    Log::info(3);
+                    $openId = \App\Services\YouZanService::getUserWeiXinOpenidByMobile($customer['mobile']);
+                    $point = Cache::driver('file')->get('yzPoints_' . $openId);
+
+                    \App\Services\YouZanService::userPointsSync($customer['mobile'], $point);
+                }
+            }
+        }
+    } catch (Exception $e) {
+        Log::info($e);
+    }
+
+    return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });

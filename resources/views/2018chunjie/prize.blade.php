@@ -10,7 +10,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>领取奖品</title>
+    <title>抽奖页面</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -80,12 +80,9 @@
 
 <body >
 <div id="app" style="width:100%;height:100%;">
-    <p>恭喜<?= $user->getName()?> 获得 <span><?= $point ?></span>积分</p>
-    <p>同时附赠一张会员卡哦，点击以下链接一并领取</p>
-
-    <p><a href="https://j.youzan.com/ex9syY">我是一个按钮，可以点击，也可以自动跳转</a></p>
-
-    <p>openId:<?= $user->getId()?></p>
+    <p>恭喜获得 <span><?= $point ?></span>积分</p>
+    <p>微信扫描下放二维码领取奖品</p>
+    <img src="/qrCode?data=http://mp.sylicod.com/entry?point=<?= $point?>" >
 </div>
 </body>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>

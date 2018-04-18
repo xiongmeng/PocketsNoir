@@ -15,6 +15,7 @@ class VerifyCsrfToken extends Middleware
         'youzan/push',
         'guanjiapo/push',
         'zulin/push',
+        'pushYz',
         'shoukuanma',
         'generate',
         'refreshCard',
