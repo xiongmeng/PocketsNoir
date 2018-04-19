@@ -54,6 +54,17 @@ class YouZanService
         return $response;
     }
 
+    public static function getCustomerGouCiByMobile($mobile)
+    {
+        $response = (new Client(YouZanService::accessToken()))->get(
+            'youzan.scrm.customer.get', '3.0.0', [
+            'fans_id' => 0,
+            'fans_type' => 1,
+            'mobile' => $mobile
+        ]);
+        return $response;
+    }
+
     public static function getUserCardListByMobile($mobile)
     {
         $response = (new Client(YouZanService::accessToken()))

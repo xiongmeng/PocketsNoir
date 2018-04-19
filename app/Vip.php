@@ -122,7 +122,7 @@ class Vip extends Model
     public static function createFromZuLin($mobile, $recalculate = true)
     {
         YouZanService::ensureCustomerExisted($mobile);
-        return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_ZULIN, false);
+        return self::insertOrUpdate($mobile, self::CARD_1, self::MANUAL_MARK_ZULIN, $recalculate);
     }
 
     public static function createFromJiChang($mobile, $recalculate = true)

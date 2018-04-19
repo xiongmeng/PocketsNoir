@@ -9,6 +9,7 @@ use App\Jobs\DisposeZuLinPush;
 use App\Jobs\RecalculateVip;
 use App\Jobs\SyncVip;
 use App\Libiary\Utility\CurlWrapper;
+use App\Vip;
 use Tests\TestCase;
 
 class VipTest extends TestCase
@@ -405,5 +406,10 @@ POST;
                 var_dump("exception {$resJson}");
             }
         }
+    }
+
+    public function testCreateFromZulin()
+    {
+        Vip::createFromZuLin('17625729151');
     }
 }

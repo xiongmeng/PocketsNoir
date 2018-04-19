@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Services\YouZanService;
+use App\VipShuaFen;
 use Tests\TestCase;
 use Youzan\Open\Client;
 
@@ -334,6 +335,11 @@ class YouZanTest extends TestCase
         var_dump($result);
     }
 
+    public function testGetCustomerGouCiByMobile()
+    {
+        $res = YouZanService::getCustomerGouCiByMobile('13903008198');
+    }
+
     public function testCustomerUpdate()
     {
         $accessToken = YouZanService::accessToken();
@@ -392,8 +398,30 @@ class YouZanTest extends TestCase
         var_dump($result);
     }
 
-    public static function testEnsureCustomerExisted()
+    public function testEnsureCustomerExisted()
     {
         YouZanService::ensureCustomerExisted('18611367408');
+    }
+
+    public function testYouZanGouCiData()
+    {
+        $idx = 0;
+        VipShuaFen::where('gouci', '=', 999)->chunk(100, function ($a, $b) use(&$idx){
+            var_dump($idx+=100);
+
+            /** @var VipShuaFen $vip */
+            foreach ($a as $vip){
+                try{
+                    $res = YouZanService::getCustomerGouCiByMobile($vip->mobile);
+                    $vip->gouci = $res['trade_count'];
+                    !empty($res['first_time']) && $vip->firstBuyTime = $res['first_time'];
+                    !empty($res['last_trade_time']) && $vip->lastestBuyTime = $res['last_trade_time'];
+
+                    $vip->save();
+                }catch (\Exception $e){
+                    \Log::info("ERRORYOUZAN" . $vip->mobile);
+                }
+            }
+        });
     }
 }
