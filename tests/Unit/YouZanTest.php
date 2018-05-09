@@ -229,7 +229,7 @@ class YouZanTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'tid' => 'E20180212134535008300004',
+            'tid' => 'E20180423170104057700006',
         ];
 
         $response = $client->get($method, $apiVersion, $params);
@@ -424,4 +424,12 @@ class YouZanTest extends TestCase
             }
         });
     }
+
+    public function testGetTradeListByYouZanAccountId()
+    {
+//        $accountId = '814122446';
+        $accountId = '736491603';
+        $res = YouZanService::getTradeListByYouZanAccountId($accountId);
+    }
+
 }

@@ -45,7 +45,7 @@ class RecalculateVip extends Job
         if(!empty($map)){
             $youZanTrades = YouZanService::getTradeListByYouZanAccountId($map->yz_uid);
             foreach ($youZanTrades as $youZanTrade){
-                if($youZanTrade['status'] == 'TRADE_BUYER_SIGNED'){
+                if($youZanTrade['status'] == 'TRADE_BUYER_SIGNED' && $youZanTrade['created'] >= '2018-02-06'){
                     if(in_array($youZanTrade['type'], ['FIXED'])){
                         $consumeYouZan += $youZanTrade['payment'];
                     }else if(!in_array($youZanTrade['type'], ['QRCODE', 'PRESENT'])){
