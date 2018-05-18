@@ -26,6 +26,16 @@ class ZuLinService
         return self::post($params, '/data-center/user/point');
     }
 
+    public static function sendCoupon($mobile, $couponId)
+    {
+        $params = [
+            'mobile' => $mobile,
+            'couponId' => $couponId
+        ];
+
+        return self::post($params, '/data-center/user/coupon');
+    }
+
     private static function post($params, $path)
     {
         $url = env('ZULIN_HOST') . $path;

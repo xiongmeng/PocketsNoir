@@ -2,7 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Services\ZuLinService;
 use App\Vip;
+use App\ZuLinUser;
 
 class DisposeZuLinPush extends Job
 {
@@ -34,6 +36,14 @@ class DisposeZuLinPush extends Job
                 if(!empty($customer) && !empty($customer->phone)){
 //                    dispatch(new SingleRecalculateVip($customer->phone));
                     Vip::createFromZuLin($customer->phone);
+                }
+                $couponId = env('ZULIN_RECOMMEND_COUPON_KEY');
+                if(!empty($couponId) && !empty($customer->registrationCode) && $json['status'] == 'REGISTER'){
+//                    dispatch((new ZulinInvitationSendCouponJob($json['id'])));
+                    $user = ZuLinUser::where('invitationCode', '=', $customer->registrationCode)->first();
+                    if(!empty($user)){
+                        ZuLinService::sendCoupon($user->phone, $couponId);
+                    }
                 }
                 break;
             case 'TRADE_ORDER_STATE':

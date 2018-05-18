@@ -63,7 +63,7 @@ class CurlWrapper
      * @return mixed
      * @throws \Exception
      */
-    public static function get($data, $url, $second = 30, $encode='UTF-8')
+    public static function get($data, $url, $second = 30, $headers=null)
     {
         $queries = is_scalar($data) ? strval($data) : http_build_query($data);
 
@@ -76,8 +76,11 @@ class CurlWrapper
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 3);
         curl_setopt($ch, CURLOPT_TIMEOUT, $second);
 
+        is_null($headers) && $headers=[];
+        $headers[] = 'Expect:';
+
         // disable 100-continue
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Expect:'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 

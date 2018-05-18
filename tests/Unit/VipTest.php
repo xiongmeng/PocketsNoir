@@ -143,7 +143,7 @@ POST;
     public function testZuLinProfile()
     {
         $post = [
-            'id' => 19, 'type'=> 'SCRM_CUSTOMER_PROFILE'
+            'id' => 6, 'type'=> 'SCRM_CUSTOMER_PROFILE', 'status' => 'REGISTER'
         ];
         dispatch(new DisposeZuLinPush($post))->onConnection('sync');
     }
