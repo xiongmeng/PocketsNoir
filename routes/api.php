@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::any('lottery/chooseShop', "lotteryController@chooseShop");
 
-Route::any('lottery/lotteryDraw/{id}', "lotteryController@lotteryDraw");
+Route::any('lottery/lotteryDraw', "lotteryController@lotteryDraw");
 
 Route::post('lottery/addShopRule', "lotteryController@addShopRule");
+

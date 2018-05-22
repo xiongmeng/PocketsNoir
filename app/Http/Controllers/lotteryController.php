@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\Lottery;
+use Illuminate\Http\Request;
 
 class lotteryController extends Controller
 {
@@ -23,10 +24,9 @@ class lotteryController extends Controller
 
     }
 
-    public function lotteryDraw($id)
+    public function lotteryDraw(Request $request)
     {
-
-
+        $id = $request->get('id');
         $lottery = lottery::where('id', $id)->first();
         $lotteryNum = $lottery->lottery_num;  //当前已抽人数
         $totalNum = $lottery->first_prize + $lottery->second_prize + $lottery->forth_prize;
@@ -94,8 +94,29 @@ class lotteryController extends Controller
         }
 
     }
+
+
+    public function LotterySave(Request $request)
+    {
+
+        if ($request) {
+            $result['info'] = LotteryMember::create([
+                'shop' => $request->post('shop'),
+                'prize_type' => $request->post('prize_type'),
+                'prize_name' => $request->post('prize_name'),
+                'imageID' => $request->post('imageID'),
+                'phone' => $request->post('phone'),
+                'member_name' => $request->post('member_name'),
+                'created_at' => date('Y-m-d H:i:s', time()),
+                'status' => 1
+            ]);
+        }
+    }
+
+
     //推送奖券到有赞   推送数据线奖品到有赞
-    public function  pushToYouZan(){
+    public function pushToYouZan()
+    {
 
     }
 
