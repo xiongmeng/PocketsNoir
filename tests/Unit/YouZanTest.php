@@ -432,4 +432,24 @@ class YouZanTest extends TestCase
         $res = YouZanService::getTradeListByYouZanAccountId($accountId);
     }
 
+    public function testUmpPresentGive()
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.ump.present.give';
+        $apiVersion = '3.0.0';
+
+        $params = [
+            'activity_id' => '325577',
+            'buyer_id' => '820814522'
+//            'account' => json_encode(["account_type"=>"Mobile", "account_id"=>"18611367408"]),
+//            'account' => '{"account_type":"Mobile", "account_id":"18611367408"}',
+//            'customer_update' => json_encode(["contact_address"=>['address' => '北京']])
+        ];
+
+        $response = $client->get($method, $apiVersion, $params);
+        $result = $response['response'];
+        var_dump($result);
+    }
 }
