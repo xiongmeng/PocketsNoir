@@ -16,3 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::any('lottery/chooseShop', "lotteryController@chooseShop");
+
+Route::any('lottery/lotteryDraw/{id}', "lotteryController@lotteryDraw");
+
+Route::post('lottery/addShopRule', "lotteryController@addShopRule");
