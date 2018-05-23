@@ -24,6 +24,10 @@ class LotteryTableSeeder extends Seeder
                 'second_prize' => 3,
                 'third_prize' => 64,
                 'forth_prize' => 232,
+                'first_present_id' => 1,
+                'second_present_id' => 1,
+                'third_present_id' => 1,
+                'forth_present_id' => 1,
                 'second_prize_total' =>3,
                 'status'=>1,
             ]);
