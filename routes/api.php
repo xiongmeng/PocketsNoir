@@ -23,3 +23,6 @@ Route::any('lottery/lotteryDraw', "lotteryController@lotteryDraw");
 
 Route::post('lottery/addShopRule', "lotteryController@addShopRule");
 
+Route::post('lottery/lotterySave', "lotteryController@LotterySave");
+
+Route::get('lottery/presentTest', "lotteryController@presentTest");
