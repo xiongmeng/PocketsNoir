@@ -15,6 +15,7 @@ use App\LotteryPresent;
 use Illuminate\Http\Request;
 use App\Services\LotteryService;
 use Exception;
+
 class lotteryController extends Controller
 {
 
@@ -25,7 +26,17 @@ class lotteryController extends Controller
 
 
         $lottery = DB::select('select id,shop from lottery where status = ?', [1]);
-        return json_encode($lottery, true);
+        if ($lottery) {
+            $result['data'] = $lottery;
+            $result['message'] = "success";
+            $result['code'] = "200";
+        } else {
+            $result['message'] = "error";
+            $result['code'] = "-200";
+        }
+
+
+        return json_encode($result, true);
 
     }
 
@@ -34,7 +45,7 @@ class lotteryController extends Controller
         header("Access-Control-Allow-Origin: *");
 
         $id = $request->get('id');
-        if($id){
+        if ($id) {
             $lottery = lottery::where('id', $id)->first();
             $lotteryNum = $lottery->lottery_num;  //当前已抽人数
             $totalNum = $lottery->first_prize + $lottery->second_prize + $lottery->forth_prize;
@@ -42,51 +53,52 @@ class lotteryController extends Controller
             $secondPrizetoTotal = $lottery->second_prize_total;  //二等奖总数（计算二等奖抽奖用）
             //抽二等奖
 
-
             $x = floor(($totalNum / $secondPrizetoTotal) * ($secondPrizetoTotal - $secondPrize + 1));
             if ($x == $lotteryNum + 1)   //中奖
             {
-                $result['prize'] = 2;
-                $result['massage'] = "success";
-                $result['present_id']  = $lottery->second_present_id;
-                $lotteryPresent = LotteryPresent::where('id',$lottery->second_present_id)->first();
-                $result['present_name'] = $lotteryPresent->present_name;
+                $data['prize'] = 2;
+                $data['present_id'] = $lottery->second_present_id;
+                $lotteryPresent = LotteryPresent::where('id', $lottery->second_present_id)->first();
+                $data['present_name'] = $lotteryPresent->present_name;
                 $lottery->second_prize -= 1;
                 $lottery->lottery_num += 1;
             } else {
                 $prize = rand(1, $totalNum);
                 if ($prize <= $lottery->first_prize) {
-                    $result['prize'] = 1;
-                    $result['massage'] = "success";
-                    $result['present_id']  = $lottery->first_present_id;
-                    $lotteryPresent = LotteryPresent::where('id',$lottery->first_present_id)->first();
-                    $result['present_name'] = $lotteryPresent->present_name;
+                    $data['prize'] = 1;
+                    $data['massage'] = "success";
+                    $data['present_id'] = $lottery->first_present_id;
+                    $lotteryPresent = LotteryPresent::where('id', $lottery->first_present_id)->first();
+                    $data['present_name'] = $lotteryPresent->present_name;
                     $lottery->first_prize -= 1;
                     $lottery->lottery_num += 1;
                 } else if ($prize > $lottery->first_prize && $prize <= ($lottery->third_prize + $lottery->first_prize)) {
-                    $result['prize'] = 3;
-                    $result['massage'] = "success";
-                    $result['present_id']  = $lottery->third_present_id;
-                    $lotteryPresent = LotteryPresent::where('id',$lottery->third_present_id)->first();
-                    $result['present_name'] = $lotteryPresent->present_name;
+                    $data['prize'] = 3;
+                    $data['massage'] = "success";
+                    $data['present_id'] = $lottery->third_present_id;
+                    $lotteryPresent = LotteryPresent::where('id', $lottery->third_present_id)->first();
+                    $data['present_name'] = $lotteryPresent->present_name;
                     $lottery->third_prize -= 1;
                     $lottery->lottery_num += 1;
                 } else if ($prize > ($lottery->third_prize + $lottery->first_prize) && $prize <= $totalNum) {
-                    $result['prize'] = 4;
-//                    $result['present_id']  = $lottery->forth_present_id;
-                    $result['present_id'] = 0;// 如果是奖券 传0
-                    $lotteryPresent = LotteryPresent::where('id',$lottery->forth_present_id)->first();
+                    $data['prize'] = 0;  //四等奖
+//                    $data['present_id']  = $lottery->forth_present_id;
+                    $data['present_id'] = 0;// 如果是奖券 传0
+                    $lotteryPresent = LotteryPresent::where('id', $lottery->forth_present_id)->first();
                     $lottery->forth_prize -= 1;
                     $lottery->lottery_num += 1;
                 }
-                $result['present_name'] = $lotteryPresent->present_name;
-                $result['massage'] = "success";
-                $result['error_code'] = "200";
-                $lottery->updated_at = date('Y-m-d H:i:s', time());
-                $lottery->save();
-                return json_encode($result, true);
+
             }
-        }else{
+            $data['present_name'] = $lotteryPresent->present_name;
+            $lottery->updated_at = date('Y-m-d H:i:s', time());
+            $lottery->save();
+            $result['data'] = $data;
+            $result['massage'] = "success";
+            $result['error_code'] = "200";
+            return json_encode($result, true);
+
+        } else {
             $result['massage'] = "请检查您的id值！";
             $result['code'] = "-200";
             return json_encode($result, true);
@@ -141,23 +153,28 @@ class lotteryController extends Controller
         $phone = $request->post('phone');
         $member_name = $request->post('member_name');
 
-        if ($request) {
-            if (empty($shopId)) {
-                throw new Exception("店id不能为空!");
-            }
-            if (empty($presentId)) {
-                throw new Exception("赠品id不能为空!如果是发劵 id为0");
-            }
-            if (empty($imageID)) {
-                throw new Exception("必须传入人脸Id!");
-            }
-            if (empty($phone)) {
-                throw new Exception("必须传入手机号!");
-            }
-            if (empty($member_name)) {
-                $member_name = $phone;
-            }
-            $result['info'] = LotteryMember::create([
+        if (empty($shopId)) {
+            throw new Exception("店id不能为空!");
+        }
+        if (empty($presentId)) {
+            throw new Exception("赠品id不能为空!如果是发劵 id为0");
+        }
+        if (empty($imageID)) {
+            throw new Exception("必须传入人脸Id!");
+        }
+        if (empty($phone)) {
+            throw new Exception("必须传入手机号!");
+        }
+        if (empty($member_name)) {
+            $member_name = $phone;
+        }
+        //避免重复抽奖
+        $member = LotteryMember::where('phone', $phone)->first();
+        if ($member) {
+            $result['message'] = "该手机号已参与过活动！";
+            $result['code'] = -200;
+        } else {
+            $result['data'] = LotteryMember::create([
                 'shop_id' => $shopId,
                 'present_id' => $presentId,
                 'imageID' => $imageID,
@@ -168,11 +185,8 @@ class lotteryController extends Controller
             ]);
             $result['code'] = 200;
             $result['message'] = "success";
-        } else {
-            $result['message'] = "error";
-            $result['code'] = -200;
-        }
 
+        }
         return json_encode($result);
     }
 

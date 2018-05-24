@@ -20,14 +20,6 @@ use App\Services\YouZanService;
 class LotteryService
 {
 
-    public static function  saveLottery()
-    {
-
-
-        /*  储存 抽奖信息*/
-
-
-    }
 
      /*face++ 人脸绑定*/
     public static function pushFacePlusPlus($mobile){
@@ -58,7 +50,6 @@ class LotteryService
             /*查询bannerID*/
             $presentId = $lotteryMember->present_id;
             if($presentId != 0){
-
                 $present = LotteryPresent::where('id', $presentId)->first();
                 $activityId = $present->activity_id;
                 $yzMember = YzUidMobileMap::where('mobile', $mobile)->first();
@@ -72,6 +63,8 @@ class LotteryService
                 LotteryService::CouponTake($mobile,$couponId);
 
             }
+            $lotteryMember->status = 2;
+            $lotteryMember->save();
         }
 
     }
