@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Services\YouZanService;
+use App\Services\LotteryService;
 use App\VipShuaFen;
 use Tests\TestCase;
 use Youzan\Open\Client;
@@ -249,11 +250,21 @@ class YouZanTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'mobile' => '13709413994',
+            'mobile' => '18500353096',
+//            'mobile' => '13709413994',
+
         ];
 
         $response = $client->get($method, $apiVersion, $params);
-        $result = $response['response'];
+        if(isset($response['response'])){
+            $result = $response['response'];
+            LotteryService::sendLottery("18500353096");
+
+        }else{
+            $result = $response['error_response'];
+            throw new Exception($result['massage']);
+        }
+
         var_dump($result);
     }
 

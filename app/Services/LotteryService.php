@@ -110,8 +110,8 @@ class LotteryService
     var_dump($result);
 
 }
-/*根据用户手机号 查询是否注册   如果注册 返回user*/
-    public function testOpenidGet()
+/*根据用户手机号 查询是否注册   如果注册 调用发奖*/
+    public static function OpenidGet($mobile)
     {
         $accessToken = YouZanService::accessToken();
         $client = new Client($accessToken);
@@ -120,18 +120,17 @@ class LotteryService
         $apiVersion = '3.0.0';
 
         $params = [
-            'mobile' => '13709413994',
+            'mobile' => $mobile,
         ];
-
         $response = $client->get($method, $apiVersion, $params);
-        if($response['response']){
+        if(isset($response['response'])){
+//            $result = $response['response'];
+            LotteryService::sendLottery($mobile);
 
         }else{
-
+            $result = $response['error_response'];
+            throw new Exception($result['massage']);
         }
-
-
-        var_dump($result);
     }
 
 
