@@ -452,4 +452,26 @@ class YouZanTest extends TestCase
         $result = $response['response'];
         var_dump($result);
     }
+
+    public function testCouponTake(){
+
+
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.ump.coupon.take'; //要调用的api名称
+        $api_version = '3.0.0'; //要调用的api版本号
+
+        $params = [
+            'mobile' => '18500353096',
+            'coupon_group_id' => '2507415',
+        ];
+        $response =  $client->post($method, $api_version, $params);
+        $result = $response['response'];
+        var_dump($result);
+
+    }
+
+
+
 }

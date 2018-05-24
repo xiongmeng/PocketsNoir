@@ -110,6 +110,29 @@ class LotteryService
     var_dump($result);
 
 }
+/*根据用户手机号 查询是否注册   如果注册 返回user*/
+    public function testOpenidGet()
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.user.weixin.openid.get';
+        $apiVersion = '3.0.0';
+
+        $params = [
+            'mobile' => '13709413994',
+        ];
+
+        $response = $client->get($method, $apiVersion, $params);
+        if($response['response']){
+
+        }else{
+
+        }
+
+
+        var_dump($result);
+    }
 
 
 }
