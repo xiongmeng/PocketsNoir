@@ -8,8 +8,18 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
 
-class LotteryPresent
+class LotteryPresent extends Model
 {
+    protected $connection = 'mysql';
 
+    protected $table = 'lottery_present';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+
+        'activity_id','present_name','status',
+    ];
 }
