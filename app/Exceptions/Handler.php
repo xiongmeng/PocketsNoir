@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Libiary\Context\Fact\FactException;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -37,6 +38,11 @@ class Handler extends ExceptionHandler
     public function report(Exception $exception)
     {
         parent::report($exception);
+
+        /**
+         * 默认所有异常均记录
+         */
+        FactException::instance()->recordException($exception);
     }
 
     /**
@@ -48,6 +54,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+//        return parent::render($request, $exception);
+
+        $response = response()->json($exception->getMessage());
+        $response->exception = $exception;
+        return $response;
     }
 }
