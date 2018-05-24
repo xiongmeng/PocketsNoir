@@ -30,7 +30,7 @@ require __DIR__.'/../vendor/autoload.php';
  */
 date_default_timezone_set('Asia/Hong_Kong');
 
-\App\Libiary\Context\Log::instance()->init('dc', '/data/wwwlogs/context');
+\App\Libiary\Context\Log::instance()->init('choujiang', '/data/wwwlogs/context');
 
 /**
  * 记录http请求 - Begin

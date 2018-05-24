@@ -22,22 +22,11 @@ class lotteryController extends Controller
 
     public function chooseShop()
     {
-        header("Access-Control-Allow-Origin: *");
-
-
         $lottery = DB::select('select id,shop from lottery where status = ?', [1]);
-        if ($lottery) {
-            $result['data'] = $lottery;
-            $result['message'] = "success";
-            $result['code'] = "200";
-        } else {
-            $result['message'] = "error";
-            $result['code'] = "-200";
+        if (empty($lottery)) {
+            throw new Exception("未找见指定的门店", -200);
         }
-
-
-        return json_encode($result, true);
-
+        return response()->json($lottery);
     }
 
     public function lotteryDraw(Request $request)
