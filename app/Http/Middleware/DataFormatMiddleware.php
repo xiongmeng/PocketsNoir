@@ -27,7 +27,7 @@ class DataFormatMiddleware
         }
 
         if($response->headers->get('content-type', '') == 'application/json'){
-            $status = 0;
+            $status = 200;
             $msg = '';
 
 //            根据异常设置相应的error和msg
@@ -40,7 +40,7 @@ class DataFormatMiddleware
             $originalData = json_decode($originalData, true);
 
 //        重新设置content
-            $response->setContent(json_encode(['status' => $status, 'msg' => $msg, 'data' => $originalData]));
+            $response->setContent(json_encode(['code' => $status, 'message' => $msg, 'data' => $originalData]));
         }
 
         return $response;
