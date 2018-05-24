@@ -173,9 +173,9 @@ class lotteryController extends Controller
 
 
     /*发奖测试*/
-    public function presentTest($mobile)
+    public function presentTest(Request $request)
     {
-
+        $mobile = $request->post('phone');
         LotteryService::OpenidGet($mobile);
 //        LotteryService::sendLottery("18500353096");
 

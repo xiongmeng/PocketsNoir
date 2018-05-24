@@ -65,6 +65,7 @@ class LotteryService
             }
             $lotteryMember->status = 2;
             $lotteryMember->save();
+            return response()->json("领奖成功！");
         }
 
     }
