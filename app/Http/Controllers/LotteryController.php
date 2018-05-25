@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use App\Services\LotteryService;
 use Exception;
 
-class lotteryController extends Controller
+class LotteryController extends Controller
 {
 
 
