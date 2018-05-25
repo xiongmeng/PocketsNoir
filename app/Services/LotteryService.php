@@ -142,10 +142,8 @@ class LotteryService
     {
         $accessToken = YouZanService::accessToken();
         $client = new Client($accessToken);
-
         $method = 'youzan.user.weixin.openid.get';
         $apiVersion = '3.0.0';
-
         $params = [
             'mobile' => $mobile,
         ];
@@ -178,8 +176,8 @@ class LotteryService
 //            'coupon_group_id' => '2507415',
         ];
         $response =  $client->post($method, $api_version, $params);
-        $result = $response['response']['user']['user_id'];  //粉丝id
-        return $result;
+        $fansId = $response['response']['user']['user_id'];  //粉丝id
+        return $fansId;
 
 //        5519138128
     }
@@ -206,7 +204,7 @@ class LotteryService
                 $result = LotteryService::CouponTake($mobile,$couponId);
 
             }
-//            $lotteryMember->status = 2;
+            $lotteryMember->status = 2;   // 重复领奖的开关
             $lotteryMember->save();
         }else{
             throw new \Exception('未找到中奖信息！');
