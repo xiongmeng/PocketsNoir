@@ -17,6 +17,7 @@ use Youzan\Open\Client;
 use App\Services\YouZanService;
 
 
+
 class LotteryService
 {
 
@@ -46,6 +47,7 @@ class LotteryService
         /*如何区分发劵还是发奖？   根据presentID 如果是0  则发奖劵*/
         $where = array('phone' => $mobile, 'status' => '1');
         $lotteryMember = LotteryMember::where($where)->first();
+
         if ($lotteryMember) {
             /*查询bannerID*/
             $presentId = $lotteryMember->present_id;
@@ -66,6 +68,8 @@ class LotteryService
             $lotteryMember->status = 2;
             $lotteryMember->save();
             return response()->json("领奖成功！");
+        }else{
+            throw new \Exception('未找到中奖信息！');
         }
 
     }
@@ -130,9 +134,15 @@ class LotteryService
 
         }else{
             $result = $response['error_response'];
-            throw new Exception($result['massage']);
+            throw new \Exception($result['msg']);
         }
     }
+
+
+
+
+    
+    
 
 
 }

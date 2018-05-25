@@ -7,6 +7,9 @@ use App\Services\LotteryService;
 use App\VipShuaFen;
 use Tests\TestCase;
 use Youzan\Open\Client;
+use App\LotteryMember;
+use App\LotteryPresent;
+use App\YzUidMobileMap;
 
 class YouZanTest extends TestCase
 {
@@ -482,6 +485,43 @@ class YouZanTest extends TestCase
         var_dump($result);
 
     }
+
+
+    public  function  testsendLottery($mobile = '18612345678')
+    {
+        /*返回的用户信息*/
+        /*查询bannerID*/
+        /*核对用户信息  如果手机号在发奖人表内 则发奖  借用status字段  如果stasus 为1 未发奖 如果status为2 已发奖*/
+        /*如何区分发劵还是发奖？   根据presentID 如果是0  则发奖劵*/
+        $where = array('phone' => $mobile, 'status' => '1');
+        $lotteryMember = LotteryMember::where($where)->first();
+
+        if ($lotteryMember) {
+            /*查询bannerID*/
+            $presentId = $lotteryMember->present_id;
+            if($presentId != 0){
+                $present = LotteryPresent::where('id', $presentId)->first();
+                $activityId = $present->activity_id;
+                $yzMember = YzUidMobileMap::where('mobile', $mobile)->first();
+                /*发奖*/
+                $buyerId = $yzMember->yz_uid;    //获取用户id
+                /*后续修改 添加奖品id*/
+                LotteryService::UmpPresentGive($buyerId,$activityId);
+            }else{
+                $coupon = LotteryCoupon::where('id',1)->first();
+                $couponId = $coupon->coupon_id;
+                LotteryService::CouponTake($mobile,$couponId);
+
+            }
+            $lotteryMember->status = 2;
+            $lotteryMember->save();
+            return response()->json("领奖成功！");
+        }else{
+            throw new \Exception('未找到中奖信息！');
+        }
+
+    }
+
 
 
 
