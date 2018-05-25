@@ -86,70 +86,52 @@ Route::post('/zulin/push', function () {
 Route::post('/vip/face/importBase64', function () {
 //    header("Access-Control-Allow-Origin: *");
 
-    try {
-        $base64_image_content = $_POST['imgBase64'];
+    $base64_image_content = $_POST['imgBase64'];
 //匹配出图片的格式
-        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)) {
-            $content = base64_decode(str_replace($result[1], '', $base64_image_content));
+    if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)) {
+        $content = base64_decode(str_replace($result[1], '', $base64_image_content));
 
-            $temp = tmpfile();
-            fwrite($temp, $content);
-            $res = \App\Services\VipFaceImportService::detectFormFile($temp);
-            is_resource($temp) && fclose($temp);
+        $temp = tmpfile();
+        fwrite($temp, $content);
+        $res = \App\Services\VipFaceImportService::detectFormFile($temp);
+        is_resource($temp) && fclose($temp);
 
-            return response()->json(['code' => 0, 'data' => $res]);
-        } else {
-            throw new Exception("base64格式不正确！");
-        }
-
-    } catch (Exception $e) {
-        \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
-        return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
+        return $res;
+    } else {
+        throw new Exception("base64格式不正确！");
     }
 });
 
 Route::post('/vip/face/import', function () {
 //    header("Access-Control-Allow-Origin: *");
-
-    try {
-        if (empty($_FILES['file'])) {
-            throw new Exception("未发现文件内容！");
-        }
-        $res = \App\Services\VipFaceImportService::detectFormFile($_FILES['file']['tmp_name']);
-        return response()->json(['code' => 0, 'data' => $res]);
-
-    } catch (Exception $e) {
-        \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
-        return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
+    if (empty($_FILES['file'])) {
+        throw new Exception("未发现文件内容！");
     }
+    $res = \App\Services\VipFaceImportService::detectFormFile($_FILES['file']['tmp_name']);
+    return $res;
 });
 
 Route::post('/vip/mobile/code', function () {
     $mobile = request()->post('mobile');
 
-    try {
-        if (empty($mobile)) {
-            throw new Exception("必须传入手机号!");
-        }
-
-        $cacheKey = "vip_mobile_code_$mobile";
-        $cacheExpired = "vip_mobile_expired_$mobile";
-        if (Cache::has($cacheExpired)) {
-            throw new Exception("一分钟内不能重复发送验证码！");
-        }
-
-        $code = rand(100000, 999999);
-        Cache::put($cacheExpired, '', 1);
-        Cache::put($cacheKey, $code, 5);
-
-        $aliSms = new \Mrgoon\AliSms\AliSms();
-        $response = $aliSms->sendSms($mobile, 'SMS_111890588', ['code' => $code]);
-
-        return response()->json(['code' => 0, 'data' => $response]);
-    } catch (Exception $e) {
-        \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
-        return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
+    if (empty($mobile)) {
+        throw new Exception("必须传入手机号!");
     }
+
+    $cacheKey = "vip_mobile_code_$mobile";
+    $cacheExpired = "vip_mobile_expired_$mobile";
+    if (Cache::has($cacheExpired)) {
+        throw new Exception("一分钟内不能重复发送验证码！");
+    }
+
+    $code = rand(100000, 999999);
+    Cache::put($cacheExpired, '', 1);
+    Cache::put($cacheKey, $code, 5);
+
+    $aliSms = new \Mrgoon\AliSms\AliSms();
+    $response = $aliSms->sendSms($mobile, 'SMS_111890588', ['code' => $code]);
+
+    return $response;
 });
 
 Route::post('/vip/checkin', function () {
@@ -158,35 +140,30 @@ Route::post('/vip/checkin', function () {
     $code = request()->post('code');
     $mobile = request()->post('mobile');
     $faceId = request()->post('face_id');
-    try {
-        if (empty($code)) {
-            throw new Exception("短信验证码不能为空!");
-        }
-        if (empty($mobile)) {
-            throw new Exception("必须传入手机号!");
-        }
-        if (empty($faceId)) {
-            throw new Exception("必须传入人脸Id!");
-        }
 
-        $cacheKey = "vip_mobile_code_$mobile";
-        $codeExpected = Cache::get($cacheKey);
-        if (empty($codeExpected)) {
-            throw new Exception("短信验证码不存在或已过期，请重新获取！");
-        }
-        if ($codeExpected <> $code) {
-            throw new Exception("验证码输入错误！");
-        }
-
-        \App\Vip::createFromJiChang($mobile);
-        $res = \App\Services\VipFaceImportService::bindVipFace($faceId, $mobile);
-
-        return response()->json(['code' => 0, 'data' => $res]);
-    } catch (Exception $e) {
-        \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
-
-        return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
+    if (empty($code)) {
+        throw new Exception("短信验证码不能为空!");
     }
+    if (empty($mobile)) {
+        throw new Exception("必须传入手机号!");
+    }
+    if (empty($faceId)) {
+        throw new Exception("必须传入人脸Id!");
+    }
+
+    $cacheKey = "vip_mobile_code_$mobile";
+    $codeExpected = Cache::get($cacheKey);
+    if (empty($codeExpected)) {
+        throw new Exception("短信验证码不存在或已过期，请重新获取！");
+    }
+    if ($codeExpected <> $code) {
+        throw new Exception("验证码输入错误！");
+    }
+
+    \App\Vip::createFromJiChang($mobile);
+    $res = \App\Services\VipFaceImportService::bindVipFace($faceId, $mobile);
+
+    return $res;
 });
 
 
