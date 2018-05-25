@@ -109,7 +109,7 @@ Route::post('/vip/face/importBase64', function () {
 });
 
 Route::post('/vip/face/import', function () {
-    header("Access-Control-Allow-Origin: *");
+//    header("Access-Control-Allow-Origin: *");
 
     try {
         if (empty($_FILES['file'])) {
@@ -153,7 +153,7 @@ Route::post('/vip/mobile/code', function () {
 });
 
 Route::post('/vip/checkin', function () {
-    header("Access-Control-Allow-Origin: *");
+//    header("Access-Control-Allow-Origin: *");
 
     $code = request()->post('code');
     $mobile = request()->post('mobile');
