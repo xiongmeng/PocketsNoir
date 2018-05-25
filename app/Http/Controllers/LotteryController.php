@@ -140,7 +140,7 @@ class LotteryController extends Controller
         if (empty($shopId)) {
             throw new Exception("店id不能为空!");
         }
-        if (empty($presentId)) {
+        if (is_numeric($presentId)){
             throw new Exception("赠品id不能为空!如果是发劵 id为0");
         }
         if (empty($imageID)) {
@@ -176,8 +176,9 @@ class LotteryController extends Controller
     public function presentTest(Request $request)
     {
         $mobile = $request->post('phone');
-        LotteryService::pushFacePlusPlus($mobile);
+
         $openId = LotteryService::OpenidGet($mobile);
+        LotteryService::pushFacePlusPlus($mobile);
         $fansId = LotteryService::UserWeixinFollower($openId);
         LotteryService::sendLotteryByFansId($fansId,$mobile);
 

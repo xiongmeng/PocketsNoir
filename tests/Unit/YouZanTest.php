@@ -542,4 +542,11 @@ class YouZanTest extends TestCase
 
 //        5519138128
     }
+
+
+    public function  test(){
+
+
+        $a =  is_numeric('0');
+    }
 }
