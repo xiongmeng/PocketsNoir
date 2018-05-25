@@ -140,7 +140,7 @@ class LotteryController extends Controller
         if (empty($shopId)) {
             throw new Exception("店id不能为空!");
         }
-        if (is_numeric($presentId)){
+        if (!is_numeric($presentId)){
             throw new Exception("赠品id不能为空!如果是发劵 id为0");
         }
         if (empty($imageID)) {

@@ -549,4 +549,7 @@ class YouZanTest extends TestCase
 
         $a =  is_numeric('0');
     }
+
+
+
 }
