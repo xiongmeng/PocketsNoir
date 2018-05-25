@@ -261,7 +261,7 @@ class YouZanTest extends TestCase
         $response = $client->get($method, $apiVersion, $params);
         if(isset($response['response'])){
             $result = $response['response'];
-            LotteryService::sendLottery("18500353096");
+//            LotteryService::sendLottery("18500353096");
 
         }else{
             $result = $response['error_response'];
@@ -522,7 +522,6 @@ class YouZanTest extends TestCase
 
     }
 
-    //op-3Cw_oi1zJCeUFsjuvWdgmt8Uo
 
     public function testUserWeixinFollower(){
 

@@ -96,6 +96,28 @@ class LotteryService
         var_dump($result);
     }
 
+    /*赠送赠品*/
+    public static function UmpPresentGiveByFansId($fansId, $activityId)
+    {
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.ump.present.give';
+        $apiVersion = '3.0.0';
+
+        $params = [
+            'activity_id' => $activityId,
+            'fans_id' => $fansId,
+//            'account' => json_encode(["account_type"=>"Mobile", "account_id"=>"18611367408"]),
+//            'account' => '{"account_type":"Mobile", "account_id":"18611367408"}',
+//            'customer_update' => json_encode(["contact_address"=>['address' => '北京']])
+        ];
+
+        $response = $client->get($method, $apiVersion, $params);
+        $result = $response['response'];
+        return $result;
+    }
+
     /*赠送奖券*/
     public static function CouponTake($mobile,$couponId){
 
@@ -112,7 +134,7 @@ class LotteryService
     ];
     $response =  $client->post($method, $api_version, $params);
     $result = $response['response'];
-    var_dump($result);
+    return $result;
 
 }
 /*根据用户手机号 查询是否注册   如果注册 调用发奖*/
@@ -130,7 +152,10 @@ class LotteryService
         $response = $client->get($method, $apiVersion, $params);
         if(isset($response['response'])){
 //            $result = $response['response'];
-            LotteryService::sendLottery($mobile);
+//            LotteryService::sendLottery($mobile);
+              $openid = $response['response']['open_id'];
+              return $openid;
+//
 
         }else{
             $result = $response['error_response'];
@@ -138,7 +163,56 @@ class LotteryService
         }
     }
 
+    public static function UserWeixinFollower($openid){
 
+
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.users.weixin.follower.get'; //要调用的api名称
+        $api_version = '3.0.0'; //要调用的api版本号
+
+        $params = [
+            'weixin_openid' => $openid,
+//            'weixin_openid' => 'op-3Cw_oi1zJCeUFsjuvWdgmt8Uo',
+//            'coupon_group_id' => '2507415',
+        ];
+        $response =  $client->post($method, $api_version, $params);
+        $result = $response['response']['user']['user_id'];  //粉丝id
+        return $result;
+
+//        5519138128
+    }
+
+
+
+    public static function  sendLotteryByFansId($fansId,$mobile)
+    {
+        $where = array('phone' => $mobile, 'status' => '1');
+        $lotteryMember = LotteryMember::where($where)->first();
+
+        if ($lotteryMember) {
+            /*查询bannerID*/
+            $presentId = $lotteryMember->present_id;
+            if($presentId != 0){
+                $present = LotteryPresent::where('id', $presentId)->first();
+                $activityId = $present->activity_id;
+
+                /*后续修改 添加奖品id*/
+                $result = LotteryService::UmpPresentGiveByFansId($fansId,$activityId);
+            }else{
+                $coupon = LotteryCoupon::where('id',1)->first();
+                $couponId = $coupon->coupon_id;
+                $result = LotteryService::CouponTake($mobile,$couponId);
+
+            }
+//            $lotteryMember->status = 2;
+            $lotteryMember->save();
+        }else{
+            throw new \Exception('未找到中奖信息！');
+        }
+
+    }
 
 
     

@@ -176,7 +176,10 @@ class LotteryController extends Controller
     public function presentTest(Request $request)
     {
         $mobile = $request->post('phone');
-        LotteryService::OpenidGet($mobile);
+        $openId = LotteryService::OpenidGet($mobile);
+        $fansId = LotteryService::UserWeixinFollower($openId);
+        LotteryService::sendLotteryByFansId($fansId,$mobile);
+        return response()->json("领奖成功！");
 //        LotteryService::sendLottery("18500353096");
 
     }
