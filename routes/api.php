@@ -17,12 +17,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('lottery/chooseShop', "lotteryController@chooseShop");
+Route::get('lottery/chooseShop', "LotteryController@chooseShop");
 
-Route::get('lottery/lotteryDraw', "lotteryController@lotteryDraw");
+Route::get('lottery/lotteryDraw', "LotteryController@lotteryDraw");
 
-Route::post('lottery/addShopRule', "lotteryController@addShopRule");
+Route::post('lottery/addShopRule', "LotteryController@addShopRule");
 
-Route::post('lottery/lotterySave', "lotteryController@LotterySave");
+Route::post('lottery/lotterySave', "LotteryController@LotterySave");
 
-Route::post('lottery/presentTest', "lotteryController@presentTest");
+Route::post('lottery/presentTest', "LotteryController@presentTest");

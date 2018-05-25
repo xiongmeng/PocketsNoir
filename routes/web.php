@@ -84,7 +84,7 @@ Route::post('/zulin/push', function () {
 });
 
 Route::post('/vip/face/importBase64', function () {
-    header("Access-Control-Allow-Origin: *");
+//    header("Access-Control-Allow-Origin: *");
 
     try {
         $base64_image_content = $_POST['imgBase64'];
