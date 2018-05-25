@@ -335,7 +335,7 @@ class YouZanTest extends TestCase
 
         $params = [
 //            'account' => json_encode(["account_type"=>"Mobile", "account_id"=>"18611367408"]),
-            'account' => '{"account_type":"FansID", "account_id":"4874214531"}'
+            'account' => '{"account_type":"FansID", "account_id":"5519138128"}'
 //            'account' => '{"account_type":"FansID", "account_id":"2022742744"}'
         ];
 //        fans_id => 2022742744
@@ -348,7 +348,7 @@ class YouZanTest extends TestCase
 
     public function testGetCustomerGouCiByMobile()
     {
-        $res = YouZanService::getCustomerGouCiByMobile('13903008198');
+        $res = YouZanService::getCustomerGouCiByMobile('13888685615');
     }
 
     public function testCustomerUpdate()
@@ -483,6 +483,25 @@ class YouZanTest extends TestCase
 
     }
 
+//op-3Cw_oi1zJCeUFsjuvWdgmt8Uo
+
+    public function testUserWeixinFollower(){
 
 
+        $accessToken = YouZanService::accessToken();
+        $client = new Client($accessToken);
+
+        $method = 'youzan.users.weixin.follower.get'; //要调用的api名称
+        $api_version = '3.0.0'; //要调用的api版本号
+
+        $params = [
+            'weixin_openid' => 'op-3Cw_oi1zJCeUFsjuvWdgmt8Uo',
+//            'coupon_group_id' => '2507415',
+        ];
+        $response =  $client->post($method, $api_version, $params);
+        $result = $response['response'];
+        var_dump($result);
+
+//        5519138128
+    }
 }
