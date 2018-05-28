@@ -191,9 +191,9 @@ class LotteryController extends Controller
         $cacheKey = "vip_mobile_code_$mobile";
         $cacheExpired = "vip_mobile_expired_$mobile";
 
-//        if (Cache::has($cacheExpired)) {
-//            throw new Exception("一分钟内不能重复发送验证码！");
-//        }
+        if (Cache::has($cacheExpired)) {
+            throw new Exception("一分钟内不能重复发送验证码！");
+        }
 
         $code = rand(100000, 999999);
         Cache::put($cacheExpired, '', 1);
