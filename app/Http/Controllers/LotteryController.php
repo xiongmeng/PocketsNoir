@@ -15,6 +15,7 @@ use App\LotteryPresent;
 use Illuminate\Http\Request;
 use App\Services\LotteryService;
 use Exception;
+use Cache;
 
 class LotteryController extends Controller
 {
@@ -189,17 +190,18 @@ class LotteryController extends Controller
 
         $cacheKey = "vip_mobile_code_$mobile";
         $cacheExpired = "vip_mobile_expired_$mobile";
-        if (Cache::has($cacheExpired)) {
-            throw new Exception("一分钟内不能重复发送验证码！");
-        }
+
+//        if (Cache::has($cacheExpired)) {
+//            throw new Exception("一分钟内不能重复发送验证码！");
+//        }
 
         $code = rand(100000, 999999);
         Cache::put($cacheExpired, '', 1);
         Cache::put($cacheKey, $code, 5);
 
         $aliSms = new \Mrgoon\AliSms\AliSms();
-        $response = $aliSms->sendSms($mobile, 'SMS_111890588', ['code' => $code]);
 
+        $response = $aliSms->sendSms($mobile, 'SMS_111890588', ['code' => $code]);
         return $response()->json($response);
     }
 
