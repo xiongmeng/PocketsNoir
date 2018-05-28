@@ -37,7 +37,7 @@ class DuiJiangQuery extends Command
     {
         $step = $this->argument('step');
 
-        LotteryMember::where('status' , '<>', 1)->where('create_at', '>', date('Y-m-d H:i:s', time()-3600))
+        LotteryMember::where('status' , '<>', 1)->where('created_at', '>', date('Y-m-d H:i:s', time()-3600))
             ->orderBy('created_at', 'desc')->chunk($step, function (Collection $list){
             foreach ($list as $item){
               LotteryService::sendLotteryByMobile($item['mobile']);
