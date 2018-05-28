@@ -15,7 +15,7 @@ use App\LotteryMember;
 use App\YzUidMobileMap;
 use Youzan\Open\Client;
 use App\Services\YouZanService;
-
+use Cache;
 
 
 class LotteryService
