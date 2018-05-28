@@ -171,6 +171,31 @@ class LotteryController extends Controller
 
     }
 
+    //验证手机号
+    public function checkIn(){
+        $code = request()->post('code');
+        $mobile = request()->post('mobile');
+
+
+        if (empty($code)) {
+            throw new Exception("短信验证码不能为空!");
+        }
+        if (empty($mobile)) {
+            throw new Exception("必须传入手机号!");
+        }
+
+
+        $cacheKey = "vip_mobile_code_$mobile";
+        $codeExpected = Cache::get($cacheKey);
+        if (empty($codeExpected)) {
+            throw new Exception("短信验证码不存在或已过期，请重新获取！");
+        }
+        if ($codeExpected <> $code) {
+            throw new Exception("验证码输入错误！");
+        }
+
+        return response()->json("验证码正确！");
+    }
 
     /*发奖测试*/
     public function presentTest(Request $request)
@@ -181,11 +206,14 @@ class LotteryController extends Controller
         LotteryService::pushFacePlusPlus($mobile);
         $fansId = LotteryService::UserWeixinFollower($openId);
         LotteryService::sendLotteryByFansId($fansId,$mobile);
-
+        \App\Vip::createFromJiChang($mobile);  //给客户开卡
         return response()->json("领奖成功！");
 //        LotteryService::sendLottery("18500353096");
 
     }
+
+
+
 
 
 }
