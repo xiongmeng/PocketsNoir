@@ -16,10 +16,10 @@ class LotteryMember extends Model
 
     protected $table = 'lottery_member';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
 
-        'shop_id','present_id','imageID','phone','member_name','status',
+        'shop_id','present_id','imageID','phone','member_name','status'
     ];
 }

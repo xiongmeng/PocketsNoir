@@ -183,6 +183,12 @@ class LotteryService
     }
 
 
+    public static function sendLotteryByMobile($mobile)
+    {
+        $openId = LotteryService::OpenidGet($mobile);
+        $fansId = LotteryService::UserWeixinFollower($openId);
+        LotteryService::sendLotteryByFansId($fansId,$mobile);
+    }
 
     public static function  sendLotteryByFansId($fansId,$mobile)
     {

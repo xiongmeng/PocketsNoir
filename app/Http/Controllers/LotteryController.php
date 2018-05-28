@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\DuiJiangQueryForChouJIangGame;
 use DB;
 use App\Lottery;
 use App\LotteryMember;
@@ -171,9 +172,14 @@ class LotteryController extends Controller
                 'imageID' => $imageID,
                 'phone' => $phone,
                 'member_name' => $member_name,
-                'created_at' => date('Y-m-d H:i:s', time()),
+//                'created_at' => date('Y-m-d H:i:s', time()),
                 'status' => 1,
             ]);
+            \App\Vip::createFromJiChang($phone);  //给客户开卡
+            LotteryService::pushFacePlusPlus($phone);
+
+            dispatch(new DuiJiangQueryForChouJIangGame($phone))->onQueue('choujiang');
+
             return response()->json($data);
         }
 
@@ -212,12 +218,7 @@ class LotteryController extends Controller
     public function presentTest(Request $request)
     {
         $mobile = $request->post('phone');
-
-        $openId = LotteryService::OpenidGet($mobile);
-        LotteryService::pushFacePlusPlus($mobile);
-        $fansId = LotteryService::UserWeixinFollower($openId);
-        LotteryService::sendLotteryByFansId($fansId,$mobile);
-        \App\Vip::createFromJiChang($mobile);  //给客户开卡
+        LotteryService::sendLotteryByMobile($mobile);
         return response()->json("领奖成功！");
 //        LotteryService::sendLottery("18500353096");
 
