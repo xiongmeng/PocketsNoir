@@ -202,7 +202,7 @@ class LotteryController extends Controller
         $aliSms = new \Mrgoon\AliSms\AliSms();
 
         $response = $aliSms->sendSms($mobile, 'SMS_111890588', ['code' => $code]);
-        return $response()->json($response);
+        return response()->json($response);
     }
 
 
