@@ -179,6 +179,32 @@ class LotteryController extends Controller
     }
 
 
+    public function getMobileCode(Request $request)
+    {
+        $mobile = $request->post('mobile');
+
+        if (empty($mobile)) {
+            throw new Exception("必须传入手机号!");
+        }
+
+        $cacheKey = "vip_mobile_code_$mobile";
+        $cacheExpired = "vip_mobile_expired_$mobile";
+        if (Cache::has($cacheExpired)) {
+            throw new Exception("一分钟内不能重复发送验证码！");
+        }
+
+        $code = rand(100000, 999999);
+        Cache::put($cacheExpired, '', 1);
+        Cache::put($cacheKey, $code, 5);
+
+        $aliSms = new \Mrgoon\AliSms\AliSms();
+        $response = $aliSms->sendSms($mobile, 'SMS_111890588', ['code' => $code]);
+
+        return $response()->json($response);
+    }
+
+
+
 
     /*发奖测试*/
     public function presentTest(Request $request)
