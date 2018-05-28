@@ -117,26 +117,29 @@ class LotteryController extends Controller
           return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
     }
 
-
-
     }
 
 
     public function LotterySave(Request $request)
     {
 
-
         /* 抽奖客户信息储存入数据库
          * 是否需要对客户重复插入做处理？
          *
          * */
-
+        $code = $request->post('code');
         $shopId = $request->post('shop_id');
         $presentId = $request->post('present_id');
         $imageID = $request->post('imageID');
         $phone = $request->post('phone');
         $member_name = $request->post('member_name');
 
+
+
+
+        if (empty($code)) {
+            throw new Exception("验证码不能为空!");
+        }
         if (empty($shopId)) {
             throw new Exception("店id不能为空!");
         }
@@ -152,6 +155,10 @@ class LotteryController extends Controller
         if (empty($member_name)) {
             $member_name = $phone;
         }
+
+        /*增加验证手机号*/
+        LotteryService::checkIn($code,$phone);
+
         //避免重复抽奖
         $member = LotteryMember::where('phone', $phone)->first();
         if ($member) {
@@ -171,31 +178,7 @@ class LotteryController extends Controller
 
     }
 
-    //验证手机号
-    public function checkIn(){
-        $code = request()->post('code');
-        $mobile = request()->post('mobile');
 
-
-        if (empty($code)) {
-            throw new Exception("短信验证码不能为空!");
-        }
-        if (empty($mobile)) {
-            throw new Exception("必须传入手机号!");
-        }
-
-
-        $cacheKey = "vip_mobile_code_$mobile";
-        $codeExpected = Cache::get($cacheKey);
-        if (empty($codeExpected)) {
-            throw new Exception("短信验证码不存在或已过期，请重新获取！");
-        }
-        if ($codeExpected <> $code) {
-            throw new Exception("验证码输入错误！");
-        }
-
-        return response()->json("验证码正确！");
-    }
 
     /*发奖测试*/
     public function presentTest(Request $request)
