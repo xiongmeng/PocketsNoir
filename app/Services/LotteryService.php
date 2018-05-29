@@ -213,7 +213,7 @@ class LotteryService
             $lotteryMember->status = 2;   // 重复领奖的开关
             $lotteryMember->save();
         }else{
-            throw new \Exception('未找到中奖信息！');
+            return response()->json("未找到中奖信息！");
         }
 
     }

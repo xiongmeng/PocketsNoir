@@ -164,7 +164,7 @@ class LotteryController extends Controller
         //避免重复抽奖
         $member = LotteryMember::where('phone', $phone)->first();
         if ($member) {
-            return response()->json("该客户已参加过活动！");
+            throw new \Exception('该客户已参加过活动！');
         } else {
             $data = LotteryMember::create([
                 'shop_id' => $shopId,
