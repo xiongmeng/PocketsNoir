@@ -75,8 +75,9 @@ class LotteryController extends Controller
                     $lotteryPresent = LotteryPresent::where('id', $lottery->forth_present_id)->first();
 
                 }
-
             }
+            $lottery->lottery_sum += 1;
+            $lottery->save();
             $data['present_name'] = $lotteryPresent->present_name;
 
             return response()->json($data);
