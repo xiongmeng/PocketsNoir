@@ -156,8 +156,9 @@ class LotteryService
 //
 
         }else{
-            $result = $response['error_response'];
-            throw new \Exception($result['msg']);
+//            $result = $response['error_response'];
+//            throw new \Exception($result['msg']);
+             return false;
         }
     }
 
@@ -186,8 +187,15 @@ class LotteryService
     public static function sendLotteryByMobile($mobile)
     {
         $openId = LotteryService::OpenidGet($mobile);
-        $fansId = LotteryService::UserWeixinFollower($openId);
-        LotteryService::sendLotteryByFansId($fansId,$mobile);
+        if($openId){
+            $fansId = LotteryService::UserWeixinFollower($openId);
+            LotteryService::sendLotteryByFansId($fansId,$mobile);
+        }else{
+            self::sendLottery($mobile);
+        }
+
+
+
     }
 
     public static function  sendLotteryByFansId($fansId,$mobile)

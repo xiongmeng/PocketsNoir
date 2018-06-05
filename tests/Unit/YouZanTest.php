@@ -545,9 +545,16 @@ class YouZanTest extends TestCase
 
 
     public function  test(){
+//          18725603773
+//    $openid =  LotteryService::OpenidGet('13601203031');
+//    if($openid){
+//        return $openid;
+//    }else{
+//        return false;
+//    }
 
 
-        $a =  is_numeric('0');
+
     }
 
 
