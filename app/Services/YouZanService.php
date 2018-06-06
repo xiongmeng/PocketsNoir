@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Libiary\Context\Fact\FactException;
 use App\Services\YouZanClient as Client;
 
 class YouZanService
@@ -171,9 +172,11 @@ class YouZanService
             return true;
         }catch (\Exception $e){
 //            如果用户存在
-            if($e->getCode() <> '141502109'){
-                throw $e;
-            }
+//            if($e->getCode() <> '141502109'){
+//                throw $e;
+//            }
+
+            FactException::instance()->recordException($e);
 
             return false;
         }
