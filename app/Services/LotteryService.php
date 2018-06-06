@@ -156,8 +156,9 @@ class LotteryService
 //
 
         }else{
-            $result = $response['error_response'];
-            throw new \Exception($result['msg']);
+//            $result = $response['error_response'];
+//            throw new \Exception($result['msg']);
+             return false;
         }
     }
 
@@ -186,8 +187,15 @@ class LotteryService
     public static function sendLotteryByMobile($mobile)
     {
         $openId = LotteryService::OpenidGet($mobile);
-        $fansId = LotteryService::UserWeixinFollower($openId);
-        LotteryService::sendLotteryByFansId($fansId,$mobile);
+        if($openId){
+            $fansId = LotteryService::UserWeixinFollower($openId);
+            LotteryService::sendLotteryByFansId($fansId,$mobile);
+        }else{
+            self::sendLottery($mobile);
+        }
+
+
+
     }
 
     public static function  sendLotteryByFansId($fansId,$mobile)
@@ -213,7 +221,7 @@ class LotteryService
             $lotteryMember->status = 2;   // 重复领奖的开关
             $lotteryMember->save();
         }else{
-            throw new \Exception('未找到中奖信息！');
+            return response()->json("未找到中奖信息！");
         }
 
     }

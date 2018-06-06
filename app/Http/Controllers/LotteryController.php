@@ -51,8 +51,7 @@ class LotteryController extends Controller
                 $data['present_id'] = $lottery->second_present_id;
                 $lotteryPresent = LotteryPresent::where('id', $lottery->second_present_id)->first();
                 $data['present_name'] = $lotteryPresent->present_name;
-                $lottery->second_prize -= 1;
-                $lottery->lottery_num += 1;
+
             } else {
                 $prize = rand(1, $totalNum);
                 if ($prize <= $lottery->first_prize) {
@@ -61,29 +60,25 @@ class LotteryController extends Controller
                     $data['present_id'] = $lottery->first_present_id;
                     $lotteryPresent = LotteryPresent::where('id', $lottery->first_present_id)->first();
                     $data['present_name'] = $lotteryPresent->present_name;
-                    $lottery->first_prize -= 1;
-                    $lottery->lottery_num += 1;
+
                 } else if ($prize > $lottery->first_prize && $prize <= ($lottery->third_prize + $lottery->first_prize)) {
                     $data['prize'] = 3;
                     $data['massage'] = "success";
                     $data['present_id'] = $lottery->third_present_id;
                     $lotteryPresent = LotteryPresent::where('id', $lottery->third_present_id)->first();
                     $data['present_name'] = $lotteryPresent->present_name;
-                    $lottery->third_prize -= 1;
-                    $lottery->lottery_num += 1;
+
                 } else if ($prize > ($lottery->third_prize + $lottery->first_prize) && $prize <= $totalNum) {
                     $data['prize'] = 0;  //四等奖
 //                    $data['present_id']  = $lottery->forth_present_id;
                     $data['present_id'] = 0;// 如果是奖券 传0
                     $lotteryPresent = LotteryPresent::where('id', $lottery->forth_present_id)->first();
-                    $lottery->forth_prize -= 1;
-                    $lottery->lottery_num += 1;
-                }
 
+                }
             }
-            $data['present_name'] = $lotteryPresent->present_name;
-            $lottery->updated_at = date('Y-m-d H:i:s', time());
+            $lottery->lottery_sum += 1;
             $lottery->save();
+            $data['present_name'] = $lotteryPresent->present_name;
 
             return response()->json($data);
         } else {
@@ -98,26 +93,26 @@ class LotteryController extends Controller
     {
 
 
-      try{
-          $result = Lottery::create([
-              'shop' => $request->post('shop'),
-              'first_prize' => $request->post('first_prize'),
-              'second_prize' => $request->post('second_prize'),
-              'third_prize' => $request->post('third_prize'),
-              'forth_prize' => $request->post('forth_prize'),
-              'second_prize_total' => $request->post('second_prize'),
-              'first_present_id' => $request->post('first_present_id'),
-              'second_present_id' => $request->post('second_present_id'),
-              'third_present_id' => $request->post('third_present_id'),
-              'forth_present_id' => $request->post('forth_present_id'),
-              'created_at' => date('Y-m-d H:i:s', time()),
-              'status' => 1
-          ]);
-          return response()->json($result);
-      }catch (Exception $e){
-          \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
-          return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
-    }
+        try {
+            $result = Lottery::create([
+                'shop' => $request->post('shop'),
+                'first_prize' => $request->post('first_prize'),
+                'second_prize' => $request->post('second_prize'),
+                'third_prize' => $request->post('third_prize'),
+                'forth_prize' => $request->post('forth_prize'),
+                'second_prize_total' => $request->post('second_prize'),
+                'first_present_id' => $request->post('first_present_id'),
+                'second_present_id' => $request->post('second_present_id'),
+                'third_present_id' => $request->post('third_present_id'),
+                'forth_present_id' => $request->post('forth_present_id'),
+                'created_at' => date('Y-m-d H:i:s', time()),
+                'status' => 1
+            ]);
+            return response()->json($result);
+        } catch (Exception $e) {
+            \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
+            return response()->json(['code' => $e->getCode(), 'msg' => $e->getMessage()]);
+        }
 
     }
 
@@ -137,15 +132,13 @@ class LotteryController extends Controller
         $member_name = $request->post('member_name');
 
 
-
-
         if (empty($code)) {
             throw new Exception("验证码不能为空!");
         }
         if (empty($shopId)) {
             throw new Exception("店id不能为空!");
         }
-        if (!is_numeric($presentId)){
+        if (!is_numeric($presentId)) {
             throw new Exception("赠品id不能为空!如果是发劵 id为0");
         }
         if (empty($imageID)) {
@@ -159,12 +152,12 @@ class LotteryController extends Controller
         }
 
         /*增加验证手机号*/
-        LotteryService::checkIn($code,$phone);
+        LotteryService::checkIn($code, $phone);
 
         //避免重复抽奖
         $member = LotteryMember::where('phone', $phone)->first();
         if ($member) {
-            throw new Exception("该手机号已参与过活动!");
+            throw new \Exception('该客户已参加过活动！');
         } else {
             $data = LotteryMember::create([
                 'shop_id' => $shopId,
@@ -175,6 +168,26 @@ class LotteryController extends Controller
 //                'created_at' => date('Y-m-d H:i:s', time()),
                 'status' => 1,
             ]);
+
+            $lottery = lottery::where('id', $shopId)->first();
+            switch ($presentId) {
+                case 0:
+                    $lottery->forth_prize -= 1;
+                    break;
+                case 1:
+                    $lottery->first_prize -= 1;
+                    break;
+                case 2:
+                    $lottery->second_prize -= 1;
+                    break;
+                case 3:
+                    $lottery->third_prize -= 1;
+            }
+
+            $lottery->lottery_num += 1;
+            $lottery->updated_at = date('Y-m-d H:i:s', time());
+            $lottery->save();
+
             \App\Vip::createFromJiChang($phone);  //给客户开卡
             LotteryService::pushFacePlusPlus($phone);
 
@@ -212,8 +225,6 @@ class LotteryController extends Controller
     }
 
 
-
-
     /*发奖测试*/
     public function presentTest(Request $request)
     {
@@ -223,9 +234,6 @@ class LotteryController extends Controller
 //        LotteryService::sendLottery("18500353096");
 
     }
-
-
-
 
 
 }
