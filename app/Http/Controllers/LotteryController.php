@@ -236,4 +236,21 @@ class LotteryController extends Controller
     }
 
 
+
+    public function  importFaceBase64(){
+        $base64_image_content = $_POST['imgBase64'];
+//匹配出图片的格式
+        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)) {
+            $content = base64_decode(str_replace($result[1], '', $base64_image_content));
+            $temp = tmpfile();
+            fwrite($temp, $content);
+            $res = \App\Services\VipFaceImportService::detectFormFile($temp);
+            is_resource($temp) && fclose($temp);
+            return response()->json($res);
+        } else {
+            throw new Exception("base64格式不正确！");
+        }
+    }
+
+
 }
