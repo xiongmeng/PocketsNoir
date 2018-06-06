@@ -29,4 +29,4 @@ Route::post('lottery/presentTest', "LotteryController@presentTest");
 
 Route::post('lottery/getMobileCode', "LotteryController@getMobileCode");
 
-Route::post('lottery/importFaceBase64', "LotteryController@importBase64");
+Route::post('lottery/importFaceBase64', "LotteryController@importFaceBase64");
