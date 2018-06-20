@@ -253,7 +253,7 @@ class YouZanTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'mobile' => '18500353096',
+            'mobile' => '18725603773',
 //            'mobile' => '13709413994',
 
         ];
@@ -280,7 +280,7 @@ class YouZanTest extends TestCase
         $apiVersion = '3.0.0';
 
         $params = [
-            'mobile' => '18500300265',
+            'mobile' => '15922923882',
             'customer_create' => json_encode(['name' => '马助']),
         ];
 

@@ -235,10 +235,9 @@ class LotteryController extends Controller
 
     }
 
-
-
     public function  importFaceBase64(){
-        $base64_image_content = $_POST['imgBase64'];
+        $rawBody = json_decode(file_get_contents("php://input"), true);
+        $base64_image_content = $rawBody['imgBase64'];
 //匹配出图片的格式
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)) {
             $content = base64_decode(str_replace($result[1], '', $base64_image_content));
@@ -251,6 +250,4 @@ class LotteryController extends Controller
             throw new Exception("base64格式不正确！");
         }
     }
-
-
 }
