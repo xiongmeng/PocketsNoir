@@ -543,18 +543,24 @@ class YouZanTest extends TestCase
 //        5519138128
     }
 
-
+//手动发奖
     public function  test(){
-//          18725603773
-//    $openid =  LotteryService::OpenidGet('13601203031');
-//    if($openid){
-//        return $openid;
-//    }else{
-//        return false;
-//    }
+        $mobile = '19969509669';
+        $activityId = '325581';  //数据线
+        $openId = LotteryService::OpenidGet($mobile);
+        $fansId = LotteryService::UserWeixinFollower($openId);
+        LotteryService::UmpPresentGiveByFansId($fansId,$activityId);
+
+//        LotteryService::sendLotteryByMobile('19969509669');
 
 
+    }
 
+
+    public function test2(){
+        $response = $this->get('/api/lottery/lotteryDraw?id=1');
+
+        $response->assertStatus(200);
     }
 
 

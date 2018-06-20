@@ -9,6 +9,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\DuiJiangQueryForChouJIangGame;
+use App\LotteryCoupon;
 use DB;
 use App\Lottery;
 use App\LotteryMember;
@@ -33,19 +34,24 @@ class LotteryController extends Controller
 
     public function lotteryDraw(Request $request)
     {
-
-
         $id = $request->get('id');
         if ($id) {
             $lottery = lottery::where('id', $id)->first();
             $lotteryNum = $lottery->lottery_num;  //当前已抽人数
-            $totalNum = $lottery->first_prize + $lottery->second_prize + $lottery->forth_prize;
+//            $totalNum = $lottery->first_prize + $lottery->second_prize + $lottery->forth_prize;
+            //奖品总数（包含已抽）
+            $totalNum = $lottery->first_prize + $lottery->second_prize + $lottery->third_prize + $lottery->forth_prize + $lottery->lottery_num;
             $secondPrize = $lottery->second_prize;// 奖池中二等奖数
-            $secondPrizetoTotal = $lottery->second_prize_total;  //二等奖总数（计算二等奖抽奖用）
+            $secondPrizeTotal = $lottery->second_prize_total;  //二等奖总数（计算二等奖抽奖用）
             //抽二等奖
 
-            $x = floor(($totalNum / $secondPrizetoTotal) * ($secondPrizetoTotal - $secondPrize + 1));
-            if ($x == $lotteryNum + 1)   //中奖
+            if($secondPrizeTotal != 0){
+                $x = floor(($totalNum / $secondPrizeTotal) * ($secondPrizeTotal - $secondPrize + 1));  //当前抽奖数
+            }else{
+                $x = 0;  //$x = 0 二等奖总数是0，将当前抽奖数设为0 则不会抽到二等奖
+            }
+
+            if ($x == $lotteryNum + 1 )   //中奖
             {
                 $data['prize'] = 2;
                 $data['present_id'] = $lottery->second_present_id;
@@ -72,13 +78,13 @@ class LotteryController extends Controller
                     $data['prize'] = 0;  //四等奖
 //                    $data['present_id']  = $lottery->forth_present_id;
                     $data['present_id'] = 0;// 如果是奖券 传0
-                    $lotteryPresent = LotteryPresent::where('id', $lottery->forth_present_id)->first();
-
+                    $lotteryPresent = LotteryCoupon::where('id', $lottery->forth_present_id)->first();
+                    $data['present_name'] = $lotteryPresent->coupon_name;
                 }
             }
             $lottery->lottery_sum += 1;
             $lottery->save();
-            $data['present_name'] = $lotteryPresent->present_name;
+
 
             return response()->json($data);
         } else {
