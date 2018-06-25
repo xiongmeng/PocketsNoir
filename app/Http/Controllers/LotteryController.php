@@ -157,6 +157,7 @@ class LotteryController extends Controller
             $member_name = $phone;
         }
 
+
         /*增加验证手机号*/
         LotteryService::checkIn($code, $phone);
 

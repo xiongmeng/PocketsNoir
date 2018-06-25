@@ -2,8 +2,12 @@
 
 namespace Tests\Unit;
 
+use App\Services\KoaLaService;
+use App\Services\TianShuService;
+use App\Services\VipFaceImportService;
 use App\Services\YouZanService;
 use App\Services\LotteryService;
+use App\Vip;
 use App\VipShuaFen;
 use Tests\TestCase;
 use Youzan\Open\Client;
@@ -562,6 +566,36 @@ class YouZanTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    public function test3(){
+        $vip = Vip::where('mobile', '18660137639')->first();
+        $tian = TianShuService::syncVip($vip);
+        var_dump($tian);
+    }
+
+/*获取人脸id*/
+    public function test4(){
+        $subject = KoaLaService::subjectGetByName('18500353096');
+        //存表
+        VipFaceImportService::bindVipFace($subject['photos']['0']['id'],18500353096);
+        $vip = Vip::where('mobile', '18500353096')->first();
+        $tian = TianShuService::syncVip($vip);
+        var_dump($tian);
+    }
+
+
+/*获取face++用户*/
+    public static function testSubjectGet()
+    {
+        $res = KoaLaService::get('/mobile-admin/subjects/list', ['category' => 'employee','size'=>10000]);
+        return $res;
+    }
+
+
+
+
+
+
 
 
 

@@ -230,19 +230,19 @@ class LotteryService
     public static function checkIn($code,$mobile){
 
         if (empty($code)) {
-            throw new Exception("短信验证码不能为空!");
+            throw new \Exception("短信验证码不能为空!");
         }
         if (empty($mobile)) {
-            throw new Exception("必须传入手机号!");
+            throw new \Exception("必须传入手机号!");
         }
 
         $cacheKey = "vip_mobile_code_$mobile";
         $codeExpected = Cache::get($cacheKey);
         if (empty($codeExpected)) {
-            throw new Exception("短信验证码不存在或已过期，请重新获取！");
+            throw new \Exception("短信验证码不存在或已过期，请重新获取！");
         }
         if ($codeExpected <> $code) {
-            throw new Exception("验证码输入错误！");
+            throw new \Exception("验证码输入错误！");
         }
 
 

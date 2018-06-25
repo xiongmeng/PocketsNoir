@@ -12,7 +12,7 @@ class TianShuService
     public static function syncVip(Vip $vip)
     {
         $query = <<<'QUERY'
-mutation($data: JSON!){
+mutation($data: [VIPModel!]!){
       importPocketNoirVIP(data: $data) {
         isOk
         result
@@ -35,11 +35,11 @@ QUERY;
             'vipNo' => $vip->mobile,
             'mobile' => $vip->mobile,
             'vipLevel' => Vip::$GuanJiaPoCardMaps[$vip->card],
-            'createdAt' => $vip->created_at,
-            'updatedAt' => $vip->updated_at,
+//            'createdAt' => $vip->created_at,
+//            'updatedAt' => $vip->updated_at,
             'mainFaceId' => $map->koala_id
         ]];
-
+        $var = json_encode($variables);
         $response = self::query($query, $variables);
         return $response;
     }
