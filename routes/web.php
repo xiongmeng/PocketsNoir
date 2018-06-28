@@ -76,7 +76,7 @@ Route::post('/guanjiapo/push', function () {
 
 Route::post('/zulin/push', function () {
     try {
-        dispatch(new \App\Jobs\DisposeZuLinPush(request()->post()))->onConnection('sync');
+        dispatch((new \App\Jobs\DisposeZuLinPush(request()->post()))->onQueue('callback'));
     } catch (Exception $e) {
         \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
     }
