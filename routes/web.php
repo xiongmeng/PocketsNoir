@@ -67,7 +67,7 @@ Route::post('/youzan/push', function () {
 
 Route::post('/guanjiapo/push', function () {
     try {
-        dispatch(new \App\Jobs\DisposeGuanJiaPoPush(request()->post()))->onConnection('sync');
+        dispatch((new \App\Jobs\DisposeGuanJiaPoPush(request()->post()))->onQueue('callback'));
     } catch (Exception $e) {
         \App\Libiary\Context\Fact\FactException::instance()->recordException($e);
     }
