@@ -57,7 +57,7 @@ Route::any('/refreshCard', function () {
 Route::post('/youzan/push', function () {
     try {
         $rawPostData = file_get_contents("php://input");
-        dispatch(new \App\Jobs\DisposeYouZanPush($rawPostData))->onConnection('sync');
+        dispatch((new \App\Jobs\DisposeYouZanPush($rawPostData))->onQueue('callback'));
     } catch (Exception $e) {
         Log::info($e);
     }

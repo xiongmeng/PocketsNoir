@@ -171,7 +171,7 @@ class YouZanService
             return true;
         }catch (\Exception $e){
 //            如果用户存在
-            if($e->getCode() <> '141502109'){
+            if($e->getCode() <> '141503100'){
                 throw $e;
             }
 
