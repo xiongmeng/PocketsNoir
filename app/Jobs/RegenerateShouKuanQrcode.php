@@ -42,7 +42,7 @@ class RegenerateShouKuanQrcode extends Job
 
         $shoukuanma = $this->serverId;
         \Log::info("QrReaderReadBegin");
-        $reader = new QrReader($shoukuanma);
+        $reader = new \QrReader($shoukuanma);
         $cjt = $reader->text();
         \Log::info("QrReaderReadEnd");
 //        var_dump($cjt);die;
