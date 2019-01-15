@@ -67,7 +67,7 @@ return [
                 'driver'        => 'oss',
                 'access_id'     => env('OSS_ACCESS_ID'),
                 'access_key'    => env('OSS_ACCESS_KEY'),
-                'bucket'        => 'pn-activity',
+                'bucket'        => 'public-document',
                 'endpoint'      => 'oss-cn-shenzhen.aliyuncs.com', // OSS 外网节点或自定义外部域名
                 //'endpoint_internal' => '<internal endpoint [OSS内网节点] 如：oss-cn-shenzhen-internal.aliyuncs.com>', // v2.0.4 新增配置属性，如果为空，则默认使用 endpoint 配置(由于内网上传有点小问题未解决，请大家暂时不要使用内网节点上传，正在与阿里技术沟通中)
                 'cdnDomain'     => '', // 如果isCName为true, getUrl会判断cdnDomain是否设定来决定返回的url，如果cdnDomain未设置，则使用endpoint来生成url，否则使用cdn

@@ -109,6 +109,34 @@ Route::post('/guanjiapo/push', function(){
 Route::get('/ab', function (){
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
+Route::post('/code', function () {
+    $code = request()->post('code');
+    if (isset($code)) return response('{"code":1000,"msg":"code不能为空！"}', 200, ['content_type' => 'text/plain']);
+    //?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
+    $data = [
+        "appid"=>env("WECHAT_MINI_PROGRAM_APPID"),
+        "secret"=>env("WECHAT_MINI_PROGRAM_SECRET"),
+        "js_code"=>$code,
+        "grant_type"=>"authorization_code"
+        ];
+    $user = \App\Libiary\Utility\CurlWrapper::get($data,"https://api.weixin.qq.com/sns/jscode2session");
+    return  response()->json($user->toArray());
+});
+Route::post('/2019chunjieshoukuanma', function () {
+    $openId = request()->post('openId');
+    $img = request()->post('img');
+    $avatarUrl = request()->post('avatarUrl');
+    $nickName = request()->post('nickName');
+//    var_dump($openId);die;
+    if (!isset($openId)) return response('{"code":1000,"msg":{'.$openId.'}}', 200, ['content_type' => 'text/plain']);
+    if (!isset($img)) return response('{"code":1000,"msg":"img不能为空！"}', 200, ['content_type' => 'text/plain']);
+    if (!isset($avatarUrl)) return response('{"code":1000,"msg":"avatarUrl不能为空！"}', 200, ['content_type' => 'text/plain']);
+    if (!isset($nickName)) return response('{"code":1000,"msg":"nickName不能为空！"}', 200, ['content_type' => 'text/plain']);
+    $user=['openId'=>$openId];
+    dispatch(new \App\Jobs\RegenerateShouKuanQrcode($openId, $img, $avatarUrl, $nickName))->onConnection('database')->onQueue('h5');
+//    (new \App\Services\ChunJie2019Service())->shengc($openId, $img, $avatarUrl, $nickName);
+    return response($user);
+});
 
 Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
     Route::get('/entry', function () {

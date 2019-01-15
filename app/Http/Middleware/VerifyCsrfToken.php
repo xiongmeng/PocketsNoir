@@ -15,6 +15,8 @@ class VerifyCsrfToken extends Middleware
         'youzan/push',
         'guanjiapo/push',
         'shoukuanma',
-        'generate'
+        'generate',
+        '2019chunjieshoukuanma',
+        'code'
     ];
 }
