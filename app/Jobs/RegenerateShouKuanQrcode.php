@@ -80,9 +80,9 @@ class RegenerateShouKuanQrcode extends Job
 //        $user = \EasyWeChat::officialAccount()->user->get($this->openId);
 //        var_dump($cjt);die;
 ////        $url = ;
-        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/1.jpg",'a');
-        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/2.jpg",'b');
-        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/3.jpg",'c');
+        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/a.jpg",'a');
+        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/b.jpg",'b');
+        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/c.jpg",'c');
         \Log::info("LastImgeGenerateEnd");
 
     }
