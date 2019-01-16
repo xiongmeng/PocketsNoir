@@ -74,12 +74,12 @@ class ChunJie2019Service
 //        $user = \EasyWeChat::officialAccount()->user->get($this->openId);
 //        var_dump($cjt);die;
 ////        $url = ;
-//        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/a.jpg",'a');
-//        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/b.jpg",'b');
-//        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/c.jpg",'c');
-        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/a1.jpg",'a1');
-        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/b1.jpg",'b1');
-        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/c1.jpg",'c1');
+        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/a.png",'a');
+        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/b.png",'b');
+        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/c.png",'c');
+//        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/a1.png",'a1');
+//        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/b1.png",'b1');
+//        ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/c1.png",'c1');
         \Log::info("LastImgeGenerateEnd");
 
     }
@@ -98,71 +98,67 @@ class ChunJie2019Service
 
         $imagine = new Imagine();
         $bgi = $imagine->open(__DIR__ . $url);
-//
 
 
-
-//        $noBgi = $imagine->open(__DIR__ ."/ChunJie2019/bjImg/1.jpg");
-//        $bgi->paste($noBgi, new Point(0,0));
         $palette = new RGB();
-        $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '40', $palette->color('#000'));
-//        $nickname = '哈哈哈哈哈哈哈哈';
-        $box = $font->box($nickname);
-        $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,1175), 0, 2);
 
         $shoukumai = $imagine->open($publicDisk->path($shoukuanma));
         $shoukumai->resize(new Box(200,200));
         $bgi->resize(new Box(1080,1920));
         $headi = $imagine->open($publicDisk->path($head));
         $headi->resize(new Box(170,170));
-//        $headi->draw()->ellipse(new Point(75, 75), new Box(150, 150));
+        $color = '#000';//fec71c
+//        $headi->draw()->ellipse(new Point(75, 75), new Box(150, 150),);
         if ($key =='a'){
-            $bgi->paste($shoukumai, new Point(441, 1481));//背景图
-            $bgi->paste($headi, new Point(461,955)); //头像
+            $bgi->paste($shoukumai, new Point(441, 1437));//背景图
+            $bgi->paste($headi, new Point(461,878)); //头像
 
-            $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '36', $palette->color('#fec71c')); //昵称信息
+            $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '36', $palette->color($color)); //昵称信息
             $box = $font->box($nickname);
-            $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,1140), 0, 2);
+            $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,1064), 0, 2);
         }
         if ($key =='b'){
-            $bgi->paste($shoukumai, new Point(442, 831));
-            $bgi->paste($headi, new Point(463,546));
+            $bgi->paste($shoukumai, new Point(442, 747));
+            $bgi->paste($headi, new Point(463,445));
 
-            $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '36', $palette->color('#fec71c')); //昵称信息
+            $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '36', $palette->color($color)); //昵称信息
             $box = $font->box($nickname);
-            $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,729), 0, 2);
+            $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,638), 0, 2);
         }
         if ($key =='c'){
-            $bgi->paste($shoukumai, new Point(452, 846));
-            $bgi->paste($headi, new Point(465,539));
+            $bgi->paste($shoukumai, new Point(452, 753));
+            $bgi->paste($headi, new Point(465,443));
 
-            $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '36', $palette->color('#fec71c')); //昵称信息
+            $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '36', $palette->color($color)); //昵称信息
             $box = $font->box($nickname);
-            $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,722), 0, 2);
+            $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,634), 0, 2);
         }
-        if ($key =='a1'){
-            $bgi->paste($shoukumai, new Point(439, 1435));//背景图
-            $bgi->paste($headi, new Point(464,992)); //头像
 
-            $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '36', $palette->color('#fec71c')); //昵称信息
+
+
+        if ($key =='a1'){
+            $bgi->paste($shoukumai, new Point(437, 1404));//背景图
+            $bgi->paste($headi, new Point(464,927)); //头像
+
+            $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '36', $palette->color($color)); //昵称信息
             $box = $font->box($nickname);
-            $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,1170), 0, 2);
+            $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,1114), 0, 2);
         }
         if ($key =='b1'){
-            $bgi->paste($shoukumai, new Point(442, 884));
-            $bgi->paste($headi, new Point(463,621));
+            $bgi->paste($shoukumai, new Point(442, 808));
+            $bgi->paste($headi, new Point(463,518));
 
-            $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '36', $palette->color('#fec71c')); //昵称信息
+            $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '36', $palette->color($color)); //昵称信息
             $box = $font->box($nickname);
-            $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,804), 0, 2);
+            $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,701), 0, 2);
         }
             if ($key =='c1'){
-            $bgi->paste($shoukumai, new Point(452, 904));
-            $bgi->paste($headi, new Point(465,621));
+            $bgi->paste($shoukumai, new Point(452, 823));
+            $bgi->paste($headi, new Point(465,517));
 
-            $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '36', $palette->color('#fec71c')); //昵称信息
+            $font = new Font(__DIR__ . '/ChunJie2018H5/SY.ttf', '36', $palette->color($color)); //昵称信息
             $box = $font->box($nickname);
-            $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,804), 0, 2);
+            $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,707), 0, 2);
         }
 
 //        var_dump($headi);exit();
