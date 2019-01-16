@@ -111,7 +111,7 @@ Route::get('/ab', function (){
 });
 Route::post('/code', function () {
     $code = request()->post('code');
-    if (isset($code)) return response('{"code":1000,"msg":"code不能为空！"}', 200, ['content_type' => 'text/plain']);
+    if (!isset($code)) return response('{"code":1000,"msg":"code不能为空！"}', 200, ['content_type' => 'text/plain']);
     //?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
     $data = [
         "appid"=>env("WECHAT_MINI_PROGRAM_APPID"),
