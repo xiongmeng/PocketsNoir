@@ -96,10 +96,7 @@ class ChunJie2019Service
         $imagine = new Imagine();
         $bgi = $imagine->open(__DIR__ . $url);
 //
-//        $headi = $imagine->open($publicDisk->path($head));
-//        $headi->resize(new Box(375,375));
-//        var_dump($headi);exit();
-//        $bgi->paste($headi, new Point(350,625));
+
 
 
 //        $noBgi = $imagine->open(__DIR__ ."/ChunJie2019/bjImg/1.jpg");
@@ -113,15 +110,24 @@ class ChunJie2019Service
         $shoukumai = $imagine->open($publicDisk->path($shoukuanma));
         $shoukumai->resize(new Box(200,200));
         $bgi->resize(new Box(1080,1920));
+        $headi = $imagine->open($publicDisk->path($head));
+        $headi->resize(new Box(170,170));
+//        $headi->draw()->ellipse(new Point(75, 75), new Box(150, 150));
         if ($key =='a'){
             $bgi->paste($shoukumai, new Point(441, 1481));
+            $bgi->paste($headi, new Point(461,955));
         }
         if ($key =='b'){
             $bgi->paste($shoukumai, new Point(442, 831));
+            $bgi->paste($headi, new Point(463,546));
         }
         if ($key =='c'){
             $bgi->paste($shoukumai, new Point(452, 846));
+            $bgi->paste($headi, new Point(465,539));
         }
+
+//        var_dump($headi);exit();
+
 //$bgi->paste();
         $users = "users/{$id}{$key}.jpeg";
         $publicDisk->put($users, '');
