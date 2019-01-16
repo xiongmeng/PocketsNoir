@@ -112,15 +112,16 @@ Route::get('/ab', function (){
 Route::post('/code', function () {
     $code = request()->post('code');
     if (!isset($code)) return response('{"code":1000,"msg":"code不能为空！"}', 200, ['content_type' => 'text/plain']);
-    //?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
+
     $data = [
         "appid"=>env("WECHAT_MINI_PROGRAM_APPID"),
         "secret"=>env("WECHAT_MINI_PROGRAM_SECRET"),
         "js_code"=>$code,
         "grant_type"=>"authorization_code"
         ];
-    $user = \App\Libiary\Utility\CurlWrapper::get($data,"https://api.weixin.qq.com/sns/jscode2session");
-    return  response()->json($user->toArray());
+    $url = http_build_query($data);
+    $user = \App\Libiary\Utility\CurlWrapper::get($data,"https://api.weixin.qq.com/sns/jscode2session?{$url}");
+    return  response($user);
 });
 Route::post('/2019chunjieshoukuanma', function () {
     $openId = request()->post('openId');
