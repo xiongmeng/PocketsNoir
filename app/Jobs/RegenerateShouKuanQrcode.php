@@ -39,7 +39,7 @@ class RegenerateShouKuanQrcode extends Job
 
         /** 识别二维码 */
         /** @var StreamResponse $res */
-
+        \Log::info("openId={$this->openId}");
         $shoukuanma = $this->serverId;
         \Log::info("QrReaderReadBegin");
         $reader = new \QrReader($shoukuanma);
