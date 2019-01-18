@@ -100,10 +100,13 @@ class ChunJie2019Service
 
 //        Imagine\Image\Box
         $size  = new Box(1080,1920);
-        $bgi = $imagine->create($size);
+
+
 
         $palette = new RGB();
-
+//        new CMYK();
+        $bgi = $imagine->create($size,$palette->color('d02f2d',100));
+//        $bgi->usePalette( new CMYK());
         $shoukumai = $imagine->open($publicDisk->path($shoukuanma));
         $shoukumai->resize(new Box(200,200));
 
@@ -212,7 +215,7 @@ class ChunJie2019Service
         $publicDisk->put($users, '');
         $bgi->save(\Storage::disk('public')->path($users));
 
-        \Storage::disk('oss_activity')->put("activity/chunjie2019/users/{$id}{$key}.jpeg", file_get_contents(\Storage::disk('public')->path($users)));
+        \Storage::disk('oss_activity')->put("activity/chunjie2019/users/{$id}{$key}.png", file_get_contents(\Storage::disk('public')->path($users)));
 
     }
 }
