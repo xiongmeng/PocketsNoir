@@ -215,7 +215,7 @@ class ChunJie2019Service
         $publicDisk->put($users, '');
         $bgi->save(\Storage::disk('public')->path($users));
 
-        \Storage::disk('oss_activity')->put("activity/chunjie2019/users/{$id}{$key}.png", file_get_contents(\Storage::disk('public')->path($users)));
+        \Storage::disk('oss_activity')->put("activity/chunjie2019/users/{$id}{$key}.jpeg", file_get_contents(\Storage::disk('public')->path($users)));
 
     }
 }
