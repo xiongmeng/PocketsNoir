@@ -208,7 +208,7 @@ class ChunJie2019Service
             $bgi->draw()->text($nickname, $font, new Point(($bgi->getSize()->getWidth() - $box->getWidth())/2,690), 0, 2);
         }
 
-        $bgi->resize(new Box(750,1334));
+        $bgi->resize(new Box(696,1159));
         $users = "users/{$id}{$key}.jpeg";
         $publicDisk->put($users, '');
         $bgi->save(\Storage::disk('public')->path($users));
