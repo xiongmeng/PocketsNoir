@@ -19,11 +19,58 @@ use App\Services\YouZanService;
 use EasyWeChat\Kernel\Http\StreamResponse;
 use Endroid\QrCode\QrCode;
 use Zxing\QrReader;
-
+use OSS\OssClient;
+use Config;
 
 class ChunJie2019Service
 {
+    public static $bucket = 'public-document';
 
+
+    public  static function OssClient(){
+        return new OssClient( env('OSS_ACCESS_ID'),  env('OSS_ACCESS_KEY'),  'http://oss-cn-shenzhen.aliyuncs.com');
+    }
+    public static function is_exist_oss($yourObjectName) {
+        try{
+
+            $ossClient = self::OssClient();
+            $exist = $ossClient->doesObjectExist(self::$bucket, $yourObjectName);
+//            return true;
+//            var_dump($ossClient);die;
+            if($exist) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch(OssException $e) {
+            return false;
+        }
+
+    }
+    public static function delete_oss($yourObjectName) {
+        $has_oss = self::is_exist_oss($yourObjectName);
+        if($has_oss) {
+            try{
+                $ossClient = self::OssClient();
+                $result = $ossClient->deleteObject(self::$bucket, $yourObjectName);
+                return $result;
+            } catch(OssException $e) {
+                return false;
+            }
+        }
+    }
+
+    public function aliyun_delete(Request $request)
+    {
+        $filename = $request->input('filename');
+        if (!empty($filename)) {
+            $aliyunoss = new Aliyunoss();
+            $aliyunoss->delete_oss($filename);
+            return json_encode(['msg' => 'success']);
+        } else {
+            return json_encode(['msg' => 'fail']);
+        }
+    }
     public function ceshi($openId, $serverId, $avatar, $nickname)
     {
         $this->openId = $openId;

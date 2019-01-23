@@ -76,6 +76,16 @@ class RegenerateShouKuanQrcode extends Job
         \Log::info("OssPutEnd");
 
         \Log::info("LastImgeGenerateBegin");
+        $arr = ['a','a1','b','b1','c','c1'];
+        foreach ($arr as $item){
+            $result = true;
+            if ($item == 'a'){
+                $result = ChunJie2019Service::delete_oss("activity/chunjie2019/users/{$this->openId}{$item}.jpeg");
+            }
+            if ($result){
+                ChunJie2019Service::delete_oss("activity/chunjie2019/users/{$this->openId}{$item}.jpeg");
+            }
+        }
         /** @var 获取头像并生成新二维码 $user */
 //        $user = \EasyWeChat::officialAccount()->user->get($this->openId);
 //        var_dump($cjt);die;
