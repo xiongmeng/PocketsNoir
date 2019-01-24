@@ -110,6 +110,11 @@ Route::get('/ab', function (){
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
 Route::post('/code', function () {
+   $all = request()->all();
+   Log::info(json_encode($all));
+   return  response($all);
+});
+Route::post('/code', function () {
     $code = request()->post('code');
     if (!isset($code)) return response('{"code":1000,"msg":"code不能为空！"}', 200, ['content_type' => 'text/plain']);
 
