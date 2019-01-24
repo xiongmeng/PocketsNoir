@@ -28,7 +28,7 @@ class FactShouKuanMa extends FactBase
      */
     public function name()
     {
-        return "fact_shou_kuan_ma";
+        return "fact_shoukuanma";
     }
 
     public function recordBefore(RegenerateShouKuanQrcode $job)
