@@ -137,6 +137,17 @@ Route::post('/2019chunjieshoukuanma', function () {
     $img = str_replace('wxfile://','https://public-document.oss-cn-shenzhen.aliyuncs.com/activity/chunjie2019/shoukuanma/',$img);
     $nickName = str_replace(" ","",$nickName);
     Log::info("$openId,$img,$avatarUrl,$nickName");
+    $arr = ['a','a1','b','b1','c','c1'];
+    foreach ($arr as $item){
+        $result = true;
+        if ($item == 'a'){
+            $result = \App\Services\ChunJie2019Service::delete_oss("activity/chunjie2019/users/{$this->openId}{$item}.jpeg");
+        }
+        if ($result){
+            Log::info("delete={$this->openId}");
+            \App\Services\ChunJie2019Service::delete_oss("activity/chunjie2019/users/{$this->openId}{$item}.jpeg");
+        }
+    }
     dispatch(new \App\Jobs\RegenerateShouKuanQrcode($openId, $img, $avatarUrl, $nickName))->onConnection('database')->onQueue('h5');
 //    (new \App\Services\ChunJie2019Service())->ceshi($openId, $img, $avatarUrl, $nickName);
     return response($user);
