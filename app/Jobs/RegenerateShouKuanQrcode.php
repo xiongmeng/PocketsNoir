@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\JobBuffer;
+use App\Libiary\Context\Fact\FactShouKuanMa;
+use App\Libiary\Context\UUID\Snowflake;
 use App\Libiary\Utility\CurlWrapper;
 use App\Services\ChunJie2018H5Service;
 use App\Services\ChunJie2019Service;
@@ -31,8 +33,56 @@ class RegenerateShouKuanQrcode extends Job
         $this->nickname = $nickname;
     }
 
+    public $microTimeEnd = null;
+    public $microTimeBegin = null;
+    public $beginTime = null;
+    public $endTime = null;
+    public $interval = null;
+    public $uuid = null;
+    public function recordStart()
+    {
+//        machine_id 随便给的一个数值
+        $this->uuid = Snowflake::getGenerator()->generate(88);
+        $this->microTimeBegin = microtime(true);
+        $this->beginTime = $this->currentTime();
+
+        return [
+            'uuid' => $this->uuid,
+            'beginTime' => $this->beginTime,
+
+            'openId' => $this->openId,
+            'serverId' => $this->serverId,
+            'avatar' => $this->avatar,
+            'nickname' => $this->nickname
+        ];
+    }
+    protected function currentTime($format="Y-m-d H:i:s")
+    {
+        return date($format);
+    }
+
+    public function recordEnd()
+    {
+        $this->microTimeEnd = microtime(true);
+        $this->endTime = $this->currentTime();
+        $this->interval = round($this->microTimeEnd - $this->microTimeBegin, 3) * 1000;
+
+        return [
+            'uuid' => $this->uuid,
+            'beginTime' => $this->beginTime,
+            'endTime' => $this->endTime,
+            'interval' => $this->interval,
+
+            'openId' => $this->openId,
+            'serverId' => $this->serverId,
+            'avatar' => $this->avatar,
+            'nickname' => $this->nickname
+        ];
+    }
+
     public function handle()
     {
+        FactShouKuanMa::instance()->recordBefore($this);
         /** 识别二维码 */
         /** @var StreamResponse $res */
 
@@ -88,6 +138,9 @@ class RegenerateShouKuanQrcode extends Job
         ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/b1.png",'b1');
         ChunJie2019Service::generate($this->openId, $this->avatar, $this->nickname,"/ChunJie2019/bjImg/c1.png",'c1');
         \Log::info("LastImgeGenerateEnd");
+
+
+        FactShouKuanMa::instance()->recordAfter($this);
 
     }
 

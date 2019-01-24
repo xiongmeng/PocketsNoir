@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Libiary\Context\Fact\FactLaravelQueue;
+use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,10 +18,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         /**
-         * 监听队列执行完毕事件
+         * 监听队列执行失败事件
          */
-        \Queue::after(function(JobProcessed $event){
-            FactLaravelQueue::instance()->recordAfter($event);
+        \Queue::failing(function(JobFailed $event){
+            FactLaravelQueue::instance()->recordFailed($event);
         });
     }
 
