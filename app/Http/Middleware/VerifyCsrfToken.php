@@ -17,6 +17,7 @@ class VerifyCsrfToken extends Middleware
         'shoukuanma',
         'generate',
         '2019chunjieshoukuanma',
-        'code'
+        'code',
+        '2019wxfail'
     ];
 }

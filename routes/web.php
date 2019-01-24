@@ -109,7 +109,7 @@ Route::post('/guanjiapo/push', function(){
 Route::get('/ab', function (){
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
-Route::post('/code', function () {
+Route::post('/2019wxfail', function () {
    $all = request()->all();
    Log::info(json_encode($all));
    return  response($all);
