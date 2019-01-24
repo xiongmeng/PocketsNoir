@@ -141,11 +141,11 @@ Route::post('/2019chunjieshoukuanma', function () {
     foreach ($arr as $item){
         $result = true;
         if ($item == 'a'){
-            $result = \App\Services\ChunJie2019Service::delete_oss("activity/chunjie2019/users/{$this->openId}{$item}.jpeg");
+            $result = \App\Services\ChunJie2019Service::delete_oss("activity/chunjie2019/users/{$openId}{$item}.jpeg");
         }
         if ($result){
             Log::info("delete={$this->openId}");
-            \App\Services\ChunJie2019Service::delete_oss("activity/chunjie2019/users/{$this->openId}{$item}.jpeg");
+            \App\Services\ChunJie2019Service::delete_oss("activity/chunjie2019/users/{$openId}{$item}.jpeg");
         }
     }
     dispatch(new \App\Jobs\RegenerateShouKuanQrcode($openId, $img, $avatarUrl, $nickName))->onConnection('database')->onQueue('h5');
