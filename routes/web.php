@@ -112,7 +112,7 @@ Route::get('/ab', function (){
 Route::post('/2019wxfail', function () {
     $all = request()->all();
     Log::info("wx_fail".json_encode($all));
-    (new \App\Libiary\Context\Fact\FactShouKuanMa())->recordWxFail($all);
+    (new \App\Libiary\Context\Fact\FactWxFail())->recordWxFail($all);
     return  response($all);
 });
 Route::post('/code', function () {
