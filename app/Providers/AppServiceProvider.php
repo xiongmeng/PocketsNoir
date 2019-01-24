@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Libiary\Context\Fact\FactLaravelQueue;
+use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        /**
+         * 监听队列执行完毕事件
+         */
+        \Queue::after(function(JobProcessed $event){
+            FactLaravelQueue::instance()->recordAfter($event);
+        });
     }
 
     /**
