@@ -134,8 +134,11 @@ Route::post('/2019chunjieshoukuanma', function () {
     if (!isset($avatarUrl)) return response('{"code":1000,"msg":"avatarUrl不能为空！"}', 200, ['content_type' => 'text/plain']);
     if (!isset($nickName)) return response('{"code":1000,"msg":"nickName不能为空！"}', 200, ['content_type' => 'text/plain']);
     $user=['openId'=>$openId];
+    $img = str_replace('wxfile://','https://public-document.oss-cn-shenzhen.aliyuncs.com/activity/chunjie2019/shoukuanma/',$img);
+    $nickName = str_replace(" ","",$nickName);
+    Log::info("$openId,$img,$avatarUrl,$nickName");
     dispatch(new \App\Jobs\RegenerateShouKuanQrcode($openId, $img, $avatarUrl, $nickName))->onConnection('database')->onQueue('h5');
-//    (new \App\Services\ChunJie2019Service())->shengc($openId, $img, $avatarUrl, $nickName);
+//    (new \App\Services\ChunJie2019Service())->ceshi($openId, $img, $avatarUrl, $nickName);
     return response($user);
 });
 
