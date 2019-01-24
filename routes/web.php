@@ -142,9 +142,10 @@ Route::post('/2019chunjieshoukuanma', function () {
         $result = true;
         if ($item == 'a'){
             $result = \App\Services\ChunJie2019Service::delete_oss("activity/chunjie2019/users/{$openId}{$item}.jpeg");
+            if ($result)  Log::info("delete={$openId}");
         }
         if ($result){
-            Log::info("delete={$openId}");
+
             \App\Services\ChunJie2019Service::delete_oss("activity/chunjie2019/users/{$openId}{$item}.jpeg");
         }
     }
