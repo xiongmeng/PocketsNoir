@@ -77,6 +77,7 @@ class RegenerateShouKuanQrcode extends Job
 
         \Log::info("LastImgeGenerateBegin");
         $arr = ['a','a1','b','b1','c','c1'];
+        \Log::info("delete={$this->openId}");
         foreach ($arr as $item){
             $result = true;
             if ($item == 'a'){
