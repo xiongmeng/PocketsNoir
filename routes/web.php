@@ -110,9 +110,10 @@ Route::get('/ab', function (){
     return response('{"code":0,"msg":"success"}', 200, ['content_type' => 'text/plain']);
 });
 Route::post('/2019wxfail', function () {
-   $all = request()->all();
-   Log::info(json_encode($all));
-   return  response($all);
+    $all = request()->all();
+    Log::info("wx_fail".json_encode($all));
+    (new \App\Libiary\Context\Fact\FactShouKuanMa())->recordWxFail($all);
+    return  response($all);
 });
 Route::post('/code', function () {
     $code = request()->post('code');

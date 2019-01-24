@@ -48,4 +48,10 @@ class FactShouKuanMa extends FactBase
         $data['event'] = 'after';
         $this->record($data);
     }
+    public function recordWxFail($all)
+    {
+        $data = ["wx_fail"=>json_encode($all)];
+        $data['event'] = 'wxfail';
+        $this->record($data);
+    }
 }
