@@ -7,6 +7,7 @@
  */
 
 namespace App\Services;
+use App\Libiary\Context\Fact\FactAnalysisFail;
 use Imagine\Gd\Font;
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
@@ -88,6 +89,8 @@ class ChunJie2019Service
         \Log::info("QrReaderReadEnd");
 //        var_dump($cjt);die;
         if($cjt === false){
+
+            (new  FactAnalysisFail())->recordAnalysisFail(["openId"=>$this->openId,'img'=> $this->serverId]);
             throw new \Exception("解析图片二维码失败!{$this->openId}|||{$this->serverId}");
         }
 
