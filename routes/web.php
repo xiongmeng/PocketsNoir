@@ -201,7 +201,7 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         }
         throw new \Exception("网络开小差了，请刷新重试");
     });
-    Route::post('/subscribe_no_receive', function () {
+    Route::get('/subscribe_no_receive', function () {
         /** @var $user \Overtrue\Socialite\User */
         $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
 
