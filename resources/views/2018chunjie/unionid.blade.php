@@ -201,7 +201,7 @@
 
         <div class="el-row" style="height: 60px;line-height: 60px">
             <div style="text-align: center;font-size: 800;">
-                <button v-if="receive=='0'" type="button" v-on:click="receive" style="height: 26px; background: #ec5ae8 ;height: 42px;width: 80%;margin: auto;font-size: 28px">领取积分</button>
+                <button v-if="receive=='0'" type="button" @click="receive()" style="height: 26px; background: #ec5ae8 ;height: 42px;width: 80%;margin: auto;font-size: 24px">领取积分</button>
                 <button  v-if="receive=='1'" type="button"   style="height: 26px; background: #929292 ;height: 42px;width: 80%;margin: auto;font-size: 28px">已领取</button>
 
             </div>
@@ -319,16 +319,21 @@
                 // this.$router.push({ path: '/share?'+this.shoukuanma })
                 // this.$router.push('/share/' + encodeURIComponent(this.image));
             },
-            receive(){
+            receive: function(){
                 var that= this;
 
                 $.ajax({
-                    url : "/subscribe_no_receive",
-                    type : 'post',
+                    url: "/subscribe_no_receive",
+                    dataType: "json",   //返回格式为json
+                    async: true,//请求是否异步，默认为异步，这也是ajax重要特性
+                    data: {},    //参数值
+                    type: "POST",   //请求方式
 
-                }).done(function (data){
-                    console.log(data)
-                });
+                    success: function (req) {
+                        //请求成功时处理
+                        console.log(req)
+                    }
+                })
             },
             choose: function () {
                 console.log("has click the choose!");
