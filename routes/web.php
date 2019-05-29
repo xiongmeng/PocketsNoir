@@ -210,9 +210,10 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
             throw new \Exception("授权失败！");
         }
         $id = $original['unionid'];
-        DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->update(["is_subscribe_no_receive"=>1]);
-        $query = DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->first();
-        return view('2018chunjie.unionid', ['user' => $user, 'original' => $original, 'shopUser' => $query]);
+        $ret = DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->update(["is_subscribe_no_receive"=>1]);
+        $params=['event_id'=>$id,'user_id'=>754];
+        \App\Libiary\Utility\CurlWrapper::post(json_encode($params), 'http://api.pocketnoir.com/api' . '/VipShopCallback/SUBSCRIBE_NO_RECEIVE');
+        return response(['code'=>$ret]);
     });
 
     Route::get('/codeimg', function () {

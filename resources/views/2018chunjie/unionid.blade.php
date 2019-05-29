@@ -331,7 +331,13 @@
 
                     success: function (req) {
                         //请求成功时处理
-                        console.log(req)
+                        if(req.code==1){
+                            that.receive_no = 1;
+                            alert('领取成功！')
+                        }else {
+                            alert('领取失败了！')
+                        }
+
                     }
                 })
             },
