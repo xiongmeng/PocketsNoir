@@ -86,7 +86,7 @@
         .userName{
             text-align: center;
             color:white;;
-            height: 70px;
+            height: 50px;
             font-size: 18px;
             line-height: 70px;
             text-align: center;
@@ -167,7 +167,12 @@
     {{--<div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">--}}
     <div class="container" :style="'background:#31a1fa'+';background-size: 100%;'">
         {{--<img src="/images/logo.png" class="pic">--}}
-        <div class="el-row" style="padding-top: 30%;">
+        <div class="el-row" style="height: 15%;padding-top: 10%">
+            <div style="text-align: center;font-size: 800;">
+                黑口袋会员商城
+            </div>
+        </div>
+        <div class="el-row" style="">
             <div class="userPhone el-col el-col-6 " style="width: 36%;">
                 <img v-bind:src="avatar">
             </div>
@@ -177,41 +182,51 @@
          </div> -->
         <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
             <div class="userName el-col el-col-6 " style="width: 36%;">
-                {{--<div class="grid-content bg-purple"> <?= $user->getNickname() ?></div>--}}
                 <div class="grid-content bg-purple"> <?= $user->getNickname() ?></div>
 
             </div>
         </div>
+        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
+            <div class="userName el-col el-col-6 " style="width: 36%;">
+                <div class="grid-content bg-purple"> 黑口袋送你100积分</div>
+
+            </div>
+        </div>
+        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
+            <div class="userName el-col el-col-6 " style="width: 36%;">
+                <div class="grid-content bg-purple">  1元=1积分</div>
+
+            </div>
+        </div>
 
         <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
-            <div>
-                <div class="grid-content bg-purple">&nbsp;&nbsp;微信unionid： <?= $original['unionid'] ?></div>
+            <div style="width: 80%;margin: 0 auto">
+                <div class="grid-content bg-purple">
+                        <button type="button" v-on:clike="receive" style="height: 26px; background: #ec5ae8 ">领取积分</button>
+
+                </div>
+            </div>
+        </div>
+        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
+            <div class="userName el-col el-col-6 " style="width: 36%;">
+                <div class="grid-content bg-purple"> 回到小程序【我的】即可查看积分</div>
+
+            </div>
+        </div>
+        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
+            <div class="userName el-col el-col-6 " style="width: 36%;">
+                <div class="grid-content bg-purple"> </div>
+
+            </div>
+        </div>
+        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
+            <div class="userName el-col el-col-6 " style="width: 36%;">
+                <div class="grid-content bg-purple"> pocket  noir</div>
+
             </div>
         </div>
 
 
-        <?php if(!empty($shopUser)){ ?>
-        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
-            <div>
-                <div class="grid-content bg-purple">&nbsp;&nbsp;商城积分： <?= $shopUser->union_id ?></div>
-            </div>
-        </div>
-        <?php }else{ ?>
-        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
-            <div>
-                <div class="grid-content bg-purple">&nbsp;&nbsp;请在小程序中完成注册或退出重新登录！</div>
-            </div>
-        </div>
-        <?php }?>
-
-
-        {{--                <div class="el-row" style="margin-left: -10px; margin-right: -10px;">--}}
-        {{--                    <div class="codeBth el-col el-col-6 " style="width: 36%;">--}}
-        {{--                        <div class="grid-content bg-purple crod" style="height: 65px;">--}}
-        {{--                            <button type="button" class="el-button el-button--danger" v-on:click='choose'><span>上传二维收款码</span></button>--}}
-        {{--                        </div>--}}
-        {{--                    </div>--}}
-        {{--                </div>--}}
         <div class="el-row">
             <div class="el-col el-col-6 width"  >
                 <img width="100px" height="100px" src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=567838369,2634694507&fm=26&gp=0.jpg">
@@ -307,6 +322,17 @@
             ahrefupload(){
                 // this.$router.push({ path: '/share?'+this.shoukuanma })
                 // this.$router.push('/share/' + encodeURIComponent(this.image));
+            },
+            receive(){
+                var that= this;
+
+                $.ajax({
+                    url : "/subscribe_no_receive",
+                    type : 'post',
+
+                }).done(function (data){
+                    console.log(data)
+                });
             },
             choose: function () {
                 console.log("has click the choose!");
