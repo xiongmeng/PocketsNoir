@@ -186,41 +186,33 @@
 
             </div>
         </div>
-        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
-            <div class="userName el-col el-col-6 " style="width: 36%;">
+        <div class="el-row" style="height: 40px;line-height: 40px">
+            <div style="text-align: center;font-size: 800;">
                 <div class="grid-content bg-purple"> 黑口袋送你100积分</div>
 
             </div>
         </div>
-        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
-            <div class="userName el-col el-col-6 " style="width: 36%;">
+        <div class="el-row" style="height: 40px;line-height: 40px">
+            <div style="text-align: center;font-size: 800;">
                 <div class="grid-content bg-purple">  1元=1积分</div>
 
             </div>
         </div>
 
-        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
-            <div style="width: 80%;margin: 0 auto">
-                <div class="grid-content bg-purple">
-                        <button type="button" v-on:clike="receive" style="height: 26px; background: #ec5ae8 ">领取积分</button>
+        <div class="el-row" style="height: 80px;line-height: 80px">
+            <div style="text-align: center;font-size: 800;">
+                <button type="button" v-on:click="receive" style="height: 26px; background: #ec5ae8 ;height: 60px;width: 80%;margin: auto">领取积分</button>
 
-                </div>
             </div>
         </div>
-        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
-            <div class="userName el-col el-col-6 " style="width: 36%;">
+        <div class="el-row" style="height: 40px;line-height: 40px">
+            <div style="text-align: center;font-size: 800;">
                 <div class="grid-content bg-purple"> 回到小程序【我的】即可查看积分</div>
 
             </div>
         </div>
-        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
-            <div class="userName el-col el-col-6 " style="width: 36%;">
-                <div class="grid-content bg-purple"> </div>
-
-            </div>
-        </div>
-        <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
-            <div class="userName el-col el-col-6 " style="width: 36%;">
+        <div class="el-row" style="height: 80px;line-height: 80px">
+            <div style="text-align: center;font-size: 800;">
                 <div class="grid-content bg-purple"> pocket  noir</div>
 
             </div>
@@ -229,7 +221,7 @@
 
         <div class="el-row">
             <div class="el-col el-col-6 width"  >
-                <img width="100px" height="100px" src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=567838369,2634694507&fm=26&gp=0.jpg">
+                <img width="80px" height="80px" src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=567838369,2634694507&fm=26&gp=0.jpg">
             </div>
         </div>
         <div class="el-row"  v-if="status">
