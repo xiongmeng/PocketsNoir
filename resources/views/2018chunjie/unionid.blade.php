@@ -67,7 +67,7 @@
         .container{
             height: 100%;
             width: 100%;
-            overflow-y: auto;
+            /*overflow-y: auto;*/
         }
         .userPhone{
             width: 132px;
@@ -162,12 +162,12 @@
 </head>
 
 <body >
-<div id="app" style="width:100%;height:100%;">
+<div id="app" style="width:100%;height:100%;overflow: hidden">
     {{--31a1fa--}}
     {{--<div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">--}}
     <div class="container" :style="'background:#31a1fa'+';background-size: 100%;'">
         {{--<img src="/images/logo.png" class="pic">--}}
-        <div class="el-row" style="height: 15%;padding-top: 10%">
+        <div class="el-row" style="height: 10%;padding-top: 5%">
             <div style="text-align: center;font-size: 800;">
                 黑口袋会员商城
             </div>
@@ -199,9 +199,10 @@
             </div>
         </div>
 
-        <div class="el-row" style="height: 80px;line-height: 80px">
+        <div class="el-row" style="height: 60px;line-height: 60px">
             <div style="text-align: center;font-size: 800;">
-                <button type="button" v-on:click="receive" style="height: 26px; background: #ec5ae8 ;height: 60px;width: 80%;margin: auto">领取积分</button>
+                <button v-if="receive=='0'" type="button" v-on:click="receive" style="height: 26px; background: #ec5ae8 ;height: 42px;width: 80%;margin: auto;font-size: 28px">领取积分</button>
+                <button  v-if="receive=='1'" type="button"   style="height: 26px; background: #929292 ;height: 42px;width: 80%;margin: auto;font-size: 28px">已领取</button>
 
             </div>
         </div>
@@ -209,6 +210,11 @@
             <div style="text-align: center;font-size: 800;">
                 <div class="grid-content bg-purple"> 回到小程序【我的】即可查看积分</div>
 
+            </div>
+        </div>
+        <div class="el-row">
+            <div class="el-col el-col-6 width"  >
+                <img width="80px" height="80px" src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=567838369,2634694507&fm=26&gp=0.jpg">
             </div>
         </div>
         <div class="el-row" style="height: 80px;line-height: 80px">
@@ -219,11 +225,7 @@
         </div>
 
 
-        <div class="el-row">
-            <div class="el-col el-col-6 width"  >
-                <img width="80px" height="80px" src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=567838369,2634694507&fm=26&gp=0.jpg">
-            </div>
-        </div>
+
         <div class="el-row"  v-if="status">
             <div class="nextBtn el-col el-col-6 " style="margin-top: 20px;" v-on:click="ahrefupload">
             </div>
@@ -306,6 +308,7 @@
                 loading:false,
                 image:'',
                 status:'',
+                receive:"<?= $shopUser->union_id->is_subscribe_no_receive ?>"
             }
 
 

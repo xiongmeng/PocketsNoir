@@ -159,7 +159,11 @@ Route::post('/2019chunjieshoukuanma', function () {
 //    (new \App\Services\ChunJie2019Service())->ceshi($openId, $img, $avatarUrl, $nickName);
     return response($user);
 });
+Route::get('/unionid1', function () {
 
+    return view('2018chunjie.unionid', ['user' => 1, 'original' => 2, 'shopUser' => 3]);
+
+});
 Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
     Route::get('/entry', function () {
         /** @var $user \Overtrue\Socialite\User */
