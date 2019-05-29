@@ -201,8 +201,8 @@
 
         <div class="el-row" style="height: 60px;line-height: 60px">
             <div style="text-align: center;font-size: 800;">
-                <button v-if="receive=='0'" type="button" @click="receive()" style="height: 26px; background: #ec5ae8 ;height: 42px;width: 80%;margin: auto;font-size: 24px">领取积分</button>
-                <button  v-if="receive=='1'" type="button"   style="height: 26px; background: #929292 ;height: 42px;width: 80%;margin: auto;font-size: 28px">已领取</button>
+                <button v-if="receive_no=='0'" type="button" @click="receive()" style="height: 26px; background: #ec5ae8 ;height: 42px;width: 80%;margin: auto;font-size: 24px">领取积分</button>
+                <button  v-if="receive_no=='1'" type="button"   style="height: 26px; background: #929292 ;height: 42px;width: 80%;margin: auto;font-size: 28px">已领取</button>
 
             </div>
         </div>
@@ -294,7 +294,7 @@
         avatar : "<?= $user->getAvatar()?>",
         nickname: "<?= $user->getNickname()?>",
         openid: "<?= $user->getId()?>",
-        receive:"<?= $shopUser->is_subscribe_no_receive ?>"
+        receive_no:"<?= $shopUser->is_subscribe_no_receive ?>"
     }
     var vm = new Vue({
         el:'#app',
@@ -309,7 +309,7 @@
                 loading:false,
                 image:'',
                 status:'',
-                receive:Constant.receive
+                receive_no:Constant.receive_no
             }
 
 
