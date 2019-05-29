@@ -293,7 +293,8 @@
     var Constant={
         avatar : "<?= $user->getAvatar()?>",
         nickname: "<?= $user->getNickname()?>",
-        openid: "<?= $user->getId()?>"
+        openid: "<?= $user->getId()?>",
+        receive:"<?= $shopUser->is_subscribe_no_receive ?>"
     }
     var vm = new Vue({
         el:'#app',
@@ -308,7 +309,7 @@
                 loading:false,
                 image:'',
                 status:'',
-                receive:"<?= $shopUser->union_id->is_subscribe_no_receive ?>"
+                receive:Constant.receive
             }
 
 
