@@ -174,6 +174,17 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         }
     });
 
+    Route::get('/unionid', function () {
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+
+        $original = $user->getOriginal();
+
+        $shopUser = DB::connection('shop')->selectOne("SELECT sv.* FROM s_user su JOIN s_vip sv ON su.id=sv.user_id WHERE su.weixin_union_id='{$original['unionid']}'");
+
+        return view('2018chunjie.unionid', ['user' => $user, 'original' => $original, 'shopUser' => $shopUser]);
+    });
+
     Route::get('/codeimg', function () {
         /** @var $user \Overtrue\Socialite\User */
         $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
