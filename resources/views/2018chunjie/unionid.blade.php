@@ -214,7 +214,7 @@
         </div>
         <div class="el-row">
             <div class="el-col el-col-6 width"  >
-                <img width="80px" height="80px" src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=567838369,2634694507&fm=26&gp=0.jpg">
+                <img width="80px" height="80px" src="https://pn-activity.oss-cn-shenzhen.aliyuncs.com/vipShop/static/gh_fb5108c84462_1280.jpg">
             </div>
         </div>
         <div class="el-row" style="height: 80px;line-height: 80px">
