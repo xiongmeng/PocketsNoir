@@ -179,10 +179,36 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
 
         $original = $user->getOriginal();
+        if (empty($original['unionid'])){
+            throw new \Exception("授权失败！");
+        }
+        $id = $original['unionid'];
+//        $shopUser = DB::connection('shop')->selectOne("SELECT sv.* FROM s_user su JOIN s_vip sv ON su.id=sv.user_id WHERE su.weixin_union_id='{$original['unionid']}'");
 
-        $shopUser = DB::connection('shop')->selectOne("SELECT sv.* FROM s_user su JOIN s_vip sv ON su.id=sv.user_id WHERE su.weixin_union_id='{$original['unionid']}'");
+        $query = DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->first();
+        if (isset($query->union_id)){
+            return view('2018chunjie.unionid', ['user' => $user, 'original' => $original, 'shopUser' => $query]);
 
-        return view('2018chunjie.unionid', ['user' => $user, 'original' => $original, 'shopUser' => $shopUser]);
+        }
+        $getId = DB::connection('shop')->table("s_union_ids")->insertGetId(['union_id'=>$id]);
+        if ($getId>0){
+            $query = DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->first();
+            return view('2018chunjie.unionid', ['user' => $user, 'original' => $original, 'shopUser' => $query]);
+        }
+        throw new \Exception("网络开小差了，请刷新重试");
+    });
+    Route::post('/subscribe_no_receive', function () {
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+
+        $original = $user->getOriginal();
+        if (empty($original['unionid'])){
+            throw new \Exception("授权失败！");
+        }
+        $id = $original['unionid'];
+        DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->update(["is_subscribe_no_receive"=>1]);
+        $query = DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->first();
+        return view('2018chunjie.unionid', ['user' => $user, 'original' => $original, 'shopUser' => $query]);
     });
 
     Route::get('/codeimg', function () {

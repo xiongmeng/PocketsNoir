@@ -189,7 +189,7 @@
                 <?php if(!empty($shopUser)){ ?>
                     <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
                         <div>
-                            <div class="grid-content bg-purple">&nbsp;&nbsp;商城积分： <?= $shopUser->black_point ?></div>
+                            <div class="grid-content bg-purple">&nbsp;&nbsp;商城积分： <?= $shopUser->union_id ?></div>
                         </div>
                     </div>
                 <?php }else{ ?>
