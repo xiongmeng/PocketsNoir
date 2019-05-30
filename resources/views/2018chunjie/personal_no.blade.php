@@ -65,16 +65,18 @@
             background: url("/images/bg.png") 0% 0% / 100%;
         }
         .container{
-            height: 100%;
-            width: 100%;
-            /*overflow-y: auto;*/
+            width: 92%;
+            height: 80%;
+            overflow: hidden;
+            border-radius: 10px 10px 10px;
+            margin-top: 10px;
+
+            position: relative;
+            top: 0px;
+            left: 4%;
         }
         .userPhone{
-            width: 132px;
-            height: 132px;
-            margin: 100px auto 0;
-            padding: 0 !important;
-            float: inherit;
+
             box-sizing: content-box;
             border-radius: 50%;
             overflow:hidden;
@@ -88,7 +90,7 @@
             color:white;;
             height: 50px;
             font-size: 18px;
-            line-height: 70px;
+            line-height: 50px;
             text-align: center;
             padding: 0;
             margin: 0;
@@ -156,24 +158,41 @@
             float: none;
             margin: 0 auto;
         }
-
+        .btn_no{
+            height: 40px;
+            background: rgb(146, 146, 146);
+            width: 70%;
+            margin: auto;
+            line-height: 40px;
+            font-size: 22px;
+            border-radius: 15px;
+        }
+        .btn{
+            height: 40px;
+            background: #ff0049;
+            width: 70%;
+            margin: auto;
+            line-height: 40px;
+            font-size: 22px;
+            border-radius: 15px;
+        }
 
     </style>
 </head>
 
-<body >
-<div id="app" style="width:100%;height:100%;overflow: hidden">
+<body style="    background: #f6f7f8;">
+<div id="app" style="width:100%;height:100%;overflow: hidden;">
     {{--31a1fa--}}
     {{--<div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">--}}
-    <div class="container" :style="'background:#31a1fa'+';background-size: 100%;'">
+    <div class="container" :style="'background:#fff'+';background-size: 100%;'">
         {{--<img src="/images/logo.png" class="pic">--}}
         <div class="el-row" style="height: 10%;padding-top: 5%">
-            <div style="text-align: center;font-size: 800;">
+            <div style="text-align: center;font-weight: 900;font-size: 20px;">
                 黑口袋会员商城
             </div>
         </div>
         <div class="el-row" style="">
-            <div class="userPhone el-col el-col-6 " style="width: 36%;">
+            <div class="userPhone el-col el-col-6 " style="width: 30%;">
                 <img v-bind:src="avatar">
             </div>
         </div>
@@ -188,27 +207,27 @@
         </div>
         <div class="el-row" style="height: 40px;line-height: 40px">
             <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"> 黑口袋送你100积分</div>
+                <div class="grid-content bg-purple"> 黑口袋送你 <span style="color: #5400e1;font-size: 32px">100</span> 积分</div>
 
             </div>
         </div>
         <div class="el-row" style="height: 40px;line-height: 40px">
             <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple">  1元=1积分</div>
+                <div class="grid-content bg-purple"  style="color: #5400e1;font-size: 32px">  「1元=1积分」</div>
 
             </div>
         </div>
 
         <div class="el-row" style="height: 60px;line-height: 60px">
             <div style="text-align: center;font-size: 800;">
-                <button v-if="receive_no=='0'" type="button" @click="receive()" style="height: 26px; background: #ec5ae8 ;height: 42px;width: 80%;margin: auto;font-size: 24px">领取积分</button>
-                <button  v-if="receive_no=='1'" type="button"   style="height: 26px; background: #929292 ;height: 42px;width: 80%;margin: auto;font-size: 28px">已领取</button>
+                <button v-if="receive_no=='0'" type="button" @click="receive()" class="btn">领取积分</button>
+                <button  v-if="receive_no=='1'" type="button"   class="btn_no">已领取</button>
 
             </div>
         </div>
         <div class="el-row" style="height: 40px;line-height: 40px">
             <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"> 回到小程序【我的】即可查看积分</div>
+                <div class="grid-content bg-purple" style="font-size: 14px;"> 回到小程序【我的】即可查看积分</div>
 
             </div>
         </div>
