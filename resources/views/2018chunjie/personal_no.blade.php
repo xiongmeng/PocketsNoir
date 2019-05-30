@@ -66,8 +66,9 @@
         }
         .container{
             width: 92%;
-            mac-height: 80%;
-            min-height: 465px;
+            max-height: 80%;
+            height: 70%;
+            min-height: 470px;
             overflow: hidden;
             border-radius: 10px 10px 10px;
             margin-top: 10px;
