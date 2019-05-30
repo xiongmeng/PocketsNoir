@@ -292,7 +292,7 @@
         <div style="height: 32px;line-height: 32px;text-align: center; white-space:nowrap;overflow:hidden">快去小程序-我的积分中查看详情吧！</div>
         <div style="height: 50px;padding-top: 10px;">
             <div style="text-align: center;">
-                <button v-if="receive_no=='0'" type="button" @click="close_btn()" class="confirm_btn">确认</button>
+                <button type="button" @click="close_btn()" class="confirm_btn">确认</button>
 
             </div>
         </div>
