@@ -67,7 +67,6 @@
         .container{
             width: 92%;
             max-height: 80%;
-            height: 70%;
             min-height: 470px;
             overflow: hidden;
             border-radius: 10px 10px 10px;
@@ -192,8 +191,9 @@
                 黑口袋会员商城
             </div>
         </div>
-        <div class="el-row" style="">
-            <div class="userPhone el-col el-col-6 " style="width: 30%;">
+        <div class="el-row" style="height: 106px;
+    padding-top: 10px;">
+            <div class="userPhone el-col el-col-6 ">
                 <img v-bind:src="avatar">
             </div>
         </div>
@@ -237,7 +237,9 @@
                 <img width="80px" height="80px" src="https://pn-activity.oss-cn-shenzhen.aliyuncs.com/vipShop/static/gh_fb5108c84462_1280.jpg">
             </div>
         </div>
+        <div class="el-row" style="height: 15px;">
 
+        </div>
 
         <div class="el-row"  v-if="status">
             <div class="nextBtn el-col el-col-6 " style="margin-top: 20px;" v-on:click="ahrefupload">
