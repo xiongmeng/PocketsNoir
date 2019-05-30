@@ -251,7 +251,7 @@
         avatar : "<?= $user->getAvatar()?>",
         nickname: "<?= $user->getNickname()?>",
         openid: "<?= $user->getId()?>",
-        receive_no:"<?= $shopUser->is_subscribe_no_receive ?>"
+        receive_no:"<?= $shopUser->is_personal_no_receive ?>"
     }
     var vm = new Vue({
         el:'#app',
@@ -280,7 +280,7 @@
                 var that= this;
 
                 $.ajax({
-                    url: "/subscribe_no_receive",
+                    url: "/personal_no_receive",
                     dataType: "json",   //返回格式为json
                     async: true,//请求是否异步，默认为异步，这也是ajax重要特性
                     data: {},    //参数值
