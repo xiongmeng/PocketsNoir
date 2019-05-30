@@ -66,7 +66,8 @@
         }
         .container{
             width: 92%;
-            height: 80%;
+            mac-height: 80%;
+            min-height: 465px;
             overflow: hidden;
             border-radius: 10px 10px 10px;
             margin-top: 10px;
@@ -87,7 +88,6 @@
         }
         .userName{
             text-align: center;
-            color:white;;
             height: 50px;
             font-size: 18px;
             line-height: 50px;
@@ -200,20 +200,20 @@
 
          </div> -->
         <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
-            <div class="userName el-col el-col-6 " style="width: 36%;">
+            <div class="userName el-col el-col-6 " style="width: 80%;">
                 <div class="grid-content bg-purple"> <?= $user->getNickname() ?></div>
 
             </div>
         </div>
         <div class="el-row" style="height: 40px;line-height: 40px">
             <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"> 黑口袋送你 <span style="color: #5400e1;font-size: 32px">100</span> 积分</div>
+                <div class="grid-content bg-purple"> 黑口袋送你 <span style="color: #5400e1;font-size: 30px">100</span> 积分</div>
 
             </div>
         </div>
         <div class="el-row" style="height: 40px;line-height: 40px">
             <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"  style="color: #5400e1;font-size: 32px">  「1元=1积分」</div>
+                <div class="grid-content bg-purple"  style="color: #5400e1;font-size: 24px">  「1元=1积分」</div>
 
             </div>
         </div>
@@ -225,8 +225,8 @@
 
             </div>
         </div>
-        <div class="el-row" style="height: 40px;line-height: 40px">
-            <div style="text-align: center;font-size: 800;">
+        <div class="el-row" style="height: 36px;">
+            <div style="text-align: center;">
                 <div class="grid-content bg-purple" style="font-size: 14px;"> 回到小程序【我的】即可查看积分</div>
 
             </div>
@@ -236,13 +236,6 @@
                 <img width="80px" height="80px" src="https://pn-activity.oss-cn-shenzhen.aliyuncs.com/vipShop/static/gh_fb5108c84462_1280.jpg">
             </div>
         </div>
-        <div class="el-row" style="height: 80px;line-height: 80px">
-            <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"> pocket  noir</div>
-
-            </div>
-        </div>
-
 
 
         <div class="el-row"  v-if="status">
