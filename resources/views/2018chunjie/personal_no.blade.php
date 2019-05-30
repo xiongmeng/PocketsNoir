@@ -281,23 +281,24 @@
         
 
     </div>
-</div>
-    <div class="check_clone" v-if="key === '1'">
-        
-    </div>
-<div class="success" v-if="key ==='1'">
-    <div style="height: 60px;padding-top: 10px;text-align: center;line-height: 60px">
-        <img src="/images/success.png" alt="" style="height: 30px;width: auto;margin: auto">
-    </div>
-    <div style="height: 32px;text-align: center; white-space:nowrap;">积分领取成功！</div>
-    <div style="height: 32px;line-height: 32px;text-align: center; white-space:nowrap;overflow:hidden">快去小程序-我的积分中查看详情吧！</div>
-    <div style="height: 50px;padding-top: 10px;">
-        <div style="text-align: center;">
-            <button v-if="receive_no=='0'" type="button" @click="receive()" class="confirm_btn">确认</button>
+    <div class="check_clone" v-if="status_key === '1'">
 
+    </div>
+    <div class="success" v-if="status_key ==='1'">
+        <div style="height: 60px;padding-top: 10px;text-align: center;line-height: 60px">
+            <img src="/images/success.png" alt="" style="height: 30px;width: auto;margin: auto">
+        </div>
+        <div style="height: 32px;text-align: center; white-space:nowrap;">积分领取成功！</div>
+        <div style="height: 32px;line-height: 32px;text-align: center; white-space:nowrap;overflow:hidden">快去小程序-我的积分中查看详情吧！</div>
+        <div style="height: 50px;padding-top: 10px;">
+            <div style="text-align: center;">
+                <button v-if="receive_no=='0'" type="button" @click="close_btn()" class="confirm_btn">确认</button>
+
+            </div>
         </div>
     </div>
 </div>
+
 </body>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript" charset="utf-8"></script>
 
@@ -327,7 +328,7 @@
                 image:'',
                 status:'',
                 receive_no:Constant.receive_no,
-                key:0,
+                status_key:0,
             }
 
 
@@ -351,7 +352,7 @@
                         //请求成功时处理
                         if(req.code==1){
                             that.receive_no = 1;
-                            that.key = 1;
+                            that.status_key = 1;
                             alert('领取成功！')
                         }else {
                             alert('领取失败了！')
@@ -361,7 +362,7 @@
                 })
             },
             close_btn:function(){
-              this.key = 0;
+              this.status_key = 0;
             },
             choose: function () {
                 console.log("has click the choose!");

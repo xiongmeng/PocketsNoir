@@ -12,7 +12,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>公众号领取积分</title>
+    <title>个人号领取积分</title>
 
     <!-- Fonts -->
     <!--        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
@@ -65,16 +65,19 @@
             background: url("/images/bg.png") 0% 0% / 100%;
         }
         .container{
-            height: 100%;
-            width: 100%;
-            /*overflow-y: auto;*/
+            width: 92%;
+            max-height: 80%;
+            min-height: 470px;
+            overflow: hidden;
+            border-radius: 10px 10px 10px;
+            margin-top: 10px;
+
+            position: relative;
+            top: 0px;
+            left: 4%;
         }
         .userPhone{
-            width: 132px;
-            height: 132px;
-            margin: 100px auto 0;
-            padding: 0 !important;
-            float: inherit;
+
             box-sizing: content-box;
             border-radius: 50%;
             overflow:hidden;
@@ -85,10 +88,9 @@
         }
         .userName{
             text-align: center;
-            color:white;;
             height: 50px;
             font-size: 18px;
-            line-height: 70px;
+            line-height: 50px;
             text-align: center;
             padding: 0;
             margin: 0;
@@ -113,6 +115,27 @@
             margin-left: 10%;
             line-height: 28px;
 
+        }
+        .check_clone{
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #666;
+        }
+        .success{
+            width:90%;
+            height: 200px;
+            position: fixed;
+            top: 0;
+            left:0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            background: #fff;
+            border-radius: 10px;
         }
         .nextBtn button{
             margin: 0 auto;
@@ -156,24 +179,51 @@
             float: none;
             margin: 0 auto;
         }
-
-
+        .btn_no{
+            height: 40px;
+            background: rgb(146, 146, 146);
+            width: 70%;
+            margin: auto;
+            line-height: 40px;
+            font-size: 22px;
+            border-radius: 15px;
+        }
+        .btn{
+            height: 40px;
+            background: #ff0049;
+            width: 70%;
+            margin: auto;
+            line-height: 40px;
+            font-size: 22px;
+            border-radius: 15px;
+        }
+        .confirm_btn{
+            width: 66px;
+            height: 32px;
+            line-height: 32px;
+            background: #000;
+            color: #fff;
+            font-size: 14px;
+            border-radius: 11px;
+            font-family: '微软雅黑';
+        }
     </style>
 </head>
 
-<body >
-<div id="app" style="width:100%;height:100%;overflow: hidden">
+<body style="    background: #f6f7f8;">
+<div id="app" style="width:100%;height:100%;overflow: hidden;">
     {{--31a1fa--}}
     {{--<div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">--}}
-    <div class="container" :style="'background:#31a1fa'+';background-size: 100%;'">
+    <div class="container" :style="'background:#fff'+';background-size: 100%;'">
         {{--<img src="/images/logo.png" class="pic">--}}
         <div class="el-row" style="height: 10%;padding-top: 5%">
-            <div style="text-align: center;font-size: 800;">
+            <div style="text-align: center;font-weight: 900;font-size: 20px;">
                 黑口袋会员商城
             </div>
         </div>
-        <div class="el-row" style="">
-            <div class="userPhone el-col el-col-6 " style="width: 36%;">
+        <div class="el-row" style="height: 106px;
+    padding-top: 10px;">
+            <div class="userPhone el-col el-col-6 ">
                 <img v-bind:src="avatar">
             </div>
         </div>
@@ -181,34 +231,34 @@
 
          </div> -->
         <div class="el-row" style="margin-left: -10px; margin-right: -10px;    ">
-            <div class="userName el-col el-col-6 " style="width: 36%;">
+            <div class="userName el-col el-col-6 " style="width: 80%;">
                 <div class="grid-content bg-purple"> <?= $user->getNickname() ?></div>
 
             </div>
         </div>
         <div class="el-row" style="height: 40px;line-height: 40px">
             <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"> 黑口袋送你100积分</div>
+                <div class="grid-content bg-purple"> 黑口袋送你 <span style="color: #5400e1;font-size: 30px">100</span> 积分</div>
 
             </div>
         </div>
         <div class="el-row" style="height: 40px;line-height: 40px">
             <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple">  1元=1积分</div>
+                <div class="grid-content bg-purple"  style="color: #5400e1;font-size: 24px">  「1元=1积分」</div>
 
             </div>
         </div>
 
         <div class="el-row" style="height: 60px;line-height: 60px">
             <div style="text-align: center;font-size: 800;">
-                <button v-if="receive_no=='0'" type="button" @click="receive()" style="height: 26px; background: #ec5ae8 ;height: 42px;width: 80%;margin: auto;font-size: 24px">领取积分</button>
-                <button  v-if="receive_no=='1'" type="button"   style="height: 26px; background: #929292 ;height: 42px;width: 80%;margin: auto;font-size: 28px">已领取</button>
+                <button v-if="receive_no=='0'" type="button" @click="receive()" class="btn">领取积分</button>
+                <button  v-if="receive_no=='1'" type="button"   class="btn_no">已领取</button>
 
             </div>
         </div>
-        <div class="el-row" style="height: 40px;line-height: 40px">
-            <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"> 回到小程序【我的】即可查看积分</div>
+        <div class="el-row" style="height: 36px;">
+            <div style="text-align: center;">
+                <div class="grid-content bg-purple" style="font-size: 14px;"> 回到小程序【我的】即可查看积分</div>
 
             </div>
         </div>
@@ -217,14 +267,9 @@
                 <img width="80px" height="80px" src="https://pn-activity.oss-cn-shenzhen.aliyuncs.com/vipShop/static/gh_fb5108c84462_1280.jpg">
             </div>
         </div>
-        <div class="el-row" style="height: 80px;line-height: 80px">
-            <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"> pocket  noir</div>
+        <div class="el-row" style="height: 15px;">
 
-            </div>
         </div>
-
-
 
         <div class="el-row"  v-if="status">
             <div class="nextBtn el-col el-col-6 " style="margin-top: 20px;" v-on:click="ahrefupload">
@@ -235,6 +280,22 @@
         </div>
 
 
+    </div>
+    <div class="check_clone" v-if="status_key === '1'">
+
+    </div>
+    <div class="success" v-if="status_key ==='1'">
+        <div style="height: 60px;padding-top: 10px;text-align: center;line-height: 60px">
+            <img src="/images/success.png" alt="" style="height: 30px;width: auto;margin: auto">
+        </div>
+        <div style="height: 32px;text-align: center; white-space:nowrap;">积分领取成功！</div>
+        <div style="height: 32px;line-height: 32px;text-align: center; white-space:nowrap;overflow:hidden">快去小程序-我的积分中查看详情吧！</div>
+        <div style="height: 50px;padding-top: 10px;">
+            <div style="text-align: center;">
+                <button v-if="receive_no=='0'" type="button" @click="close_btn()" class="confirm_btn">确认</button>
+
+            </div>
+        </div>
     </div>
 </div>
 
@@ -266,7 +327,8 @@
                 loading:false,
                 image:'',
                 status:'',
-                receive_no:Constant.receive_no
+                receive_no:Constant.receive_no,
+                status_key:0,
             }
 
 
@@ -290,6 +352,7 @@
                         //请求成功时处理
                         if(req.code==1){
                             that.receive_no = 1;
+                            that.status_key = 1;
                             alert('领取成功！')
                         }else {
                             alert('领取失败了！')
@@ -297,6 +360,9 @@
 
                     }
                 })
+            },
+            close_btn:function(){
+                this.status_key = 0;
             },
             choose: function () {
                 console.log("has click the choose!");
