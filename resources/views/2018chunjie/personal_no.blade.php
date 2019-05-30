@@ -126,7 +126,7 @@
             background: #666;
         }
         .success{
-            width: 70%;
+            width:90%;
             height: 200px;
             position: fixed;
             top: 0;
@@ -135,6 +135,7 @@
             bottom: 0;
             margin: auto;
             background: #fff;
+            border-radius: 10px;
         }
         .nextBtn button{
             margin: 0 auto;
@@ -197,9 +198,14 @@
             border-radius: 15px;
         }
         .confirm_btn{
-            width: 80px;
-            height: 36px;
-            line-height: 36px;
+            width: 66px;
+            height: 32px;
+            line-height: 32px;
+            background: #000;
+            color: #fff;
+            font-size: 14px;
+            border-radius: 11px;
+            font-family: '微软雅黑';
         }
     </style>
 </head>
@@ -276,16 +282,16 @@
 
     </div>
 </div>
-    <div class="check_clone" v-if="key ==1">
+    <div class="check_clone" v-if="key === '1'">
         
     </div>
-<div class="success" v-if="key ==1">
+<div class="success" v-if="key ==='1'">
     <div style="height: 60px;padding-top: 10px;text-align: center;line-height: 60px">
         <img src="/images/success.png" alt="" style="height: 30px;width: auto;margin: auto">
     </div>
     <div style="height: 32px;text-align: center; white-space:nowrap;">积分领取成功！</div>
     <div style="height: 32px;line-height: 32px;text-align: center; white-space:nowrap;overflow:hidden">快去小程序-我的积分中查看详情吧！</div>
-    <div style="height: 50px;">
+    <div style="height: 50px;padding-top: 10px;">
         <div style="text-align: center;">
             <button v-if="receive_no=='0'" type="button" @click="receive()" class="confirm_btn">确认</button>
 
