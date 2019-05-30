@@ -201,6 +201,29 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         }
         throw new \Exception("网络开小差了，请刷新重试");
     });
+    Route::get('/subscribe_no', function () {
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+
+        $original = $user->getOriginal();
+        if (empty($original['unionid'])){
+            throw new \Exception("授权失败！");
+        }
+        $id = $original['unionid'];
+//        $shopUser = DB::connection('shop')->selectOne("SELECT sv.* FROM s_user su JOIN s_vip sv ON su.id=sv.user_id WHERE su.weixin_union_id='{$original['unionid']}'");
+
+        $query = DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->first();
+        if (isset($query->union_id)){
+            return view('2018chunjie.unionid', ['user' => $user, 'original' => $original, 'shopUser' => $query]);
+
+        }
+        $getId = DB::connection('shop')->table("s_union_ids")->insertGetId(['union_id'=>$id]);
+        if ($getId>0){
+            $query = DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->first();
+            return view('2018chunjie.unionid', ['user' => $user, 'original' => $original, 'shopUser' => $query]);
+        }
+        throw new \Exception("网络开小差了，请刷新重试");
+    });
     Route::get('/subscribe_no_receive', function () {
         /** @var $user \Overtrue\Socialite\User */
         $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
@@ -213,6 +236,45 @@ Route::group(['middleware' => ['wechat.oauth:snsapi_userinfo']], function () {
         $ret = DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->update(["is_subscribe_no_receive"=>1]);
         $params=['event_id'=>$id,'user_id'=>754];
         \App\Libiary\Utility\CurlWrapper::post(json_encode($params), 'http://api.pocketnoir.com/api' . '/VipShopCallback/SUBSCRIBE_NO_RECEIVE');
+        return response(['code'=>$ret]);
+    });
+
+    Route::get('/personal_no', function () {
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+
+        $original = $user->getOriginal();
+        if (empty($original['unionid'])){
+            throw new \Exception("授权失败！");
+        }
+        $id = $original['unionid'];
+//        $shopUser = DB::connection('shop')->selectOne("SELECT sv.* FROM s_user su JOIN s_vip sv ON su.id=sv.user_id WHERE su.weixin_union_id='{$original['unionid']}'");
+
+        $query = DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->first();
+        if (isset($query->union_id)){
+            return view('2018chunjie.personal_no', ['user' => $user, 'original' => $original, 'shopUser' => $query]);
+
+        }
+        $getId = DB::connection('shop')->table("s_union_ids")->insertGetId(['union_id'=>$id]);
+        if ($getId>0){
+            $query = DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->first();
+            return view('2018chunjie.personal_no', ['user' => $user, 'original' => $original, 'shopUser' => $query]);
+        }
+        throw new \Exception("网络开小差了，请刷新重试");
+    });
+
+    Route::get('/personal_no_receive', function () {
+        /** @var $user \Overtrue\Socialite\User */
+        $user = session('wechat.oauth_user.default'); // 拿到授权用户资料
+
+        $original = $user->getOriginal();
+        if (empty($original['unionid'])){
+            throw new \Exception("授权失败！");
+        }
+        $id = $original['unionid'];
+        $ret = DB::connection('shop')->table("s_union_ids")->where('union_id',$id)->update(["is_personal_no_receive"=>1]);
+        $params=['event_id'=>$id,'user_id'=>754];
+        \App\Libiary\Utility\CurlWrapper::post(json_encode($params), 'http://api.pocketnoir.com/api' . '/VipShopCallback/PERSONAL_NO_RECEIVE');
         return response(['code'=>$ret]);
     });
 
