@@ -281,10 +281,10 @@
 
 
     </div>
-    <div class="check_clone" v-if="status_key === '1'">
+    <div class="check_clone" v-if="status_key == '1'">
 
     </div>
-    <div class="success" v-if="status_key ==='1'">
+    <div class="success" v-if="status_key =='1'">
         <div style="height: 60px;padding-top: 10px;text-align: center;line-height: 60px">
             <img src="/images/success.png" alt="" style="height: 30px;width: auto;margin: auto">
         </div>
@@ -353,7 +353,6 @@
                         if(req.code==1){
                             that.receive_no = 1;
                             that.status_key = 1;
-                            alert('领取成功！')
                         }else {
                             alert('领取失败了！')
                         }
