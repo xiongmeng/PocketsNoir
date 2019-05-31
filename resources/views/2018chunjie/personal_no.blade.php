@@ -55,7 +55,7 @@
         </div>
         <div class="el-row">
             <div style="text-align: center;">
-                <div class="grid-content bg-purple jifen">  「1积分&nbsp;=&nbsp;1元」</div>
+                <div class="grid-content bg-purple jifen">  「1积分 = 1元」</div>
 
             </div>
         </div>
