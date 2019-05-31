@@ -26,8 +26,10 @@
     {{--31a1fa--}}
     {{--<div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">--}}
     <div class="container" :style="'background:#fff'+';background-size: 100%;'">
-        {{--<img src="/images/logo.png" class="pic">--}}
-        <div class="el-row" style="height: 10%;padding-top: 5%">
+        <div class="el-row" style="height: 10px;">
+
+        </div>
+        <div class="el-row">
             <div style="text-align: center;font-weight: 900;font-size: 20px;">
                 黑口袋品牌商城
             </div>
