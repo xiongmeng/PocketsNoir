@@ -26,11 +26,8 @@
 <div id="app" style="width:100%;height:100%;overflow: hidden;">
     {{--31a1fa--}}
     {{--<div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">--}}
-    <div class="container" :style="'background:#fff'+';background-size: 100%;'">
-        {{--<img src="/images/logo.png" class="pic">--}}
-        <div class="el-row" style="height: 15px;">
+    <div class="container" >
 
-        </div>
         <div class="el-row">
             <div class="shop">
                 黑口袋品牌商城
