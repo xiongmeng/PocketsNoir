@@ -47,15 +47,15 @@
 
             </div>
         </div>
-        <div class="el-row" style="height: 40px;line-height: 40px">
+        <div class="el-row" style="height: 36px;line-height: 36px">
             <div style="text-align: center;font-size: 800;">
                 <div class="grid-content bg-purple"> 黑口袋送你 <span class="span100">100</span> 积分！</div>
 
             </div>
         </div>
-        <div class="el-row" style="height: 40px;line-height: 40px">
+        <div class="el-row" style="height: 46px;line-height: 36px">
             <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"  style="color: #5400e1;font-size: 22px">  「1积分=1元」</div>
+                <div class="grid-content bg-purple"  style="color: #5400e1;font-size: 20px">  「1积分 &nbsp; = &nbsp;1元」</div>
 
             </div>
         </div>
