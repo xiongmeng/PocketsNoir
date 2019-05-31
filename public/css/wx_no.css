@@ -56,7 +56,10 @@ html,body{
     left: 4%;
 }
 .userPhone{
-
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    margin: auto;
     box-sizing: content-box;
     border-radius: 50%;
     overflow:hidden;
@@ -166,6 +169,8 @@ a{
     line-height: 40px;
     font-size: 22px;
     border-radius: 15px;
+    border: none;
+
 }
 .btn{
     height: 40px;
@@ -175,6 +180,8 @@ a{
     line-height: 40px;
     font-size: 22px;
     border-radius: 15px;
+    border: none;
+
 }
 .confirm_btn{
     width: 66px;
@@ -185,6 +192,7 @@ a{
     font-size: 14px;
     border-radius: 11px;
     font-family: '微软雅黑';
+    border: none;
 }
 .span100{
     color: #5400e1;

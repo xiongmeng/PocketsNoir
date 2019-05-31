@@ -36,7 +36,7 @@
                 黑口袋会员商城
             </div>
         </div>
-        <div class="el-row" style="height: 80px; padding-top: 10px;">
+        <div class="el-row" style="height: 88px; padding-top: 10px;">
             <div class="userPhone el-col el-col-6 " style="width: 22%">
                 <img v-bind:src="avatar">
             </div>
