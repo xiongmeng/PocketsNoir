@@ -18,196 +18,7 @@
     <!--        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
     <link rel="stylesheet" href="/css/index.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-    <style type="text/css">
-        *{
-            padding: 0 ;
-            margin: 0;
-            font-family: '微软雅黑';
-        }
-        html,body{
-            font-size:100%;
-            /*background-size:100%;*/
-            height: 100%;
-            width: 100%;
-            background-size:100% 100%;
-        }
-
-        .positionloding{
-            height: 100%;
-            width: 100%;
-            position: fixed;
-            left: 0;
-            top: 0;
-            background: #666;
-            opacity: .7;
-        }
-        .positionloding img{
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            margin: auto;
-            width: 10%;
-            height: auto;
-        }
-        .pic{
-            position: fixed;
-            bottom: 10px;
-            left: 30%;
-            width: 40%;
-            height: auto;
-        }
-        .box{
-            height: 100%;
-            width: 100%;
-            overflow-y: auto;
-            background: url("/images/bg.png") 0% 0% / 100%;
-        }
-        .container{
-            width: 92%;
-            max-height: 80%;
-            min-height: 470px;
-            overflow: hidden;
-            border-radius: 10px 10px 10px;
-            margin-top: 10px;
-
-            position: relative;
-            top: 0px;
-            left: 4%;
-        }
-        .userPhone{
-
-            box-sizing: content-box;
-            border-radius: 50%;
-            overflow:hidden;
-        }
-        .userPhone img{
-            width: 100%;
-            height: 100%;
-        }
-        .userName{
-            text-align: center;
-            height: 50px;
-            font-size: 18px;
-            line-height: 50px;
-            text-align: center;
-            padding: 0;
-            margin: 0;
-            width: 100%;
-        }
-        .codeBth{
-            float: inherit;
-            padding: 0;
-            margin: 0;
-            width: 100%;
-        }
-        .codeBth button{
-            margin: 0 auto 50px;
-            display: block;
-        }
-        .nextBtn{
-            float: inherit;
-            padding: 0;
-            margin: 0;
-            width: 80%;
-            color: #fff;
-            margin-left: 10%;
-            line-height: 28px;
-
-        }
-        .check_clone{
-            width: 100%;
-            height: 100%;
-            opacity: 0.3;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: #666;
-        }
-        .success{
-            width:90%;
-            height: 200px;
-            position: fixed;
-            top: 0;
-            left:0;
-            right: 0;
-            bottom: 0;
-            margin: auto;
-            background: #fff;
-            border-radius: 10px;
-        }
-        .nextBtn button{
-            margin: 0 auto;
-            display: block;
-            background-color: #f7bc00;
-            border-color: #f7bc00;
-            color: #d5000f;
-            font-width: 600;
-            padding: 10px 32px;
-            border-radius: 5px;
-        }
-        .nextBtn button span{
-            color: #d5000f;
-        }
-        a{
-            text-decoration: none;
-            color: #d5000f;
-        }
-        .crod .el-button--danger{
-            background-color: #f7bc00;
-            border-color: #f7bc00;
-            padding: 16px 7px;
-            border-radius: 5px;
-        }
-        .crod .el-button--danger span{
-            color: #fff;
-            padding: 10px 20px;
-            background-color: #d5000f;
-            border-color: #d5000f;
-            color: #f7bc00;
-            font-width: 600;
-
-            border-radius: 5px;
-
-        }
-        .width{
-            width: 100px;
-            margin: 0 auto;
-        }
-        .el-col.el-col-6{
-            float: none;
-            margin: 0 auto;
-        }
-        .btn_no{
-            height: 40px;
-            background: rgb(146, 146, 146);
-            width: 70%;
-            margin: auto;
-            line-height: 40px;
-            font-size: 22px;
-            border-radius: 15px;
-        }
-        .btn{
-            height: 40px;
-            background: #ff0049;
-            width: 70%;
-            margin: auto;
-            line-height: 40px;
-            font-size: 22px;
-            border-radius: 15px;
-        }
-        .confirm_btn{
-            width: 66px;
-            height: 32px;
-            line-height: 32px;
-            background: #000;
-            color: #fff;
-            font-size: 14px;
-            border-radius: 11px;
-            font-family: '微软雅黑';
-        }
-    </style>
+    <link rel="stylesheet" href="/css/wx_no.css">
 </head>
 
 <body style="    background: #f6f7f8;">
@@ -218,7 +29,7 @@
         {{--<img src="/images/logo.png" class="pic">--}}
         <div class="el-row" style="height: 10%;padding-top: 5%">
             <div style="text-align: center;font-weight: 900;font-size: 20px;">
-                黑口袋会员商城
+                黑口袋品牌商城
             </div>
         </div>
         <div class="el-row" style="height: 106px;
@@ -238,13 +49,13 @@
         </div>
         <div class="el-row" style="height: 40px;line-height: 40px">
             <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"> 黑口袋送你 <span style="color: #5400e1;font-size: 30px">100</span> 积分</div>
+                <div class="grid-content bg-purple"> 黑口袋送你 <span style="color: #5400e1;font-size: 26px">100</span> 积分！</div>
 
             </div>
         </div>
         <div class="el-row" style="height: 40px;line-height: 40px">
             <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"  style="color: #5400e1;font-size: 24px">  「1元=1积分」</div>
+                <div class="grid-content bg-purple"  style="color: #5400e1;font-size: 22px">  「1积分=1元」</div>
 
             </div>
         </div>
@@ -258,13 +69,13 @@
         </div>
         <div class="el-row" style="height: 36px;">
             <div style="text-align: center;">
-                <div class="grid-content bg-purple" style="font-size: 14px;"> 回到小程序【我的】即可查看积分</div>
+                <div class="grid-content bg-purple" style="font-size: 14px;"> 长按识别小程序码，在【我的】查看积分</div>
 
             </div>
         </div>
         <div class="el-row">
             <div class="el-col el-col-6 width"   style="text-align: center;">
-                <img width="80px" height="80px" src="https://pn-activity.oss-cn-shenzhen.aliyuncs.com/vipShop/static/gh_fb5108c84462_1280.jpg">
+                <img width="100px" height="100px" src="https://pn-activity.oss-cn-shenzhen.aliyuncs.com/vipShop/static/gh_fb5108c84462_1280.jpg">
             </div>
         </div>
         <div class="el-row" style="height: 15px;">
