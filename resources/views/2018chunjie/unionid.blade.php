@@ -32,9 +32,9 @@
                 黑口袋品牌商城
             </div>
         </div>
-        <div class="el-row" style="height: 106px;
+        <div class="el-row" style="height: 80px;
     padding-top: 10px;">
-            <div class="userPhone el-col el-col-6 ">
+            <div class="userPhone el-col el-col-6 " style="width: 22%">
                 <img v-bind:src="avatar">
             </div>
         </div>
@@ -49,7 +49,7 @@
         </div>
         <div class="el-row" style="height: 40px;line-height: 40px">
             <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"> 黑口袋送你 <span style="color: #5400e1;font-size: 26px">100</span> 积分！</div>
+                <div class="grid-content bg-purple"> 黑口袋送你 <span class="span100">100</span> 积分！</div>
 
             </div>
         </div>
@@ -75,7 +75,7 @@
         </div>
         <div class="el-row">
             <div class="el-col el-col-6 width"   style="text-align: center;">
-                <img width="100px" height="100px" src="https://pn-activity.oss-cn-shenzhen.aliyuncs.com/vipShop/static/gh_fb5108c84462_1280.jpg">
+                <img width="110px" height="110px" src="https://pn-activity.oss-cn-shenzhen.aliyuncs.com/vipShop/static/gh_fb5108c84462_1280.jpg">
             </div>
         </div>
         <div class="el-row" style="height: 15px;">
