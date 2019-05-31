@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="el-row">
-            <div class="el-col el-col-6 width"  style="text-align: center;">
+            <div class="wx_img">
                 <img width="110px" height="110px" src="https://pn-activity.oss-cn-shenzhen.aliyuncs.com/vipShop/static/gh_fb5108c84462_1280.jpg">
             </div>
         </div>
