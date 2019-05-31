@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="el-row" style="height: 88px; padding-top: 10px;">
-            <div class="userPhone el-col el-col-6 " style="width: 22%">
+            <div class="userPhone ">
                 <img v-bind:src="avatar">
             </div>
         </div>
