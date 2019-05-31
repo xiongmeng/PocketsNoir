@@ -12,13 +12,14 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>个人号领取积分</title>
+    <title>领取积分</title>
 
     <!-- Fonts -->
     <!--        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
     <link rel="stylesheet" href="/css/index.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/css/wx_no.css">
+
 </head>
 
 <body style="    background: #f6f7f8;">
@@ -26,17 +27,17 @@
     {{--31a1fa--}}
     {{--<div class="container" :style="'background:url('+imgs+')'+';background-size: 100%;'">--}}
     <div class="container" :style="'background:#fff'+';background-size: 100%;'">
-        <div class="el-row" style="height: 10px;">
+        {{--<img src="/images/logo.png" class="pic">--}}
+        <div class="el-row" style="height: 15px;">
 
         </div>
         <div class="el-row">
-            <div style="text-align: center;font-weight: 900;font-size: 20px;">
+            <div class="shop">
                 黑口袋品牌商城
             </div>
         </div>
-        <div class="el-row" style="height: 88px;
-    padding-top: 10px;">
-            <div class="userPhone">
+        <div class="el-row" style="height: 88px; padding-top: 10px;">
+            <div class="userPhone ">
                 <img v-bind:src="avatar">
             </div>
         </div>
@@ -49,15 +50,15 @@
 
             </div>
         </div>
-        <div class="el-row" style="height: 36px;line-height: 36px">
-            <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"> 黑口袋送你 <span class="span100">100</span> 积分！</div>
+        <div class="el-row">
+            <div style="text-align: center;">
+                <div class="grid-content bg-purple dev100"> 黑口袋送你 <span class="span100">100</span> 积分</div>
 
             </div>
         </div>
-        <div class="el-row" style="height: 46px;line-height: 36px">
-            <div style="text-align: center;font-size: 800;">
-                <div class="grid-content bg-purple"  style="color: #5400e1;font-size: 20px">  「1积分 &nbsp; = &nbsp;1元」</div>
+        <div class="el-row">
+            <div style="text-align: center;">
+                <div class="grid-content bg-purple jifen">  「1积分 &nbsp; = &nbsp; 1元」</div>
 
             </div>
         </div>
@@ -69,9 +70,9 @@
 
             </div>
         </div>
-        <div class="el-row" style="height: 36px;">
+        <div class="el-row">
             <div style="text-align: center;">
-                <div class="grid-content bg-purple" style="font-size: 14px;"> 长按识别小程序码，在【我的】查看积分</div>
+                <div class="grid-content bg-purple wx_code" > 长按识别小程序码，在【我的】查看积分</div>
 
             </div>
         </div>
@@ -98,11 +99,11 @@
 
     </div>
     <div class="success" v-if="status_key =='1'">
-        <div style="height: 60px;padding-top: 10px;text-align: center;line-height: 60px">
-            <img src="/images/success.png" alt="" style="height: 30px;width: auto;margin: auto">
+        <div class="success_img">
+            <img src="/images/success.png" alt="" style="height: 40px;width: auto;margin: auto">
         </div>
-        <div style="height: 32px;text-align: center; white-space:nowrap;">积分领取成功！</div>
-        <div style="height: 32px;line-height: 32px;text-align: center; white-space:nowrap;overflow:hidden">快去小程序-我的积分中查看详情吧！</div>
+        <div class="receive_jifen">积分领取成功！</div>
+        <div class="WxAppJifen">快去小程序-我的积分中查看详情吧！</div>
         <div style="height: 50px;padding-top: 10px;">
             <div style="text-align: center;">
                 <button type="button" @click="close_btn()" class="confirm_btn">确认</button>

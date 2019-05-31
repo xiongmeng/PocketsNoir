@@ -71,12 +71,16 @@ html,body{
 .userName{
     text-align: center;
     height: 50px;
-    font-size: 18px;
-    line-height: 50px;
     text-align: center;
     padding: 0;
     margin: 0;
     width: 100%;
+
+    font-size:20px;
+    font-family:PingFangSC-Medium;
+    font-weight:500;
+    color:rgba(34,34,34,1);
+    line-height:50px;
 }
 .codeBth{
     float: inherit;
@@ -173,32 +177,94 @@ a{
 
 }
 .btn{
-    height: 40px;
+    height: 46px;
     background: #ff0049;
-    width: 70%;
+    width: 200px;
     margin: auto;
-    line-height: 40px;
+    line-height: 46px;
     font-size: 22px;
     border-radius: 15px;
     border: none;
+    background:rgba(239,22,86,1);
+    box-shadow:0px 0px 5px 0px rgba(239,22,86,1);
 
 }
 .confirm_btn{
-    width: 66px;
-    height: 32px;
-    line-height: 32px;
-    background: #000;
+    width: 78px;
+    height: 30px;
+    line-height: 30px;
+    background:rgba(5,10,13,1);
     color: #fff;
     font-size: 14px;
     border-radius: 11px;
-    font-family: '微软雅黑';
     border: none;
+    font-family:PingFangSC-Medium;
+    font-weight:500;
+    color:rgba(255,255,255,1);
 }
 .span100{
     color: #5400e1;
-    font-size: 22px
+    font-size: 22px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(34,34,34,1);
 }
 .wx_img{
     margin-bottom: 15px;
     text-align: center;
+}
+.shop{
+    font-size: 20px;
+    height: 52px;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(34,34,34,1);
+    text-align: center;
+}
+.dev100{
+    font-size:20px;
+    font-family:PingFangSC-Medium;
+    font-weight:500;
+    color:rgba(34,34,34,1);
+    line-height:50px;
+    height: 50px;
+}
+.jifen{
+    font-size:22px;
+    height: 30px;
+    font-family:PingFangSC-Medium;
+    font-weight:500;
+    color:rgba(94,34,218,1);
+}
+.wx_code{
+    font-size:14px;
+    height: 55px;
+    font-family:PingFangSC-Medium;
+    font-weight:500;
+    color:rgba(34,34,34,1);
+    line-height:50px;
+}
+.success_img{
+    height: 80px;padding-top: 10px;text-align: center;line-height: 80px;
+}
+.receive_jifen{
+    height: 32px;
+    text-align: center;
+    white-space:nowrap;
+    font-size:16px;
+    font-family:PingFangSC-Medium;
+    font-weight:500;
+    color:rgba(5,10,13,1);
+    line-height:32px;
+}
+.WxAppJifen{
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    white-space:nowrap;
+    overflow:hidden;
+    font-size:16px;
+    font-family:PingFangSC-Medium;
+    font-weight:500;
+    color:rgba(5,10,13,1);
 }
